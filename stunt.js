@@ -16,7 +16,7 @@ const Stunt=(()=>{
     col={sky1:g('--sky-1','#0e1a2c'),sky2:g('--sky-2','#2a3c57'),h1:g('--hill-1','#1a283a'),h2:g('--hill-2','#22344a'),gr:g('--ground','#232b37'),gt:g('--ground-top','#55617a'),road:g('--road','#e9edf2'),acc:g('--accent','#ff7a1a')};
   }
 
-  /* ---------- трасса ---------- */
+  /* ---------- \u0442\u0440\u0430\u0441\u0441\u0430 ---------- */
   const rng=()=>{seed=(Math.imul(seed,1664525)+1013904223)>>>0;return seed/4294967296};
   const addPt=(x,y)=>{xs.push(x);ys.push(y)};
   const clampY=y=>Math.max(-240,Math.min(240,y));
@@ -49,7 +49,7 @@ const Stunt=(()=>{
   function gy(x){const i=segAt(x);const t=Math.max(0,Math.min(1,(x-xs[i])/(xs[i+1]-xs[i])));return ys[i]+(ys[i+1]-ys[i])*t}
   const wrap=a=>{a=(a+Math.PI)%TAU;if(a<0)a+=TAU;return a-Math.PI};
 
-  /* ---------- заезд ---------- */
+  /* ---------- \u0437\u0430\u0435\u0437\u0434 ---------- */
   function newRun(){
     seed=((Date.now()&0x7fffffff)^Math.floor(Math.random()*1e9))>>>0||7;
     xs=[];ys=[];kicks=[];genX=0;genY=0;segN=0;
@@ -110,7 +110,7 @@ const Stunt=(()=>{
     const r=run,th=segAng(segAt(r.x)),diff=wrap(r.ang-th);
     if(Math.abs(diff)>1.05){
       r.state='crash';r.endT=0;r.av=(r.av||3)*.8;r.vy*=-.2;r.y=g;
-      burst(r.x,g,18,true);pop('Авария!','очки за этот прыжок сгорели');
+      burst(r.x,g,18,true);pop('\u0410\u0432\u0430\u0440\u0438\u044f!','\u043e\u0447\u043a\u0438 \u0437\u0430 \u044d\u0442\u043e\u0442 \u043f\u0440\u044b\u0436\u043e\u043a \u0441\u0433\u043e\u0440\u0435\u043b\u0438');
       return;
     }
     const flips=Math.floor((Math.abs(r.rot)+1.05)/TAU);
@@ -120,15 +120,15 @@ const Stunt=(()=>{
     if(flips>0){
       const front=r.rot<0;
       pts+=flips*(front?1900:1500);
-      lab.push((flips>1?flips+'× ':'')+(front?'фронтфлип':'бэкфлип'));
+      lab.push((flips>1?flips+'\u00d7 ':'')+(front?'\u0444\u0440\u043e\u043d\u0442\u0444\u043b\u0438\u043f':'\u0431\u044d\u043a\u0444\u043b\u0438\u043f'));
       r.flips+=flips;r.combo++;
     }else if(Math.abs(diff)>.45)r.combo=0;
     let mult=1;
-    if(pts>0&&perfect){mult*=1.5;lab.push('идеально');r.perfects++}
-    if(flips>0&&r.combo>1){const m=1+.25*(r.combo-1);mult*=m;lab.push('комбо ×'+String(+m.toFixed(2)).replace('.',','))}
+    if(pts>0&&perfect){mult*=1.5;lab.push('\u0438\u0434\u0435\u0430\u043b\u044c\u043d\u043e');r.perfects++}
+    if(flips>0&&r.combo>1){const m=1+.25*(r.combo-1);mult*=m;lab.push('\u043a\u043e\u043c\u0431\u043e \u00d7'+String(+m.toFixed(2)).replace('.',','))}
     pts=Math.round(pts*mult);
-    if(pts>0){r.score+=pts;r.best=Math.max(r.best,pts);pop('+'+fmtN(pts),lab.join(' · ')||'полёт')}
-    else if(Math.abs(diff)>.6)pop('Жёстко!','');
+    if(pts>0){r.score+=pts;r.best=Math.max(r.best,pts);pop('+'+fmtN(pts),lab.join(' \u00b7 ')||'\u043f\u043e\u043b\u0451\u0442')}
+    else if(Math.abs(diff)>.6)pop('\u0416\u0451\u0441\u0442\u043a\u043e!','');
     let s=r.vx*Math.cos(th)+r.vy*Math.sin(th);
     s*=1-.45*Math.abs(Math.sin(diff));
     r.s=s;r.y=g;r.ground=true;r.ang=th;r.av=0;
@@ -139,17 +139,17 @@ const Stunt=(()=>{
     r.state='done';clearInput();
     const res={score:Math.round(r.score),flips:r.flips,best:r.best,perfects:r.perfects,dist:Math.round(r.maxX/20),crashed};
     let rew=null;try{rew=onStuntEnd(res)}catch(e){console.error(e)}
-    if(rew&&typeof rew.then==='function'){overlay('<h3>'+(crashed?'Авария':'Финиш')+'</h3><p>Считаем награду…</p>');rew.then(v=>{if(run===r)overlay(stuntEndHtml(res,v))},()=>overlay(stuntEndHtml(res,null)))}
+    if(rew&&typeof rew.then==='function'){overlay('<h3>'+(crashed?'\u0410\u0432\u0430\u0440\u0438\u044f':'\u0424\u0438\u043d\u0438\u0448')+'</h3><p>\u0421\u0447\u0438\u0442\u0430\u0435\u043c \u043d\u0430\u0433\u0440\u0430\u0434\u0443\u2026</p>');rew.then(v=>{if(run===r)overlay(stuntEndHtml(res,v))},()=>overlay(stuntEndHtml(res,null)))}
     else overlay(stuntEndHtml(res,rew));
   }
 
-  /* ---------- частицы и надписи ---------- */
+  /* ---------- \u0447\u0430\u0441\u0442\u0438\u0446\u044b \u0438 \u043d\u0430\u0434\u043f\u0438\u0441\u0438 ---------- */
   function burst(x,y,n,spark){for(let i=0;i<n;i++)parts.push({x,y,vx:(Math.random()-.3)*(spark?520:260),vy:Math.random()*(spark?420:180),life:spark?.7:.55,max:spark?.7:.55,spark})}
   function tickParts(dt){for(const p of parts){p.vy-=900*dt;p.x+=p.vx*dt;p.y+=p.vy*dt;p.life-=dt}parts=parts.filter(p=>p.life>0)}
   const popEl=document.getElementById('h-pop');
   function pop(a,b){if(!popEl)return;popEl.innerHTML=esc(a)+(b?'<small>'+esc(b)+'</small>':'');popEl.classList.add('show');popT=1.5}
 
-  /* ---------- отрисовка ---------- */
+  /* ---------- \u043e\u0442\u0440\u0438\u0441\u043e\u0432\u043a\u0430 ---------- */
   const viewW=()=>(W||900)/SC,viewH=()=>(H||400)/SC;
   const sx=x=>(x-camX)*SC,sy=y=>H-(y-camY)*SC;
   function resize(){
@@ -184,10 +184,10 @@ const Stunt=(()=>{
     ctx.lineTo(sx(xs[i1]),H+20);ctx.closePath();ctx.fillStyle=col.gr;ctx.fill();
     ctx.beginPath();for(let i=i0;i<=i1;i++){const X=sx(xs[i]),Y=sy(ys[i]);i===i0?ctx.moveTo(X,Y):ctx.lineTo(X,Y)}
     ctx.lineJoin='round';ctx.lineWidth=Math.max(3,6*SC);ctx.strokeStyle=col.gt;ctx.stroke();
-    // разметка дороги
+    // \u0440\u0430\u0437\u043c\u0435\u0442\u043a\u0430 \u0434\u043e\u0440\u043e\u0433\u0438
     ctx.save();ctx.setLineDash([22*SC,26*SC]);ctx.lineWidth=Math.max(1.5,2.5*SC);ctx.strokeStyle=col.road;ctx.globalAlpha=.55;
     ctx.beginPath();for(let i=i0;i<=i1;i++){const X=sx(xs[i]),Y=sy(ys[i])+9*SC;i===i0?ctx.moveTo(X,Y):ctx.lineTo(X,Y)}ctx.stroke();ctx.restore();
-    // трамплины в оранжево-белую полоску
+    // \u0442\u0440\u0430\u043c\u043f\u043b\u0438\u043d\u044b \u0432 \u043e\u0440\u0430\u043d\u0436\u0435\u0432\u043e-\u0431\u0435\u043b\u0443\u044e \u043f\u043e\u043b\u043e\u0441\u043a\u0443
     for(const k of kicks){
       if(k[1]<x0||k[0]>x1)continue;
       const a=segAt(k[0]),b=segAt(k[1]-1);
@@ -198,13 +198,13 @@ const Stunt=(()=>{
       }
       ctx.restore();
     }
-    // столбики каждые 100 м
+    // \u0441\u0442\u043e\u043b\u0431\u0438\u043a\u0438 \u043a\u0430\u0436\u0434\u044b\u0435 100 \u043c
     ctx.font=`600 ${Math.max(10,13*SC)}px Oswald, 'Arial Narrow', sans-serif`;ctx.textAlign='center';
     for(let m=Math.ceil(x0/2000)*2000;m<x1;m+=2000){
       if(m<=0)continue;const X=sx(m),Y=sy(gy(m));
       ctx.fillStyle=col.road;ctx.fillRect(X-2*SC,Y-46*SC,4*SC,46*SC);
       ctx.fillStyle=col.acc;ctx.fillRect(X-16*SC,Y-62*SC,32*SC,18*SC);
-      ctx.fillStyle='#1a0c00';ctx.fillText((m/20)+' м',X,Y-48.5*SC);
+      ctx.fillStyle='#1a0c00';ctx.fillText((m/20)+' \u043c',X,Y-48.5*SC);
     }
     if(run)drawCar(run);
     for(const p of parts){
@@ -250,7 +250,7 @@ const Stunt=(()=>{
     if(tEl)tEl.textContent=t;if(scEl)scEl.textContent=s;
   }
 
-  /* ---------- цикл ---------- */
+  /* ---------- \u0446\u0438\u043a\u043b ---------- */
   function loop(ts){
     if(!visible){raf=0;return}
     raf=requestAnimationFrame(loop);
@@ -265,11 +265,11 @@ const Stunt=(()=>{
   }
   function startLoop(){if(!raf&&visible){last=performance.now();raf=requestAnimationFrame(loop)}}
 
-  /* ---------- оверлей ---------- */
+  /* ---------- \u043e\u0432\u0435\u0440\u043b\u0435\u0439 ---------- */
   const ov=document.getElementById('s-ov');
   function overlay(html){if(!ov)return;if(html==null){ov.hidden=true;ov.innerHTML='';return}ov.innerHTML='<div class="box">'+html+'</div>';ov.hidden=false}
 
-  /* ---------- управление ---------- */
+  /* ---------- \u0443\u043f\u0440\u0430\u0432\u043b\u0435\u043d\u0438\u0435 ---------- */
   const pg=document.getElementById('p-gas'),pb=document.getElementById('p-brake');
   function pedalsUI(){if(pg)pg.classList.toggle('on',gasOn());if(pb)pb.classList.toggle('on',brakeOn())}
   function clearInput(){inp.pg=inp.pb=inp.kg=inp.kb=false;inp.ptr.clear();pedalsUI()}
@@ -301,7 +301,7 @@ const Stunt=(()=>{
   try{matchMedia('(prefers-color-scheme: dark)').addEventListener('change',readColors)}catch(e){}
   try{new MutationObserver(readColors).observe(document.documentElement,{attributes:true,attributeFilter:['data-theme']})}catch(e){}
 
-  function pause(){if(run&&run.state==='run'){run.state='pause';clearInput();overlay('<h3>Пауза</h3><p>Заезд остановлен. Время не идёт.</p><button class="btn primary wide" data-act="stunt-resume">Продолжить</button>')}}
+  function pause(){if(run&&run.state==='run'){run.state='pause';clearInput();overlay('<h3>\u041f\u0430\u0443\u0437\u0430</h3><p>\u0417\u0430\u0435\u0437\u0434 \u043e\u0441\u0442\u0430\u043d\u043e\u0432\u043b\u0435\u043d. \u0412\u0440\u0435\u043c\u044f \u043d\u0435 \u0438\u0434\u0451\u0442.</p><button class="btn primary wide" data-act="stunt-resume">\u041f\u0440\u043e\u0434\u043e\u043b\u0436\u0438\u0442\u044c</button>')}}
 
   return{
     show(){visible=true;readColors();resize();if(!run){newRun();overlay(stuntStartHtml())}startLoop()},

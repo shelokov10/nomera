@@ -4,14 +4,14 @@
 <meta charset="utf-8">
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="description" content="Выбивайте номера России, Украины и Казахстана из кейсов, торгуйте с другими игроками и крутите трюки в станте.">
+<meta name="description" content="&#1042;&#1099;&#1073;&#1080;&#1074;&#1072;&#1081;&#1090;&#1077; &#1085;&#1086;&#1084;&#1077;&#1088;&#1072; &#1056;&#1086;&#1089;&#1089;&#1080;&#1080;, &#1059;&#1082;&#1088;&#1072;&#1080;&#1085;&#1099; &#1080; &#1050;&#1072;&#1079;&#1072;&#1093;&#1089;&#1090;&#1072;&#1085;&#1072; &#1080;&#1079; &#1082;&#1077;&#1081;&#1089;&#1086;&#1074;, &#1090;&#1086;&#1088;&#1075;&#1091;&#1081;&#1090;&#1077; &#1089; &#1076;&#1088;&#1091;&#1075;&#1080;&#1084;&#1080; &#1080;&#1075;&#1088;&#1086;&#1082;&#1072;&#1084;&#1080; &#1080; &#1082;&#1088;&#1091;&#1090;&#1080;&#1090;&#1077; &#1090;&#1088;&#1102;&#1082;&#1080; &#1074; &#1089;&#1090;&#1072;&#1085;&#1090;&#1077;.">
 <meta name="theme-color" content="#0f141b">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect x='2' y='16' width='60' height='32' rx='6' fill='%23fff' stroke='%23111' stroke-width='4'/%3E%3Crect x='44' y='18' width='4' height='28' fill='%23111'/%3E%3Ctext x='24' y='41' font-family='Arial' font-weight='700' font-size='22' text-anchor='middle' fill='%23111'%3E777%3C/text%3E%3C/svg%3E">
-<title>Выбивание номеров</title>
+<title>&#1042;&#1099;&#1073;&#1080;&#1074;&#1072;&#1085;&#1080;&#1077; &#1085;&#1086;&#1084;&#1077;&#1088;&#1086;&#1074;</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600;700&family=Oswald:wght@500;600;700&family=Russo+One&display=swap">
 <style>
-/* Layout: «ночной автодром». Липкая шапка с балансами и уровнем сезона, шесть разделов.
-   На телефоне навигация уходит вниз. Номера всегда белые, как настоящие таблички. */
+/* Layout:  .       ,  .
+       .   ,   . */
 :root{
   --bg:#0f141b;--bg-2:#0b0f15;--surface:#161d27;--surface-2:#1d2632;--surface-3:#27323f;--line:#2a3646;
   --ink:#edf1f6;--muted:#93a1b3;--faint:#627083;
@@ -393,97 +393,97 @@ details.how summary{cursor:pointer;padding:14px 16px;font-weight:600;min-height:
 <body>
 <header class="bar">
   <div class="wrap bar-in">
-    <a class="logo" href="#cases" data-act="go" data-tab="cases"><b>НОМЕРА</b><small id="season-chip">Сезон 1 · выход из беты</small></a>
+    <a class="logo" href="#cases" data-act="go" data-tab="cases"><b>&#1053;&#1054;&#1052;&#1045;&#1056;&#1040;</b><small id="season-chip">&#1057;&#1077;&#1079;&#1086;&#1085; 1 &#183; &#1074;&#1099;&#1093;&#1086;&#1076; &#1080;&#1079; &#1073;&#1077;&#1090;&#1099;</small></a>
     <div class="wal">
-      <span class="online" id="online" hidden><i></i><b id="online-n">1</b><span>&nbsp;онлайн</span></span>
-      <button class="lvlbtn" id="lvlbtn" data-act="go" data-tab="season" aria-label="Уровень сезонного пропуска"><b id="lvl-n">0</b><i class="dot" id="lvl-dot" hidden></i></button>
-      <div class="money"><span>Баланс</span><b id="bal">0 ₽</b></div>
-      <button class="goldbtn" data-act="go" data-tab="shop" aria-label="Голда и донат"><span class="gem">◆</span><span id="gold">0</span><span class="plus" aria-hidden="true">+</span></button>
+      <span class="online" id="online" hidden><i></i><b id="online-n">1</b><span>&nbsp;&#1086;&#1085;&#1083;&#1072;&#1081;&#1085;</span></span>
+      <button class="lvlbtn" id="lvlbtn" data-act="go" data-tab="season" aria-label="&#1059;&#1088;&#1086;&#1074;&#1077;&#1085;&#1100; &#1089;&#1077;&#1079;&#1086;&#1085;&#1085;&#1086;&#1075;&#1086; &#1087;&#1088;&#1086;&#1087;&#1091;&#1089;&#1082;&#1072;"><b id="lvl-n">0</b><i class="dot" id="lvl-dot" hidden></i></button>
+      <div class="money"><span>&#1041;&#1072;&#1083;&#1072;&#1085;&#1089;</span><b id="bal">0 &#8381;</b></div>
+      <button class="goldbtn" data-act="go" data-tab="shop" aria-label="&#1043;&#1086;&#1083;&#1076;&#1072; &#1080; &#1076;&#1086;&#1085;&#1072;&#1090;"><span class="gem">&#9670;</span><span id="gold">0</span><span class="plus" aria-hidden="true">+</span></button>
     </div>
   </div>
-  <nav class="wrap nav" id="nav" aria-label="Разделы">
-    <button data-act="go" data-tab="cases"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M3 8l9-4 9 4v9l-9 4-9-4z"/><path d="M3 8l9 4 9-4M12 12v9"/></svg>Кейсы</button>
-    <button data-act="go" data-tab="market"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M3 10h18l-2-6H5z"/><path d="M5 10v10h14V10"/><path d="M9 20v-5h6v5"/></svg>Рынок<i class="dot" id="m-dot" hidden></i></button>
-    <button data-act="go" data-tab="stunt"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"><path d="M3 15l2-5h9l4 3h3v2"/><circle cx="7" cy="16.5" r="2"/><circle cx="17" cy="16.5" r="2"/><path d="M14 5c2 0 4 1 5 3"/></svg>Стант</button>
-    <button data-act="go" data-tab="season"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M12 3l2.6 5.6 6 .7-4.5 4.1 1.2 6L12 16.4 6.7 19.4l1.2-6L3.4 9.3l6-.7z"/></svg>Сезон<i class="dot" id="s-dot" hidden></i></button>
-    <button data-act="go" data-tab="garage"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M3 21V9l9-5 9 5v12"/><path d="M7 21v-8h10v8M7 16h10"/></svg>Гараж</button>
-    <button data-act="go" data-tab="shop"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M6 3h12l3 6-9 12L3 9z"/><path d="M3 9h18M9 3l3 18 3-18"/></svg>Донат</button>
-    <button data-act="go" data-tab="admin" id="nav-admin" hidden><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/><path d="M9 12l2 2 4-4"/></svg>Админ</button>
+  <nav class="wrap nav" id="nav" aria-label="&#1056;&#1072;&#1079;&#1076;&#1077;&#1083;&#1099;">
+    <button data-act="go" data-tab="cases"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M3 8l9-4 9 4v9l-9 4-9-4z"/><path d="M3 8l9 4 9-4M12 12v9"/></svg>&#1050;&#1077;&#1081;&#1089;&#1099;</button>
+    <button data-act="go" data-tab="market"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M3 10h18l-2-6H5z"/><path d="M5 10v10h14V10"/><path d="M9 20v-5h6v5"/></svg>&#1056;&#1099;&#1085;&#1086;&#1082;<i class="dot" id="m-dot" hidden></i></button>
+    <button data-act="go" data-tab="stunt"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"><path d="M3 15l2-5h9l4 3h3v2"/><circle cx="7" cy="16.5" r="2"/><circle cx="17" cy="16.5" r="2"/><path d="M14 5c2 0 4 1 5 3"/></svg>&#1057;&#1090;&#1072;&#1085;&#1090;</button>
+    <button data-act="go" data-tab="season"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M12 3l2.6 5.6 6 .7-4.5 4.1 1.2 6L12 16.4 6.7 19.4l1.2-6L3.4 9.3l6-.7z"/></svg>&#1057;&#1077;&#1079;&#1086;&#1085;<i class="dot" id="s-dot" hidden></i></button>
+    <button data-act="go" data-tab="garage"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M3 21V9l9-5 9 5v12"/><path d="M7 21v-8h10v8M7 16h10"/></svg>&#1043;&#1072;&#1088;&#1072;&#1078;</button>
+    <button data-act="go" data-tab="shop"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M6 3h12l3 6-9 12L3 9z"/><path d="M3 9h18M9 3l3 18 3-18"/></svg>&#1044;&#1086;&#1085;&#1072;&#1090;</button>
+    <button data-act="go" data-tab="admin" id="nav-admin" hidden><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/><path d="M9 12l2 2 4-4"/></svg>&#1040;&#1076;&#1084;&#1080;&#1085;</button>
   </nav>
 </header>
 
 <main class="wrap">
-  <div id="conn" class="note warn" style="margin-top:16px" role="status">Подключаемся к серверу…</div>
+  <div id="conn" class="note warn" style="margin-top:16px" role="status">&#1055;&#1086;&#1076;&#1082;&#1083;&#1102;&#1095;&#1072;&#1077;&#1084;&#1089;&#1103; &#1082; &#1089;&#1077;&#1088;&#1074;&#1077;&#1088;&#1091;&#8230;</div>
   <!-- ======== CASES ======== -->
   <section class="sec" id="tab-cases">
     <div id="news"></div>
     <div id="welcome"></div>
     <div class="stage">
-      <p class="cap"><span id="cap-a">Выберите кейс</span><span id="cap-b"></span></p>
+      <p class="cap"><span id="cap-a">&#1042;&#1099;&#1073;&#1077;&#1088;&#1080;&#1090;&#1077; &#1082;&#1077;&#1081;&#1089;</span><span id="cap-b"></span></p>
       <div class="reel" id="reel" aria-hidden="true"><div class="mark"></div><div class="track" id="track"></div></div>
-      <label class="qk"><input type="checkbox" id="quick"> Без анимации</label>
+      <label class="qk"><input type="checkbox" id="quick"> &#1041;&#1077;&#1079; &#1072;&#1085;&#1080;&#1084;&#1072;&#1094;&#1080;&#1080;</label>
       <div class="res" id="res" hidden aria-live="polite"></div>
     </div>
     <div id="banner"></div>
     <div>
-      <p class="eyebrow" style="margin:0 0 10px">Страна кейса</p>
+      <p class="eyebrow" style="margin:0 0 10px">&#1057;&#1090;&#1088;&#1072;&#1085;&#1072; &#1082;&#1077;&#1081;&#1089;&#1072;</p>
       <div class="chips" id="chips"></div>
     </div>
     <div class="tiers" id="tiers"></div>
     <div id="feed-cases-wrap" hidden>
-      <div class="sec-h" style="margin-bottom:12px"><div><h3 class="h3">Сейчас выбивают</h3><p class="lede" style="margin-top:4px">Редкие номера и сделки других игроков.</p></div></div>
+      <div class="sec-h" style="margin-bottom:12px"><div><h3 class="h3">&#1057;&#1077;&#1081;&#1095;&#1072;&#1089; &#1074;&#1099;&#1073;&#1080;&#1074;&#1072;&#1102;&#1090;</h3><p class="lede" style="margin-top:4px">&#1056;&#1077;&#1076;&#1082;&#1080;&#1077; &#1085;&#1086;&#1084;&#1077;&#1088;&#1072; &#1080; &#1089;&#1076;&#1077;&#1083;&#1082;&#1080; &#1076;&#1088;&#1091;&#1075;&#1080;&#1093; &#1080;&#1075;&#1088;&#1086;&#1082;&#1086;&#1074;.</p></div></div>
       <ul class="feed" id="feed-cases"></ul>
     </div>
     <details class="how">
-      <summary>Как считается цена номера</summary>
+      <summary>&#1050;&#1072;&#1082; &#1089;&#1095;&#1080;&#1090;&#1072;&#1077;&#1090;&#1089;&#1103; &#1094;&#1077;&#1085;&#1072; &#1085;&#1086;&#1084;&#1077;&#1088;&#1072;</summary>
       <div class="body" id="how"></div>
     </details>
   </section>
 
   <!-- ======== MARKET ======== -->
   <section class="sec" id="tab-market" hidden>
-    <div class="sec-h"><div><h2 class="h">Рынок номеров</h2><p class="lede">Номера других игроков. Цену ставит продавец, рынок берёт с него 5%. Скупщик в гараже платит только 85% оценки, поэтому на рынке можно продать дороже.</p></div></div>
+    <div class="sec-h"><div><h2 class="h">&#1056;&#1099;&#1085;&#1086;&#1082; &#1085;&#1086;&#1084;&#1077;&#1088;&#1086;&#1074;</h2><p class="lede">&#1053;&#1086;&#1084;&#1077;&#1088;&#1072; &#1076;&#1088;&#1091;&#1075;&#1080;&#1093; &#1080;&#1075;&#1088;&#1086;&#1082;&#1086;&#1074;. &#1062;&#1077;&#1085;&#1091; &#1089;&#1090;&#1072;&#1074;&#1080;&#1090; &#1087;&#1088;&#1086;&#1076;&#1072;&#1074;&#1077;&#1094;, &#1088;&#1099;&#1085;&#1086;&#1082; &#1073;&#1077;&#1088;&#1105;&#1090; &#1089; &#1085;&#1077;&#1075;&#1086; 5%. &#1057;&#1082;&#1091;&#1087;&#1097;&#1080;&#1082; &#1074; &#1075;&#1072;&#1088;&#1072;&#1078;&#1077; &#1087;&#1083;&#1072;&#1090;&#1080;&#1090; &#1090;&#1086;&#1083;&#1100;&#1082;&#1086; 85% &#1086;&#1094;&#1077;&#1085;&#1082;&#1080;, &#1087;&#1086;&#1101;&#1090;&#1086;&#1084;&#1091; &#1085;&#1072; &#1088;&#1099;&#1085;&#1082;&#1077; &#1084;&#1086;&#1078;&#1085;&#1086; &#1087;&#1088;&#1086;&#1076;&#1072;&#1090;&#1100; &#1076;&#1086;&#1088;&#1086;&#1078;&#1077;.</p></div></div>
     <div id="m-status"></div>
     <div id="m-me"></div>
     <div class="tools">
       <div class="chips" id="m-filters"></div>
       <span class="sp"></span>
-      <select class="inp" id="m-rar" aria-label="Редкость" style="width:auto">
-        <option value="all">Любая редкость</option>
-        <option value="good">Хороший и выше</option>
-        <option value="rare">Редкий и выше</option>
-        <option value="elite">Элитный и выше</option>
-        <option value="legend">Легендарный</option>
+      <select class="inp" id="m-rar" aria-label="&#1056;&#1077;&#1076;&#1082;&#1086;&#1089;&#1090;&#1100;" style="width:auto">
+        <option value="all">&#1051;&#1102;&#1073;&#1072;&#1103; &#1088;&#1077;&#1076;&#1082;&#1086;&#1089;&#1090;&#1100;</option>
+        <option value="good">&#1061;&#1086;&#1088;&#1086;&#1096;&#1080;&#1081; &#1080; &#1074;&#1099;&#1096;&#1077;</option>
+        <option value="rare">&#1056;&#1077;&#1076;&#1082;&#1080;&#1081; &#1080; &#1074;&#1099;&#1096;&#1077;</option>
+        <option value="elite">&#1069;&#1083;&#1080;&#1090;&#1085;&#1099;&#1081; &#1080; &#1074;&#1099;&#1096;&#1077;</option>
+        <option value="legend">&#1051;&#1077;&#1075;&#1077;&#1085;&#1076;&#1072;&#1088;&#1085;&#1099;&#1081;</option>
       </select>
-      <select class="inp" id="m-sort" aria-label="Сортировка" style="width:auto">
-        <option value="new">Сначала новые</option>
-        <option value="cheap">Сначала дешёвые</option>
-        <option value="exp">Сначала дорогие</option>
-        <option value="deal">Выгоднее оценки</option>
+      <select class="inp" id="m-sort" aria-label="&#1057;&#1086;&#1088;&#1090;&#1080;&#1088;&#1086;&#1074;&#1082;&#1072;" style="width:auto">
+        <option value="new">&#1057;&#1085;&#1072;&#1095;&#1072;&#1083;&#1072; &#1085;&#1086;&#1074;&#1099;&#1077;</option>
+        <option value="cheap">&#1057;&#1085;&#1072;&#1095;&#1072;&#1083;&#1072; &#1076;&#1077;&#1096;&#1105;&#1074;&#1099;&#1077;</option>
+        <option value="exp">&#1057;&#1085;&#1072;&#1095;&#1072;&#1083;&#1072; &#1076;&#1086;&#1088;&#1086;&#1075;&#1080;&#1077;</option>
+        <option value="deal">&#1042;&#1099;&#1075;&#1086;&#1076;&#1085;&#1077;&#1077; &#1086;&#1094;&#1077;&#1085;&#1082;&#1080;</option>
       </select>
-      <input class="inp" id="m-q" type="search" inputmode="text" placeholder="Поиск: 777, А001, AA" aria-label="Поиск по номеру" style="width:min(220px,100%)">
+      <input class="inp" id="m-q" type="search" inputmode="text" placeholder="&#1055;&#1086;&#1080;&#1089;&#1082;: 777, &#1040;001, AA" aria-label="&#1055;&#1086;&#1080;&#1089;&#1082; &#1087;&#1086; &#1085;&#1086;&#1084;&#1077;&#1088;&#1091;" style="width:min(220px,100%)">
     </div>
     <div class="list" id="m-list"></div>
     <div id="feed-market-wrap" hidden>
-      <h3 class="h3" style="margin-bottom:12px">Лента сделок</h3>
+      <h3 class="h3" style="margin-bottom:12px">&#1051;&#1077;&#1085;&#1090;&#1072; &#1089;&#1076;&#1077;&#1083;&#1086;&#1082;</h3>
       <ul class="feed" id="feed-market"></ul>
     </div>
   </section>
 
   <!-- ======== STUNT ======== -->
   <section class="sec" id="tab-stunt" hidden>
-    <div class="sec-h"><div><h2 class="h">Стант</h2><p class="lede">Разгоняйтесь, прыгайте с трамплинов и крутите флипы. Приземляйтесь на колёса, иначе авария. Очки превращаются в рубли и опыт сезона.</p></div></div>
+    <div class="sec-h"><div><h2 class="h">&#1057;&#1090;&#1072;&#1085;&#1090;</h2><p class="lede">&#1056;&#1072;&#1079;&#1075;&#1086;&#1085;&#1103;&#1081;&#1090;&#1077;&#1089;&#1100;, &#1087;&#1088;&#1099;&#1075;&#1072;&#1081;&#1090;&#1077; &#1089; &#1090;&#1088;&#1072;&#1084;&#1087;&#1083;&#1080;&#1085;&#1086;&#1074; &#1080; &#1082;&#1088;&#1091;&#1090;&#1080;&#1090;&#1077; &#1092;&#1083;&#1080;&#1087;&#1099;. &#1055;&#1088;&#1080;&#1079;&#1077;&#1084;&#1083;&#1103;&#1081;&#1090;&#1077;&#1089;&#1100; &#1085;&#1072; &#1082;&#1086;&#1083;&#1105;&#1089;&#1072;, &#1080;&#1085;&#1072;&#1095;&#1077; &#1072;&#1074;&#1072;&#1088;&#1080;&#1103;. &#1054;&#1095;&#1082;&#1080; &#1087;&#1088;&#1077;&#1074;&#1088;&#1072;&#1097;&#1072;&#1102;&#1090;&#1089;&#1103; &#1074; &#1088;&#1091;&#1073;&#1083;&#1080; &#1080; &#1086;&#1087;&#1099;&#1090; &#1089;&#1077;&#1079;&#1086;&#1085;&#1072;.</p></div></div>
     <div class="stunt" id="stunt">
-      <canvas id="cv" aria-label="Трасса для трюков"></canvas>
-      <div class="hud"><div class="hb"><span>Время</span><b id="h-time">45,0</b></div><div class="hb r"><span>Очки</span><b id="h-score">0</b></div></div>
+      <canvas id="cv" aria-label="&#1058;&#1088;&#1072;&#1089;&#1089;&#1072; &#1076;&#1083;&#1103; &#1090;&#1088;&#1102;&#1082;&#1086;&#1074;"></canvas>
+      <div class="hud"><div class="hb"><span>&#1042;&#1088;&#1077;&#1084;&#1103;</span><b id="h-time">45,0</b></div><div class="hb r"><span>&#1054;&#1095;&#1082;&#1080;</span><b id="h-score">0</b></div></div>
       <div class="hpop" id="h-pop"></div>
       <div class="ov" id="s-ov"></div>
     </div>
     <div class="ctrl">
-      <button class="pedal" id="p-brake" type="button">Тормоз<small>в воздухе: крутит вперёд</small></button>
-      <button class="pedal gas" id="p-gas" type="button">Газ<small>в воздухе: крутит назад</small></button>
+      <button class="pedal" id="p-brake" type="button">&#1058;&#1086;&#1088;&#1084;&#1086;&#1079;<small>&#1074; &#1074;&#1086;&#1079;&#1076;&#1091;&#1093;&#1077;: &#1082;&#1088;&#1091;&#1090;&#1080;&#1090; &#1074;&#1087;&#1077;&#1088;&#1105;&#1076;</small></button>
+      <button class="pedal gas" id="p-gas" type="button">&#1043;&#1072;&#1079;<small>&#1074; &#1074;&#1086;&#1079;&#1076;&#1091;&#1093;&#1077;: &#1082;&#1088;&#1091;&#1090;&#1080;&#1090; &#1085;&#1072;&#1079;&#1072;&#1076;</small></button>
     </div>
-    <p class="muted" style="margin:-8px 0 0;font-size:13.5px">На клавиатуре: → или D — газ, ← или A — тормоз. На телефоне можно нажимать на левую и правую половину трассы.</p>
+    <p class="muted" style="margin:-8px 0 0;font-size:13.5px">&#1053;&#1072; &#1082;&#1083;&#1072;&#1074;&#1080;&#1072;&#1090;&#1091;&#1088;&#1077;: &#8594; &#1080;&#1083;&#1080; D &#8212; &#1075;&#1072;&#1079;, &#8592; &#1080;&#1083;&#1080; A &#8212; &#1090;&#1086;&#1088;&#1084;&#1086;&#1079;. &#1053;&#1072; &#1090;&#1077;&#1083;&#1077;&#1092;&#1086;&#1085;&#1077; &#1084;&#1086;&#1078;&#1085;&#1086; &#1085;&#1072;&#1078;&#1080;&#1084;&#1072;&#1090;&#1100; &#1085;&#1072; &#1083;&#1077;&#1074;&#1091;&#1102; &#1080; &#1087;&#1088;&#1072;&#1074;&#1091;&#1102; &#1087;&#1086;&#1083;&#1086;&#1074;&#1080;&#1085;&#1091; &#1090;&#1088;&#1072;&#1089;&#1089;&#1099;.</p>
     <div class="panel" style="padding:16px;display:grid;gap:16px" id="stunt-side"></div>
   </section>
 
@@ -493,16 +493,16 @@ details.how summary{cursor:pointer;padding:14px 16px;font-weight:600;min-height:
     <div class="cols">
       <div style="display:grid;gap:22px;min-width:0">
         <div>
-          <div class="sec-h" style="margin-bottom:12px"><div><h3 class="h3">Задания дня</h3><p class="lede" style="margin-top:4px">Каждое даёт 350 опыта и 300 ₽. Новые задания в полночь по Москве.</p></div></div>
+          <div class="sec-h" style="margin-bottom:12px"><div><h3 class="h3">&#1047;&#1072;&#1076;&#1072;&#1085;&#1080;&#1103; &#1076;&#1085;&#1103;</h3><p class="lede" style="margin-top:4px">&#1050;&#1072;&#1078;&#1076;&#1086;&#1077; &#1076;&#1072;&#1105;&#1090; 350 &#1086;&#1087;&#1099;&#1090;&#1072; &#1080; 300 &#8381;. &#1053;&#1086;&#1074;&#1099;&#1077; &#1079;&#1072;&#1076;&#1072;&#1085;&#1080;&#1103; &#1074; &#1087;&#1086;&#1083;&#1085;&#1086;&#1095;&#1100; &#1087;&#1086; &#1052;&#1086;&#1089;&#1082;&#1074;&#1077;.</p></div></div>
           <div class="quests" id="quests"></div>
         </div>
         <div>
-          <div class="sec-h" style="margin-bottom:12px"><div><h3 class="h3">Награды пропуска</h3><p class="lede" style="margin-top:4px">1 000 опыта на уровень, всего 30 уровней.</p></div><div id="claimall"></div></div>
+          <div class="sec-h" style="margin-bottom:12px"><div><h3 class="h3">&#1053;&#1072;&#1075;&#1088;&#1072;&#1076;&#1099; &#1087;&#1088;&#1086;&#1087;&#1091;&#1089;&#1082;&#1072;</h3><p class="lede" style="margin-top:4px">1 000 &#1086;&#1087;&#1099;&#1090;&#1072; &#1085;&#1072; &#1091;&#1088;&#1086;&#1074;&#1077;&#1085;&#1100;, &#1074;&#1089;&#1077;&#1075;&#1086; 30 &#1091;&#1088;&#1086;&#1074;&#1085;&#1077;&#1081;.</p></div><div id="claimall"></div></div>
           <div class="ptrack" id="ptrack"></div>
         </div>
       </div>
       <div style="display:grid;gap:12px;min-width:0">
-        <h3 class="h3">Топ сезона</h3>
+        <h3 class="h3">&#1058;&#1086;&#1087; &#1089;&#1077;&#1079;&#1086;&#1085;&#1072;</h3>
         <div id="lb"></div>
       </div>
     </div>
@@ -510,16 +510,16 @@ details.how summary{cursor:pointer;padding:14px 16px;font-weight:600;min-height:
 
   <!-- ======== GARAGE ======== -->
   <section class="sec" id="tab-garage" hidden>
-    <div class="sec-h"><div><h2 class="h">Гараж</h2><p class="lede">Все ваши номера. Закрепите лучшие, чтобы случайно не продать.</p></div></div>
+    <div class="sec-h"><div><h2 class="h">&#1043;&#1072;&#1088;&#1072;&#1078;</h2><p class="lede">&#1042;&#1089;&#1077; &#1074;&#1072;&#1096;&#1080; &#1085;&#1086;&#1084;&#1077;&#1088;&#1072;. &#1047;&#1072;&#1082;&#1088;&#1077;&#1087;&#1080;&#1090;&#1077; &#1083;&#1091;&#1095;&#1096;&#1080;&#1077;, &#1095;&#1090;&#1086;&#1073;&#1099; &#1089;&#1083;&#1091;&#1095;&#1072;&#1081;&#1085;&#1086; &#1085;&#1077; &#1087;&#1088;&#1086;&#1076;&#1072;&#1090;&#1100;.</p></div></div>
     <dl class="stats" id="g-stats"></dl>
     <div id="g-keys"></div>
     <div class="tools">
       <div class="chips" id="g-filters"></div>
       <span class="sp"></span>
-      <select class="inp" id="g-sort" aria-label="Сортировка" style="width:auto">
-        <option value="price-desc">Сначала дорогие</option>
-        <option value="price-asc">Сначала дешёвые</option>
-        <option value="new">Сначала новые</option>
+      <select class="inp" id="g-sort" aria-label="&#1057;&#1086;&#1088;&#1090;&#1080;&#1088;&#1086;&#1074;&#1082;&#1072;" style="width:auto">
+        <option value="price-desc">&#1057;&#1085;&#1072;&#1095;&#1072;&#1083;&#1072; &#1076;&#1086;&#1088;&#1086;&#1075;&#1080;&#1077;</option>
+        <option value="price-asc">&#1057;&#1085;&#1072;&#1095;&#1072;&#1083;&#1072; &#1076;&#1077;&#1096;&#1105;&#1074;&#1099;&#1077;</option>
+        <option value="new">&#1057;&#1085;&#1072;&#1095;&#1072;&#1083;&#1072; &#1085;&#1086;&#1074;&#1099;&#1077;</option>
       </select>
     </div>
     <div class="tools" id="g-bulk"></div>
@@ -528,18 +528,18 @@ details.how summary{cursor:pointer;padding:14px 16px;font-weight:600;min-height:
 
   <!-- ======== SHOP ======== -->
   <section class="sec" id="tab-shop" hidden>
-    <div class="sec-h"><div><h2 class="h">Донат и голда</h2><p class="lede">Голда — премиальная валюта. Её дают в сезонном пропуске, а пополнить можно промокодом от владельца игры.</p></div><div class="goldbtn" style="cursor:default"><span class="gem">◆</span><span id="gold2">0</span></div></div>
+    <div class="sec-h"><div><h2 class="h">&#1044;&#1086;&#1085;&#1072;&#1090; &#1080; &#1075;&#1086;&#1083;&#1076;&#1072;</h2><p class="lede">&#1043;&#1086;&#1083;&#1076;&#1072; &#8212; &#1087;&#1088;&#1077;&#1084;&#1080;&#1072;&#1083;&#1100;&#1085;&#1072;&#1103; &#1074;&#1072;&#1083;&#1102;&#1090;&#1072;. &#1045;&#1105; &#1076;&#1072;&#1102;&#1090; &#1074; &#1089;&#1077;&#1079;&#1086;&#1085;&#1085;&#1086;&#1084; &#1087;&#1088;&#1086;&#1087;&#1091;&#1089;&#1082;&#1077;, &#1072; &#1087;&#1086;&#1087;&#1086;&#1083;&#1085;&#1080;&#1090;&#1100; &#1084;&#1086;&#1078;&#1085;&#1086; &#1087;&#1088;&#1086;&#1084;&#1086;&#1082;&#1086;&#1076;&#1086;&#1084; &#1086;&#1090; &#1074;&#1083;&#1072;&#1076;&#1077;&#1083;&#1100;&#1094;&#1072; &#1080;&#1075;&#1088;&#1099;.</p></div><div class="goldbtn" style="cursor:default"><span class="gem">&#9670;</span><span id="gold2">0</span></div></div>
     <div id="sh-packs"></div>
     <div class="panel howpay" id="sh-pay"></div>
     <div>
-      <h3 class="h3" style="margin-bottom:12px">Потратить голду</h3>
+      <h3 class="h3" style="margin-bottom:12px">&#1055;&#1086;&#1090;&#1088;&#1072;&#1090;&#1080;&#1090;&#1100; &#1075;&#1086;&#1083;&#1076;&#1091;</h3>
       <div class="store" id="sh-store"></div>
     </div>
   </section>
 
   <!-- ======== ADMIN ======== -->
   <section class="sec" id="tab-admin" hidden>
-    <div class="sec-h"><div><h2 class="h">Админка</h2><p class="lede">Видно только вам как владельцу игры. Здесь можно выдавать себе валюту и номера, делать объявления, дарить подарки игрокам, блокировать их на рынке и принимать донат.</p></div></div>
+    <div class="sec-h"><div><h2 class="h">&#1040;&#1076;&#1084;&#1080;&#1085;&#1082;&#1072;</h2><p class="lede">&#1042;&#1080;&#1076;&#1085;&#1086; &#1090;&#1086;&#1083;&#1100;&#1082;&#1086; &#1074;&#1072;&#1084; &#1082;&#1072;&#1082; &#1074;&#1083;&#1072;&#1076;&#1077;&#1083;&#1100;&#1094;&#1091; &#1080;&#1075;&#1088;&#1099;. &#1047;&#1076;&#1077;&#1089;&#1100; &#1084;&#1086;&#1078;&#1085;&#1086; &#1074;&#1099;&#1076;&#1072;&#1074;&#1072;&#1090;&#1100; &#1089;&#1077;&#1073;&#1077; &#1074;&#1072;&#1083;&#1102;&#1090;&#1091; &#1080; &#1085;&#1086;&#1084;&#1077;&#1088;&#1072;, &#1076;&#1077;&#1083;&#1072;&#1090;&#1100; &#1086;&#1073;&#1098;&#1103;&#1074;&#1083;&#1077;&#1085;&#1080;&#1103;, &#1076;&#1072;&#1088;&#1080;&#1090;&#1100; &#1087;&#1086;&#1076;&#1072;&#1088;&#1082;&#1080; &#1080;&#1075;&#1088;&#1086;&#1082;&#1072;&#1084;, &#1073;&#1083;&#1086;&#1082;&#1080;&#1088;&#1086;&#1074;&#1072;&#1090;&#1100; &#1080;&#1093; &#1085;&#1072; &#1088;&#1099;&#1085;&#1082;&#1077; &#1080; &#1087;&#1088;&#1080;&#1085;&#1080;&#1084;&#1072;&#1090;&#1100; &#1076;&#1086;&#1085;&#1072;&#1090;.</p></div></div>
     <div class="cols2">
       <div class="panel admin" id="ad-self"></div>
       <div style="display:grid;gap:22px;align-content:start;min-width:0">
@@ -552,19 +552,19 @@ details.how summary{cursor:pointer;padding:14px 16px;font-weight:600;min-height:
   </section>
 
   <footer class="foot">
-    <span id="sync-note">Прогресс хранится на сервере и привязан к вашему Telegram.</span>
-    <button class="btn sm ghost" id="adm-login" data-act="adm-login">Вход для владельца</button>
+    <span id="sync-note">&#1055;&#1088;&#1086;&#1075;&#1088;&#1077;&#1089;&#1089; &#1093;&#1088;&#1072;&#1085;&#1080;&#1090;&#1089;&#1103; &#1085;&#1072; &#1089;&#1077;&#1088;&#1074;&#1077;&#1088;&#1077; &#1080; &#1087;&#1088;&#1080;&#1074;&#1103;&#1079;&#1072;&#1085; &#1082; &#1074;&#1072;&#1096;&#1077;&#1084;&#1091; Telegram.</span>
+    <button class="btn sm ghost" id="adm-login" data-act="adm-login">&#1042;&#1093;&#1086;&#1076; &#1076;&#1083;&#1103; &#1074;&#1083;&#1072;&#1076;&#1077;&#1083;&#1100;&#1094;&#1072;</button>
     <span class="sp"></span>
-    <span>Версия 1.3</span>
-    <button class="btn sm ghost" id="reset" data-act="reset">Начать заново</button>
+    <span>&#1042;&#1077;&#1088;&#1089;&#1080;&#1103; 1.3</span>
+    <button class="btn sm ghost" id="reset" data-act="reset">&#1053;&#1072;&#1095;&#1072;&#1090;&#1100; &#1079;&#1072;&#1085;&#1086;&#1074;&#1086;</button>
   </footer>
 </main>
 <div class="sheet" id="sheet" hidden></div>
 <div class="toast" id="toast" role="status"></div>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
-<script src="config.js"></script>
-<script src="logic.js"></script>
-<script src="stunt.js"></script>
-<script src="app.js"></script>
+<script src="config.js" charset="utf-8"></script>
+<script src="logic.js" charset="utf-8"></script>
+<script src="stunt.js" charset="utf-8"></script>
+<script src="app.js" charset="utf-8"></script>
 </body>
 </html>
