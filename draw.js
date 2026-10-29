@@ -1,4 +1,4 @@
-/* \u0420\u0438\u0441\u043e\u0432\u0430\u043d\u0438\u0435 \u043c\u0430\u0448\u0438\u043d \u0438 \u043f\u0438\u0442\u0431\u0430\u0439\u043a\u043e\u0432: \u0441\u043a\u0438\u043d\u044b, \u0434\u0432\u0435 \u043a\u0440\u0430\u0441\u043a\u0438, \u043a\u043e\u043b\u0451\u0441\u0430, \u043e\u0431\u0432\u0435\u0441, \u043d\u0430\u043a\u043b\u0435\u0439\u043a\u0438. \u041e\u0431\u0449\u0435\u0435 \u0434\u043b\u044f \u0433\u0430\u0440\u0430\u0436\u0430, \u043f\u0440\u043e\u0444\u0438\u043b\u0435\u0439 \u0438 \u0438\u0433\u0440. */
+/* \u0420\u0438\u0441\u043e\u0432\u0430\u043d\u0438\u0435 \u043c\u0430\u0448\u0438\u043d \u0438 \u043f\u0438\u0442\u0431\u0430\u0439\u043a\u043e\u0432 2.1: \u0441\u043a\u0438\u043d\u044b, \u0434\u0432\u0435 \u043a\u0440\u0430\u0441\u043a\u0438, \u043a\u043e\u043b\u0451\u0441\u0430, \u043e\u0431\u0432\u0435\u0441, \u043d\u0430\u043a\u043b\u0435\u0439\u043a\u0438, \u043f\u043e\u0437\u044b \u0434\u043b\u044f \u0442\u0440\u044e\u043a\u043e\u0432. \u041e\u0431\u0449\u0435\u0435 \u0434\u043b\u044f \u0433\u0430\u0440\u0430\u0436\u0430, \u043f\u0440\u043e\u0444\u0438\u043b\u0435\u0439 \u0438 \u0438\u0433\u0440. */
 const Draw=(()=>{
   const TAU=Math.PI*2;
   const col=id=>(L.COLORS[id]||L.COLORS.orange).c;
@@ -129,6 +129,15 @@ const Draw=(()=>{
 
   /* ---------- \u043f\u0438\u0442\u0431\u0430\u0439\u043a ---------- */
   // \u041d\u0430\u0447\u0430\u043b\u043e \u043a\u043e\u043e\u0440\u0434\u0438\u043d\u0430\u0442: \u0442\u043e\u0447\u043a\u0430 \u043a\u0430\u0441\u0430\u043d\u0438\u044f \u0437\u0430\u0434\u043d\u0435\u0433\u043e \u043a\u043e\u043b\u0435\u0441\u0430. pitch \u2014 \u043f\u043e\u0434\u044a\u0451\u043c \u043f\u0435\u0440\u0435\u0434\u043d\u0435\u0433\u043e \u043a\u043e\u043b\u0435\u0441\u0430 (\u0440\u0430\u0434), \u043f\u043e\u043b\u043e\u0436\u0438\u0442\u0435\u043b\u044c\u043d\u044b\u0439 = \u0432\u0438\u043b\u043b\u0438.
+  // \u043f\u043e\u0437\u044b \u0433\u043e\u043d\u0449\u0438\u043a\u0430: \u043e\u0431\u044b\u0447\u043d\u0430\u044f \u0438 \u0442\u0440\u044e\u043a\u0438
+  const POSE={
+    ride:{hip:[14,-52],knee:[31,-43],ank:[25,-23],sh:[25,-72],el:[36,-63],head:[29,-81]},
+    nohands:{hip:[14,-52],knee:[31,-43],ank:[25,-23],sh:[24,-73],el:[30,-87],hand:[36,-99],head:[28,-82]},
+    stand:{hip:[20,-63],knee:[28,-45],ank:[25,-23],sh:[30,-86],el:[41,-73],head:[34,-95]},
+    superman:{hip:[8,-58],knee:[-10,-62],ank:[-28,-66],sh:[28,-68],el:[40,-62],head:[37,-76]},
+    seat:{hip:[-6,-50],knee:[12,-40],ank:[25,-23],sh:[2,-72],el:[24,-63],head:[4,-82]},
+    leg:{hip:[14,-52],knee:[38,-58],ank:[56,-54],sh:[25,-72],el:[36,-63],head:[29,-81]}
+  };
   const BIKE={std:{wb:62,r:12,h:1},mini:{wb:54,r:10,h:.86},cross:{wb:66,r:13,h:1.1},enduro:{wb:66,r:13,h:1.08,lamp:true},moto:{wb:64,r:12,h:.98,road:true},chopper:{wb:74,r:13,h:.84,chop:true},emo:{wb:64,r:12,h:1.02,neon:true}};
   function bike(c,x,y,s,look,o){
     o=o||{};const sk=String(look.skin||'bike:std').split(':')[1];const d=BIKE[sk]||BIKE.std;
@@ -186,15 +195,17 @@ const Draw=(()=>{
     // \u043d\u0430\u043a\u043b\u0435\u0439\u043a\u0438
     (look.st||[]).slice(0,3).forEach((k,i)=>{const q=i===0?P(13,-34):i===1?P(36,-40):P(60,-28);sticker(c,k,q[0],q[1],i===0?9:7)});
     if(look.plateText){c.fillStyle='#fff';const q=P(-18,-46);c.fillRect(q[0],q[1],6,4)}
-    // \u0433\u043e\u043d\u0449\u0438\u043a
+    // \u0433\u043e\u043d\u0449\u0438\u043a (\u043f\u043e\u0437\u044b \u0434\u043b\u044f \u0442\u0440\u044e\u043a\u043e\u0432 \u0432 \u0421\u0442\u0430\u043d\u0442\u0435)
     if(o.rider!==false){
-      const hip=P(14,-52),knee=P(31,-43),ank=P(25,-23),sh=P(25,-72),el=P(36,-63);
+      const ps=POSE[o.pose]||POSE.ride;
+      const hip=P(...ps.hip),knee=P(...ps.knee),ank=P(...ps.ank),sh=P(...ps.sh),el=P(...ps.el);
+      const hand=ps.hand?P(...ps.hand):[hb[0]-1,hb[1]+1];
       c.strokeStyle='#2a2f36';c.lineWidth=7;c.beginPath();c.moveTo(...hip);c.lineTo(...knee);c.lineTo(...ank);c.stroke();
       c.fillStyle='#e8ebef';c.beginPath();c.ellipse(ank[0]+2,ank[1]+1,5,3.4,0,0,TAU);c.fill();
       c.strokeStyle=c1;c.lineWidth=9;c.beginPath();c.moveTo(...hip);c.lineTo(...sh);c.stroke();
-      c.strokeStyle=shade(c1,-.15);c.lineWidth=4.5;c.beginPath();c.moveTo(...sh);c.lineTo(...el);c.lineTo(hb[0]-1,hb[1]+1);c.stroke();
-      c.fillStyle='#1b1e23';c.beginPath();c.arc(hb[0]-1,hb[1]+1,2.4,0,TAU);c.fill();
-      const hc=P(29,-81);const hg=c.createLinearGradient(hc[0]-8,hc[1]-8,hc[0]+8,hc[1]+8);hg.addColorStop(0,shade(c2,.3));hg.addColorStop(1,c2);
+      c.strokeStyle=shade(c1,-.15);c.lineWidth=4.5;c.beginPath();c.moveTo(...sh);c.lineTo(...el);c.lineTo(hand[0],hand[1]);c.stroke();
+      c.fillStyle='#1b1e23';c.beginPath();c.arc(hand[0],hand[1],2.4,0,TAU);c.fill();
+      const hc=P(...ps.head);const hg=c.createLinearGradient(hc[0]-8,hc[1]-8,hc[0]+8,hc[1]+8);hg.addColorStop(0,shade(c2,.3));hg.addColorStop(1,c2);
       c.fillStyle=hg;c.beginPath();c.arc(hc[0],hc[1],8.5,0,TAU);c.fill();
       c.beginPath();c.moveTo(hc[0]+4,hc[1]+3);c.lineTo(hc[0]+12,hc[1]+6);c.lineTo(hc[0]+6,hc[1]+9);c.fill();
       c.fillStyle='rgba(15,22,34,.92)';c.beginPath();c.moveTo(hc[0]+2,hc[1]-3);c.lineTo(hc[0]+9,hc[1]-2);c.lineTo(hc[0]+8.5,hc[1]+3);c.lineTo(hc[0]+2,hc[1]+2);c.fill();
@@ -245,5 +256,5 @@ const Draw=(()=>{
       car(c,W*.62,H*.97,H/170,{skin:'car:coupe',c1:'yellow',c2:'black',wh:'std'},{});
     }
   }
-  return{car,bike,wheel,sticker,stickerURL,preview,scene,col,shade,fit,rr,CAR,BIKE};
+  return{car,bike,wheel,sticker,stickerURL,preview,scene,col,shade,fit,rr,CAR,BIKE,POSE};
 })();
