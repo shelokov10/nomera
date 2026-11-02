@@ -433,7 +433,7 @@ select.inp{appearance:none;-webkit-appearance:none}
 .kv dt{color:var(--text2)}.kv dd{margin:0;text-align:right;font-weight:600;white-space:nowrap}
 
 /* \43c \438 \43d \438 -\438 \433 \440 \44b  */
-#game{position:fixed;inset:0;z-index:80;background:#000;display:none;touch-action:none;user-select:none;-webkit-user-select:none}
+#game{position:fixed;inset:0;z-index:80;background:#000;display:none;touch-action:none;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;overscroll-behavior:none}
 #game.on{display:block}
 #game canvas{position:absolute;inset:0;width:100%;height:100%}
 .hud{position:absolute;left:0;right:0;top:calc(var(--safe-t) + 8px);display:flex;align-items:flex-start;gap:8px;padding:0 12px;z-index:3;pointer-events:none}
@@ -597,6 +597,20 @@ i.coin::after{content:"";position:absolute;inset:26%;border-radius:50%;box-shado
 .rtab .rr b{font-weight:600;white-space:nowrap}.rtab .rr small{color:var(--text2);font-weight:400}
 .rtab .rr.me{background:var(--fill3)}
 @media (max-width:370px){.appname b{font-size:14px}.appname small{font-size:11px}}
+.clk-ov{position:fixed;inset:0;z-index:200;display:grid;grid-template-rows:auto 1fr;background:linear-gradient(180deg,#2a1d00,#120c00);color:#fff;touch-action:none;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none;overscroll-behavior:none;padding:calc(var(--safe-t) + 16px) 16px calc(var(--safe-b) + 16px)}
+.clk-ov *{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+.clk-top{display:flex;justify-content:space-between;align-items:flex-end;padding:0 6px 14px}
+.clk-top #clk-n{font:800 56px/1 var(--f-ui)}.clk-sub{font:600 16px var(--f-ui);opacity:.75;margin-top:4px}
+.clk-time{font:700 28px/1 var(--f-ui);opacity:.9}
+.clk-zone{touch-action:none;border-radius:32px;background:radial-gradient(circle at 50% 45%,rgba(255,212,38,.22),rgba(255,212,38,.06) 60%);display:grid;place-items:center;align-content:center;gap:18px}
+.clk-btn{width:min(62vw,240px);height:min(62vw,240px);border-radius:50%;background:linear-gradient(180deg,#ffd426,#f0a800);box-shadow:0 14px 40px rgba(240,168,0,.45),inset 0 2px 0 rgba(255,255,255,.5);color:#3a2600;font:800 30px var(--f-ui);display:grid;place-items:center;pointer-events:none}
+.clk-btn.hit{animation:clkhit .12s ease-out}
+@keyframes clkhit{50%{transform:scale(.93)}}
+.clk-hint{font:500 14px var(--f-ui);opacity:.6;text-align:center;padding:0 20px;pointer-events:none}
+body.clk-on{overflow:hidden;touch-action:none}
+.reel.cos{height:150px;margin:4px 0 0}
+.reel.cos .ri{width:150px;height:128px;padding:0 0 10px}
+.reel.cos .ri img{display:block}
 </style>
 </head>
 <body>
@@ -621,10 +635,10 @@ i.coin::after{content:"";position:absolute;inset:26%;border-radius:50%;box-shado
 <div id="sheets"></div>
 <div id="toasts" aria-live="polite"></div>
 <div id="game"></div>
-<script src="config.js?v=210" charset="utf-8"></script>
-<script src="logic.js?v=210" charset="utf-8"></script>
-<script src="draw.js?v=210" charset="utf-8"></script>
-<script src="games.js?v=210" charset="utf-8"></script>
-<script src="app.js?v=210" charset="utf-8"></script>
+<script src="config.js?v=220" charset="utf-8"></script>
+<script src="logic.js?v=220" charset="utf-8"></script>
+<script src="draw.js?v=220" charset="utf-8"></script>
+<script src="games.js?v=220" charset="utf-8"></script>
+<script src="app.js?v=220" charset="utf-8"></script>
 </body>
 </html>

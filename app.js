@@ -1,4 +1,4 @@
-/* Vybivanie nomerov 2.1 */
+/* Vybivanie nomerov 2.2 */
 (function(){
 "use strict";
 /* ================= \u043e\u0441\u043d\u043e\u0432\u0430: \u0443\u0442\u0438\u043b\u0438\u0442\u044b, \u0438\u043a\u043e\u043d\u043a\u0438, \u0445\u0440\u0430\u043d\u0438\u043b\u0438\u0449\u0435, \u043e\u0442\u043a\u043b\u0438\u043a ================= */
@@ -282,6 +282,16 @@ async function call(a,p,rq){
   if(!j){const er=new Error('\u0421\u0435\u0440\u0432\u0435\u0440 \u043d\u0435 \u043e\u0442\u0432\u0435\u0442\u0438\u043b, \u043f\u043e\u043f\u0440\u043e\u0431\u0443\u0439\u0442\u0435 \u0435\u0449\u0451 \u0440\u0430\u0437');er.net=true;throw er}
   if(!res.ok){const er=new Error(j.error||'\u0421\u0435\u0440\u0432\u0435\u0440 \u043d\u0435 \u043e\u0442\u0432\u0435\u0442\u0438\u043b, \u043f\u043e\u043f\u0440\u043e\u0431\u0443\u0439\u0442\u0435 \u0435\u0449\u0451 \u0440\u0430\u0437');er.status=res.status;er.relogin=!!j.relogin;er.code=j.code||'';if(res.status>=500)er.net=true;throw er}
   return j;
+}
+// \u0424\u0430\u0439\u043b \u0441 \u0441\u0435\u0440\u0432\u0435\u0440\u0430 (\u0442\u0440\u0435\u043a \u0438\u0437 \u0431\u043e\u0442\u0430): \u043e\u0442\u0432\u0435\u0442 \u2014 \u0441\u0430\u043c\u0438 \u0431\u0430\u0439\u0442\u044b, \u043d\u0435 JSON
+async function callBlob(a,p){
+  const headers={'Content-Type':'application/json'};if(CFG.anonKey)headers.apikey=CFG.anonKey;
+  let res,ctl=null,tm=0;
+  try{ctl=new AbortController();tm=setTimeout(()=>ctl.abort(),180000)}catch(e){}
+  try{res=await fetch(FN,{method:'POST',headers,body:JSON.stringify({a,p:p||{},t:token}),signal:ctl?ctl.signal:undefined})}
+  catch(e){clearTimeout(tm);const er=new Error('\u041d\u0435\u0442 \u0441\u0432\u044f\u0437\u0438 \u0441 \u0441\u0435\u0440\u0432\u0435\u0440\u043e\u043c. \u041f\u0440\u043e\u0432\u0435\u0440\u044c\u0442\u0435 \u0438\u043d\u0442\u0435\u0440\u043d\u0435\u0442');er.net=true;throw er}
+  if(!res.ok){clearTimeout(tm);const j=await res.json().catch(()=>null);throw new Error(j&&j.error||'\u041d\u0435 \u0443\u0434\u0430\u043b\u043e\u0441\u044c \u0441\u043a\u0430\u0447\u0430\u0442\u044c \u0444\u0430\u0439\u043b')}
+  try{const b=await res.blob();clearTimeout(tm);return b}catch(e){clearTimeout(tm);const er=new Error('\u0421\u0432\u044f\u0437\u044c \u043f\u0440\u0435\u0440\u0432\u0430\u043b\u0430\u0441\u044c \u043f\u0440\u0438 \u0441\u043a\u0430\u0447\u0438\u0432\u0430\u043d\u0438\u0438. \u041f\u043e\u043f\u0440\u043e\u0431\u0443\u0439\u0442\u0435 \u0435\u0449\u0451 \u0440\u0430\u0437');er.net=true;throw er}
 }
 // \u041f\u043e\u0432\u0442\u043e\u0440\u044b: \u0442\u043e\u0442 \u0436\u0435 rq, \u0441\u0435\u0440\u0432\u0435\u0440 \u043e\u0442\u0434\u0430\u0441\u0442 \u0441\u043e\u0445\u0440\u0430\u043d\u0451\u043d\u043d\u044b\u0439 \u0440\u0435\u0437\u0443\u043b\u044c\u0442\u0430\u0442, \u0435\u0441\u043b\u0438 \u043f\u0435\u0440\u0432\u044b\u0439 \u0437\u0430\u043f\u0440\u043e\u0441 \u0434\u043e\u0448\u0451\u043b
 async function callRetry(a,p,rq,tries){
@@ -930,7 +940,10 @@ function renderCos(){
       '<span class="k">'+(sk?'\u041c\u0430\u0448\u0438\u043d\u044b \u0438 \u043f\u0438\u0442\u0431\u0430\u0439\u043a\u0438':'\u0414\u043b\u044f \u043c\u0430\u0448\u0438\u043d\u044b \u0438 \u043f\u0438\u0442\u0431\u0430\u0439\u043a\u0430')+'</span><span class="t">'+(sk?'\u041a\u0435\u0439\u0441 \u0441\u043e \u0441\u043a\u0438\u043d\u0430\u043c\u0438':'\u041a\u0435\u0439\u0441 \u0441 \u043d\u0430\u043a\u043b\u0435\u0439\u043a\u0430\u043c\u0438')+'</span><span class="s">'+(sk?'\u0427\u0435\u0442\u044b\u0440\u0435 \u0440\u0435\u0434\u043a\u043e\u0441\u0442\u0438, \u043e\u0442 \u043e\u0431\u044b\u0447\u043d\u044b\u0445 \u0434\u043e \u044d\u043f\u0438\u0447\u0435\u0441\u043a\u0438\u0445':'\u0427\u0435\u0442\u044b\u0440\u0435 \u0440\u0435\u0434\u043a\u043e\u0441\u0442\u0438, \u0434\u043e \u043b\u0435\u0433\u0435\u043d\u0434\u0430\u0440\u043d\u043e\u0439')+'</span>'+
       '<span class="act" style="flex-wrap:wrap">'+(fr>0?'<button class="pill on-card" data-act="'+a+'" data-m="free">\u0411\u0435\u0441\u043f\u043b\u0430\u0442\u043d\u043e \u00d7'+fr+'</button>':'<button class="pill on-card" data-act="'+a+'" data-m="coin">'+COIN(C.price)+'</button><button class="pill on-card" data-act="'+a+'" data-m="key">'+ic('key')+C.keys+'</button>')+'<button class="pill on-card" data-act="cosOdds" data-k="'+kind+'" style="background:transparent">\u0428\u0430\u043d\u0441\u044b</button></span></div>';
   };
+  const prevSl=(el.querySelector('.shelf')||{}).scrollLeft||0;
   el.innerHTML=secH('\u0421\u043a\u0438\u043d\u044b \u0438 \u043d\u0430\u043a\u043b\u0435\u0439\u043a\u0438')+'<div class="shelf">'+card('skin')+card('sticker')+'</div>';
+  // 2.2: \u043f\u043e\u0441\u043b\u0435 \u043e\u0442\u043a\u0440\u044b\u0442\u0438\u044f \u043a\u0435\u0439\u0441\u0430 \u043f\u043e\u043b\u043a\u0430 \u043e\u0441\u0442\u0430\u0451\u0442\u0441\u044f \u043d\u0430 \u0442\u043e\u043c \u0436\u0435 \u043a\u0435\u0439\u0441\u0435
+  const shf=el.querySelector('.shelf');if(shf&&prevSl)shf.scrollLeft=prevSl;
   const cv=$('cs-skinart');if(cv)Draw.preview(cv,'car',{skin:'car:sport',c1:'white',c2:'purple',wh:'chrome',kit:'spoiler'},{floor:false,k:.95});
 }
 ACT.cosOdds=el=>{
@@ -942,10 +955,12 @@ ACT.cosOdds=el=>{
 };
 function renderMine(){
   const el=$('cs-mine');if(!el)return;
+  const prevSl=(el.querySelector('.shelf')||{}).scrollLeft||0;
   const list=S.box.slice().sort((a,b)=>b.t-a.t).slice(0,12);
   const fp=S.free.p.map((n,i)=>n>0?'<span class="badge" style="background:var(--green);color:#fff">'+esc(TIERS[i].name)+' \u00d7'+n+'</span>':'').join('')+(S.free.sc?'<span class="badge" style="background:var(--purple);color:#fff">\u0421\u043a\u0438\u043d\u044b \u00d7'+S.free.sc+'</span>':'')+(S.free.tc?'<span class="badge" style="background:var(--pink);color:#fff">\u041d\u0430\u043a\u043b\u0435\u0439\u043a\u0438 \u00d7'+S.free.tc+'</span>':'');
   el.innerHTML=(fp?secH('\u0411\u0435\u0441\u043f\u043b\u0430\u0442\u043d\u044b\u0435 \u043a\u0435\u0439\u0441\u044b')+'<div class="pad" style="display:flex;gap:6px;flex-wrap:wrap">'+fp+'</div><p class="note">\u0412\u044b\u0431\u0435\u0440\u0438\u0442\u0435 \u043a\u0435\u0439\u0441 \u0432\u044b\u0448\u0435 \u0438 \u043d\u0430\u0436\u043c\u0438\u0442\u0435 \u00ab\u041e\u0442\u043a\u0440\u044b\u0442\u044c \u0431\u0435\u0441\u043f\u043b\u0430\u0442\u043d\u043e\u00bb.</p>':'')+
     secH('\u041c\u043e\u0438 \u043d\u043e\u043c\u0435\u0440\u0430','inventory')+(list.length?'<div class="shelf">'+list.map(it=>'<button class="mat" data-act="insp" data-id="'+it.id+'" style="width:190px;display:grid;gap:8px;padding:12px;text-align:left;background:var(--card)">'+plateHTML(it)+'<span style="display:grid;gap:6px;justify-items:start;font:600 15px var(--f-ui)"><span style="white-space:nowrap">'+COIN(it.price)+'</span><span class="matb" style="'+mc(it)+';height:20px;font-size:11px">'+matOf(it).n+'</span></span></button>').join('')+'</div><p class="note">\u0412\u0441\u0435\u0433\u043e '+S.box.length+' \u0438\u0437 '+L.BOX_CAP+' \u043d\u0430 \u0441\u0443\u043c\u043c\u0443 '+fmt(L.worth(S))+'</p>':'<div class="empty">\u0417\u0434\u0435\u0441\u044c \u043f\u043e\u044f\u0432\u044f\u0442\u0441\u044f \u043d\u043e\u043c\u0435\u0440\u0430 \u0438\u0437 \u043a\u0435\u0439\u0441\u043e\u0432</div>');
+  const shf=el.querySelector('.shelf');if(shf&&prevSl)shf.scrollLeft=prevSl;
 }
 RENDER.shopFeed=()=>{
   const el=$('cs-feed');if(!el)return;
@@ -992,9 +1007,12 @@ async function openCos(a,m,btn){
   const C=a==='skinCase'?L.SKIN_CASE:L.STICKER_CASE;
   if(m==='coin'&&S.bal<C.price){toast('\u041d\u0435 \u0445\u0432\u0430\u0442\u0430\u0435\u0442 '+fmt(C.price-S.bal),'err');return}
   if(m==='key'&&S.keys<C.keys){toast('\u041d\u0443\u0436\u043d\u043e '+keyN(C.keys),'err');return}
+  if(CosReel.busy())return;
+  // 2.2: \u043a\u0430\u043a \u0443 \u043d\u043e\u043c\u0435\u0440\u043d\u044b\u0445 \u043a\u0435\u0439\u0441\u043e\u0432 \u2014 \u043b\u0435\u043d\u0442\u0430 \u043d\u0430\u0447\u0438\u043d\u0430\u0435\u0442 \u043a\u0440\u0443\u0442\u0438\u0442\u044c\u0441\u044f \u0441\u0440\u0430\u0437\u0443, \u0432\u044b\u0438\u0433\u0440\u044b\u0448 \u043f\u043e\u0434\u0441\u0442\u0430\u0432\u043b\u044f\u0435\u0442\u0441\u044f, \u043a\u043e\u0433\u0434\u0430 \u043e\u0442\u0432\u0435\u0442\u0438\u0442 \u0441\u0435\u0440\u0432\u0435\u0440
+  const R=CosReel.open(a==='skinCase'?'skin':'sticker');
   const r=await run(a,{free:m==='free',key:m==='key'},{btn,quiet:true});
-  if(!r||!r.inv)return;
-  cosReveal(r.inv);
+  if(!r||!r.inv){R.abort();return}
+  R.land(r.inv);
 }
 function invLook(x){const s=SKINS[x.v],t=STICKERS[x.v];return s?{n:s.n,r:L.SKIN_R[s.r],v:s.v,kind:x.v.startsWith('car')?'car':'bike'}:{n:t.n,r:L.STK_R[t.r],v:t.v,kind:'sticker'}}
 function invPreview(x,w,h){
@@ -1003,17 +1021,65 @@ function invPreview(x,w,h){
   return'<canvas data-skin="'+esc(x.v)+'" style="width:'+w+'px;height:'+h+'px"></canvas>';
 }
 function hydrateSkins(root){qsa('canvas[data-skin]',root).forEach(cv=>{const v=cv.dataset.skin;const k=v.startsWith('car')?'car':'bike';const V=S.veh[k];Draw.preview(cv,k,{skin:v,c1:cv.dataset.c1||V.c1,c2:cv.dataset.c2||V.c2,wh:V.wh,kit:'none'},{floor:false})})}
-function cosReveal(x){
-  const lk=invLook(x);
-  const sh=Sheet.open({title:'',body:'<div style="display:grid;justify-items:center;gap:10px;padding:10px var(--g) 0;text-align:center"><div id="cos-spin" style="height:170px;display:grid;place-items:center"></div><div id="cos-res" style="opacity:0;transition:opacity .4s;display:grid;gap:8px;justify-items:center"><span class="matb" style="--mc:'+lk.r.c+'">'+lk.r.n+'</span><div style="font:700 26px var(--f-ui)">'+esc(lk.n)+'</div><div class="muted">'+(lk.kind==='sticker'?'\u041d\u0430\u043a\u043b\u0435\u0439\u043a\u0430':lk.kind==='car'?'\u0421\u043a\u0438\u043d \u043c\u0430\u0448\u0438\u043d\u044b':'\u0421\u043a\u0438\u043d \u043f\u0438\u0442\u0431\u0430\u0439\u043a\u0430')+' \u00b7 \u0446\u0435\u043d\u043d\u043e\u0441\u0442\u044c '+fmt(lk.v)+'</div></div></div>'+
-    '<div class="foot" id="cos-acts" style="opacity:0;transition:opacity .4s">'+(lk.kind==='sticker'?'<button class="btn pri wide" data-act="garage" data-v="car">\u041d\u0430\u043a\u043b\u0435\u0438\u0442\u044c \u0432 \u0433\u0430\u0440\u0430\u0436\u0435</button>':'<button class="btn pri wide" data-act="equip" data-id="'+x.id+'">\u041f\u043e\u0441\u0442\u0430\u0432\u0438\u0442\u044c \u043d\u0430 '+(lk.kind==='car'?'\u043c\u0430\u0448\u0438\u043d\u0443':'\u043f\u0438\u0442\u0431\u0430\u0439\u043a')+'</button>')+'<button class="btn wide" data-act="sheetx">\u0413\u043e\u0442\u043e\u0432\u043e</button></div>'});
-  const box=sh.querySelector('#cos-spin');
-  const pool=lk.kind==='sticker'?Object.keys(STICKERS):Object.keys(SKINS).filter(k=>k.startsWith(lk.kind)&&!SKINS[k].free&&!SKINS[k].season);
-  let n=0;const steps=14;
-  const show=v=>{box.innerHTML=lk.kind==='sticker'?'<img src="'+Draw.stickerURL(v,256)+'" width="150" height="150" alt="">':'<canvas width="260" height="160" style="width:260px;height:160px"></canvas>';const cv=box.querySelector('canvas');if(cv){const V=S.veh[lk.kind];Draw.preview(cv,lk.kind,{skin:v,c1:V.c1,c2:V.c2,wh:V.wh})}};
-  const tick=()=>{if(!document.body.contains(box))return;n++;if(n>=steps){show(x.v);box.classList.add('popin');sh.querySelector('#cos-res').style.opacity=1;sh.querySelector('#cos-acts').style.opacity=1;Snd.win(lk.r===L.SKIN_R[3]||lk.r===L.STK_R[3]?4:2);Haptic.ok();return}show(L.pick(pool));Snd.tick();Haptic.tick();setTimeout(tick,50+n*n*2.2)};
-  tick();
-}
+const CosReel=(()=>{
+  const W=150,GAP=10,STEP=W+GAP,PAD=10;
+  let st=null;
+  function tileHTML(v,kind){
+    const d=kind==='sticker'?STICKERS[v]:SKINS[v];const R=(kind==='sticker'?L.STK_R:L.SKIN_R)[d.r];
+    return'<div class="ri" style="--mc:'+R.c+'">'+(kind==='sticker'?'<img src="'+Draw.stickerURL(v,128)+'" width="88" height="88" alt="">':'<canvas data-skin="'+esc(v)+'" style="width:128px;height:82px"></canvas>')+'</div>';
+  }
+  function open(kind){
+    const odds=(kind==='sticker'?L.stickerOdds():L.skinOdds());const tot=odds.reduce((s,o)=>s+o.p,0);
+    const rnd=()=>{let r=Math.random()*tot;for(const o of odds){r-=o.p;if(r<0)return o.v}return odds[odds.length-1].v};
+    const sh=Sheet.open({title:kind==='sticker'?'\u041a\u0435\u0439\u0441 \u0441 \u043d\u0430\u043a\u043b\u0435\u0439\u043a\u0430\u043c\u0438':'\u041a\u0435\u0439\u0441 \u0441\u043e \u0441\u043a\u0438\u043d\u0430\u043c\u0438',body:
+      '<div class="reel cos" id="cos-reel"><div class="strip"></div><div class="fade l"></div><div class="fade r"></div><div class="mark"></div></div>'+
+      '<div id="cos-res" style="opacity:0;transition:opacity .4s;display:grid;gap:8px;justify-items:center;text-align:center;padding:16px var(--g) 0;min-height:110px"></div>'+
+      '<div class="foot" id="cos-acts" style="opacity:0;transition:opacity .4s"></div>',
+      onClose:()=>{if(st&&st.sh===sh){st.dead=true;cancelAnimationFrame(st.raf);st=null}}});
+    const box=sh.querySelector('#cos-reel'),strip=box.querySelector('.strip');
+    const me={sh,box,strip,kind,rnd,n:0,x:0,v:0,phase:'spin',t0:0,x0:0,D:0,T:0,last:performance.now(),lastIdx:-1,lastTick:0,raf:0,dead:false,win:null,started:performance.now()};
+    st=me;
+    const fill=k=>{let h='';for(let i=0;i<k;i++)h+=tileHTML(rnd(),kind);strip.insertAdjacentHTML('beforeend',h);me.n+=k;if(kind!=='sticker')hydrateSkins(strip)};
+    me.fill=fill;fill(30);
+    const cw=()=>box.clientWidth||360;
+    me.idxAt=px=>Math.floor((px+cw()/2-PAD)/STEP);me.cw=cw;
+    me.x=PAD+4*STEP+W/2-cw()/2;
+    const loop=ts=>{
+      if(me.dead)return;me.raf=requestAnimationFrame(loop);
+      const dt=Math.min(.05,(ts-me.last)/1000);me.last=ts;
+      if(me.phase==='spin'){me.v=Math.min(2200,me.v+4400*dt);me.x+=me.v*dt;if(me.idxAt(me.x)+14>me.n)fill(20)}
+      else if(me.phase==='stop'){const t=Math.min(1,(ts-me.t0)/1000/me.T);me.x=me.x0+me.D*(1-Math.pow(1-t,3));if(t>=1){me.phase='done';strip.style.transform='translate3d('+(-me.x).toFixed(1)+'px,0,0)';reveal(me);return}}
+      strip.style.transform='translate3d('+(-me.x).toFixed(1)+'px,0,0)';
+      const i=me.idxAt(me.x);if(i!==me.lastIdx){me.lastIdx=i;if(ts-me.lastTick>45){me.lastTick=ts;Snd.tick();Haptic.tick()}}
+    };
+    me.raf=requestAnimationFrame(loop);
+    return{
+      abort(){if(st===me){me.dead=true;cancelAnimationFrame(me.raf);st=null;Sheet.close()}},
+      land(x){
+        if(me.dead)return;me.win=x;
+        // \u043a\u0440\u0443\u0442\u0438\u043c \u043d\u0435 \u043c\u0435\u043d\u044c\u0448\u0435 0,6 \u0441, \u043f\u043e\u0442\u043e\u043c \u043f\u043b\u0430\u0432\u043d\u043e \u0442\u043e\u0440\u043c\u043e\u0437\u0438\u043c \u0440\u043e\u0432\u043d\u043e \u043d\u0430 \u0432\u044b\u0438\u0433\u0440\u044b\u0448\u0435
+        const go=()=>{
+          if(me.dead)return;
+          const v=Math.max(600,me.v),T=3.6;let k=me.idxAt(me.x+v*T/3);if(k<me.idxAt(me.x)+10)k=me.idxAt(me.x)+10;
+          while(me.n<=k+4)me.fill(10);
+          const el=strip.children[k];if(el){el.outerHTML=tileHTML(x.v,kind);if(kind!=='sticker')hydrateSkins(strip)}
+          const target=PAD+k*STEP+W/2-cw()/2+(Math.random()-.5)*W*.6;
+          me.x0=me.x;me.D=target-me.x;me.T=Math.max(1.2,3*me.D/v);me.t0=performance.now();me.phase='stop';
+        };
+        const wait=Math.max(0,600-(performance.now()-me.started));setTimeout(go,wait);
+      }
+    };
+  }
+  function reveal(me){
+    const x=me.win,lk=invLook(x);if(st===me)st=null;
+    const res=me.sh.querySelector('#cos-res'),acts=me.sh.querySelector('#cos-acts');if(!res)return;
+    res.innerHTML='<span class="matb" style="--mc:'+lk.r.c+'">'+lk.r.n+'</span><div style="font:700 26px var(--f-ui)">'+esc(lk.n)+'</div><div class="muted">'+(lk.kind==='sticker'?'\u041d\u0430\u043a\u043b\u0435\u0439\u043a\u0430':lk.kind==='car'?'\u0421\u043a\u0438\u043d \u043c\u0430\u0448\u0438\u043d\u044b':'\u0421\u043a\u0438\u043d \u043f\u0438\u0442\u0431\u0430\u0439\u043a\u0430')+' \u00b7 \u0446\u0435\u043d\u043d\u043e\u0441\u0442\u044c '+fmt(lk.v)+'</div>';
+    acts.innerHTML=(lk.kind==='sticker'?'<button class="btn pri wide" data-act="garage" data-v="car">\u041d\u0430\u043a\u043b\u0435\u0438\u0442\u044c \u0432 \u0433\u0430\u0440\u0430\u0436\u0435</button>':'<button class="btn pri wide" data-act="equip" data-id="'+x.id+'">\u041f\u043e\u0441\u0442\u0430\u0432\u0438\u0442\u044c \u043d\u0430 '+(lk.kind==='car'?'\u043c\u0430\u0448\u0438\u043d\u0443':'\u043f\u0438\u0442\u0431\u0430\u0439\u043a')+'</button>')+'<button class="btn wide" data-act="sheetx">\u0413\u043e\u0442\u043e\u0432\u043e</button>';
+    res.style.opacity=1;acts.style.opacity=1;
+    const top=lk.r===L.SKIN_R[3]||lk.r===L.STK_R[3];Snd.win(top?4:2);Haptic.ok();
+  }
+  return{open,busy:()=>!!st};
+})();
 ACT.equip=el=>{const x=S.inv.find(i=>i.id===+el.dataset.id);if(!x)return;const v=x.v.startsWith('car')?'car':'bike';run('vset',{v,f:'skin',val:x.v},{quiet:true,ok:()=>{Sheet.close();toast('\u0421\u043a\u0438\u043d \u00ab'+SKINS[x.v].n+'\u00bb \u0443\u0441\u0442\u0430\u043d\u043e\u0432\u043b\u0435\u043d')}})};
 
 /* ================= \u0438\u043d\u0432\u0435\u043d\u0442\u0430\u0440\u044c: \u043d\u043e\u043c\u0435\u0440\u0430, \u0441\u043a\u0438\u043d\u044b, \u043d\u0430\u043a\u043b\u0435\u0439\u043a\u0438 ================= */
@@ -1306,7 +1372,7 @@ RENDER.games=()=>{
     secH('\u0420\u0435\u043a\u043e\u0440\u0434\u044b')+
     '<div class="grid2">'+[['rider','Rider','g-orange'],['stunt','\u0421\u0442\u0430\u043d\u0442','g-blue']].map(([id,n,g])=>'<div class="gc '+g+'" style="height:120px"><span class="k">'+n+'</span><span class="t num" style="font-size:28px;font-weight:800">'+fmtN(S.games[id].best)+'</span><span class="s">\u043b\u0443\u0447\u0448\u0438\u0439 \u0437\u0430\u0435\u0437\u0434</span></div>').join('')+'</div>'+
     secH('\u0421\u0432\u043e\u044f \u043c\u0443\u0437\u044b\u043a\u0430','music')+
-    '<div class="rows"><button class="row" data-act="music"><span class="ico" style="background:var(--pink)">'+ic('music')+'</span><div class="mid"><div class="tt">'+(Music.count()?Music.count()+' '+plural(Music.count(),'\u0442\u0440\u0435\u043a','\u0442\u0440\u0435\u043a\u0430','\u0442\u0440\u0435\u043a\u043e\u0432'):'\u0414\u043e\u0431\u0430\u0432\u0438\u0442\u044c \u0442\u0440\u0435\u043a\u0438')+'</div><div class="ss">\u0418\u0433\u0440\u0430\u0435\u0442 \u0432\u043e \u0432\u0440\u0435\u043c\u044f \u0437\u0430\u0435\u0437\u0434\u043e\u0432. \u0425\u0440\u0430\u043d\u0438\u0442\u0441\u044f \u0442\u043e\u043b\u044c\u043a\u043e \u043d\u0430 \u044d\u0442\u043e\u043c \u0443\u0441\u0442\u0440\u043e\u0439\u0441\u0442\u0432\u0435</div></div>'+ic('chev','chev')+'</button></div>';
+    '<div class="rows"><button class="row" data-act="music"><span class="ico" style="background:var(--pink)">'+ic('music')+'</span><div class="mid"><div class="tt">'+(Music.count()?Music.count()+' '+plural(Music.count(),'\u0442\u0440\u0435\u043a','\u0442\u0440\u0435\u043a\u0430','\u0442\u0440\u0435\u043a\u043e\u0432'):'\u0414\u043e\u0431\u0430\u0432\u0438\u0442\u044c \u0442\u0440\u0435\u043a\u0438')+'</div><div class="ss">\u0421\u0432\u043e\u0438 \u0442\u0440\u0435\u043a\u0438 \u0432 \u0437\u0430\u0435\u0437\u0434\u0430\u0445 \u0438 \u0432 \u043c\u0435\u043d\u044e. \u0414\u043e\u0431\u0430\u0432\u0438\u0442\u044c \u043c\u043e\u0436\u043d\u043e \u0447\u0435\u0440\u0435\u0437 \u0431\u043e\u0442\u0430</div></div>'+ic('chev','chev')+'</button></div>';
   hydrateAvas(el);
   requestAnimationFrame(()=>qsa('canvas[data-scene]',el).forEach(cv=>Draw.scene(cv,cv.dataset.scene)));
 };
@@ -1318,49 +1384,107 @@ ACT.play=el=>{
   Games.open(g);
 };
 
-/* ---------- \u0441\u0432\u043e\u044f \u043c\u0443\u0437\u044b\u043a\u0430: \u0442\u043e\u043b\u044c\u043a\u043e \u043d\u0430 \u0443\u0441\u0442\u0440\u043e\u0439\u0441\u0442\u0432\u0435 (IndexedDB) ---------- */
+/* ---------- \u0441\u0432\u043e\u044f \u043c\u0443\u0437\u044b\u043a\u0430: \u0444\u0430\u0439\u043b\u044b \u0445\u0440\u0430\u043d\u044f\u0442\u0441\u044f \u043d\u0430 \u0443\u0441\u0442\u0440\u043e\u0439\u0441\u0442\u0432\u0435 (IndexedDB); \u0442\u0440\u0435\u043a\u0438, \u043f\u0440\u0438\u0441\u043b\u0430\u043d\u043d\u044b\u0435 \u0431\u043e\u0442\u0443, \u0441\u043a\u0430\u0447\u0438\u0432\u0430\u044e\u0442\u0441\u044f \u0441\u044e\u0434\u0430 \u0436\u0435 ---------- */
 const Music=(()=>{
-  let db=null,list=[],audio=null,cur=-1,ready=null;
+  let db=null,list=[],audio=null,cur=-1,ready=null,wasPlaying=false,syncing=null;
+  const meta=x=>({id:x.id,name:x.name,size:x.size,srv:x.srv||0});
   function open(){
     if(ready)return ready;
-    ready=new Promise(res=>{try{const r=indexedDB.open('nomera_music',1);r.onupgradeneeded=()=>r.result.createObjectStore('t',{keyPath:'id'});r.onsuccess=()=>{db=r.result;const tx=db.transaction('t').objectStore('t').getAll();tx.onsuccess=()=>{list=(tx.result||[]).map(x=>({id:x.id,name:x.name,size:x.size}));res()};tx.onerror=()=>res()};r.onerror=()=>res()}catch(e){res()}});
+    ready=new Promise(res=>{try{const r=indexedDB.open('nomera_music',1);r.onupgradeneeded=()=>r.result.createObjectStore('t',{keyPath:'id'});r.onsuccess=()=>{db=r.result;const tx=db.transaction('t').objectStore('t').getAll();tx.onsuccess=()=>{list=(tx.result||[]).map(meta);res()};tx.onerror=()=>res()};r.onerror=()=>res()}catch(e){res()}});
     return ready;
   }
   open();
+  const put=rec=>new Promise((res,rej)=>{const tx=db.transaction('t','readwrite');tx.objectStore('t').put(rec);tx.oncomplete=res;tx.onerror=()=>rej(tx.error||new Error('\u041d\u0435 \u0443\u0434\u0430\u043b\u043e\u0441\u044c \u0441\u043e\u0445\u0440\u0430\u043d\u0438\u0442\u044c \u0442\u0440\u0435\u043a'))});
+  const drop=id=>new Promise(res=>{const tx=db.transaction('t','readwrite');tx.objectStore('t').delete(id);tx.oncomplete=res;tx.onerror=res});
   const on=()=>lsGet('nomera2_music')!=='0';
-  return{
-    count:()=>list.length,list:()=>list,on,
-    set(v){lsSet('nomera2_music',v?'1':'0');if(!v)this.stop()},
+  const menu=()=>lsGet('nomera22_music_menu')==='1';
+  const M={
+    count:()=>list.length,list:()=>list,on,menu,
+    set(v){lsSet('nomera2_music',v?'1':'0');if(!v)M.stop(true)},
+    setMenu(v){lsSet('nomera22_music_menu',v?'1':'0');if(v&&on())M.play();else if(!v)M.stop(true)},
     async add(files){
       await open();if(!db)throw new Error('\u0411\u0440\u0430\u0443\u0437\u0435\u0440 \u043d\u0435 \u0434\u0430\u0451\u0442 \u0441\u043e\u0445\u0440\u0430\u043d\u0438\u0442\u044c \u0444\u0430\u0439\u043b\u044b');
-      for(const f of files){if(!/^audio\//.test(f.type)&&!/\.(mp3|m4a|aac|ogg|wav|flac)$/i.test(f.name))continue;if(f.size>40e6){toast('\u00ab'+f.name+'\u00bb \u0431\u043e\u043b\u044c\u0448\u0435 40 \u041c\u0411','err');continue}
-        const id='m'+Date.now().toString(36)+Math.random().toString(36).slice(2,6);
-        await new Promise((res,rej)=>{const tx=db.transaction('t','readwrite');tx.objectStore('t').put({id,name:f.name.replace(/\.[^.]+$/,''),size:f.size,blob:f});tx.oncomplete=res;tx.onerror=()=>rej(tx.error)});
-        list.push({id,name:f.name.replace(/\.[^.]+$/,''),size:f.size});
+      let n=0;
+      for(const f of files){if(!/^audio\//.test(f.type)&&!/\.(mp3|m4a|aac|wav)$/i.test(f.name)){toast('\u00ab'+f.name+'\u00bb \u2014 \u043d\u0435 \u0430\u0443\u0434\u0438\u043e\u0444\u0430\u0439\u043b','err');continue}if(f.size>40e6){toast('\u00ab'+f.name+'\u00bb \u0431\u043e\u043b\u044c\u0448\u0435 40 \u041c\u0411','err');continue}
+        const id='m'+Date.now().toString(36)+Math.random().toString(36).slice(2,6);const name=f.name.replace(/\.[^.]+$/,'');
+        await put({id,name,size:f.size,blob:f});list.push({id,name,size:f.size,srv:0});n++;
       }
+      return n;
     },
-    async del(id){await open();if(!db)return;await new Promise(res=>{const tx=db.transaction('t','readwrite');tx.objectStore('t').delete(id);tx.oncomplete=res;tx.onerror=res});list=list.filter(x=>x.id!==id)},
+    // \u0421\u043a\u0430\u0447\u0438\u0432\u0430\u0435\u0442 \u0442\u0440\u0435\u043a\u0438, \u043f\u0440\u0438\u0441\u043b\u0430\u043d\u043d\u044b\u0435 \u0431\u043e\u0442\u0443. \u041a\u0430\u0436\u0434\u044b\u0439 \u0442\u0440\u0435\u043a \u0441\u043a\u0430\u0447\u0438\u0432\u0430\u0435\u0442\u0441\u044f \u043e\u0434\u0438\u043d \u0440\u0430\u0437, \u0434\u0430\u043b\u044c\u0448\u0435 \u0438\u0433\u0440\u0430\u0435\u0442 \u0441 \u0443\u0441\u0442\u0440\u043e\u0439\u0441\u0442\u0432\u0430.
+    sync(onStep){
+      if(syncing)return syncing;
+      syncing=(async()=>{
+        await open();if(!db||Net.status!=='on')return{added:0};
+        const r=await act('musicList',{});const srv=(r&&r.list)||[];let added=0;
+        const ids=new Set(srv.map(t=>t.id));
+        for(const x of list.slice())if(x.srv&&!ids.has(x.srv)){await drop(x.id);list=list.filter(y=>y.id!==x.id)}
+        for(const t of srv){
+          if(list.some(x=>x.srv===t.id))continue;
+          if(onStep)onStep(t);
+          const blob=await callBlob('musicFile',{id:t.id});
+          const id='b'+t.id;await put({id,name:t.title,size:blob.size,blob,srv:t.id});list.push({id,name:t.title,size:blob.size,srv:t.id});added++;
+        }
+        return{added,bot:r&&r.bot||''};
+      })();
+      syncing.finally(()=>{syncing=null}).catch(()=>{});
+      return syncing;
+    },
+    async del(id){
+      await open();if(!db)return;const x=list.find(t=>t.id===id);if(!x)return;
+      if(x.srv)await act('musicDel',{id:x.srv});
+      await drop(id);list=list.filter(t=>t.id!==id);
+      if(audio&&cur>=0&&!list[cur])M.stop(true);
+    },
+    // \u0412 \u0438\u0433\u0440\u0430\u0445 \u0442\u0440\u0435\u043a \u043f\u0435\u0440\u0435\u043a\u043b\u044e\u0447\u0430\u0435\u0442\u0441\u044f \u043f\u0440\u0438 \u0441\u0442\u0430\u0440\u0442\u0435 \u0437\u0430\u0435\u0437\u0434\u0430; \u0432 \u0440\u0435\u0436\u0438\u043c\u0435 \u00ab\u0438 \u0432 \u043c\u0435\u043d\u044e\u00bb \u043c\u0443\u0437\u044b\u043a\u0430 \u0438\u0433\u0440\u0430\u0435\u0442 \u043d\u0435\u043f\u0440\u0435\u0440\u044b\u0432\u043d\u043e
     async play(){
-      if(!on()||!list.length)return;await open();if(!db)return;
+      if(!on()||!list.length)return;if(menu()&&audio)return;await open();if(!db||!list.length)return;
       cur=(cur+1)%list.length;const id=list[cur].id;
       const rec=await new Promise(res=>{const tx=db.transaction('t').objectStore('t').get(id);tx.onsuccess=()=>res(tx.result);tx.onerror=()=>res(null)});
-      if(!rec)return;this.stop();audio=new Audio(URL.createObjectURL(rec.blob));audio.volume=.7;audio.onended=()=>this.play();audio.play().catch(()=>{});
+      if(!rec||!rec.blob)return;M.stop(true);audio=new Audio(URL.createObjectURL(rec.blob));audio.volume=.7;audio.onended=()=>{M.stop(true);M.play()};audio.play().catch(()=>{});
     },
-    stop(){if(audio){try{audio.pause();URL.revokeObjectURL(audio.src)}catch(e){}audio=null}},
-    playing:()=>!!audio
+    stop(force){if(menu()&&!force&&on())return;if(audio){try{audio.pause();URL.revokeObjectURL(audio.src)}catch(e){}audio=null}},
+    playing:()=>!!audio,
+    pause(){if(audio&&!audio.paused){wasPlaying=true;audio.pause()}},
+    resume(){if(audio&&wasPlaying){wasPlaying=false;audio.play().catch(()=>{})}}
   };
+  // \u0440\u0435\u0436\u0438\u043c \u00ab\u0438 \u0432 \u043c\u0435\u043d\u044e\u00bb: \u0431\u0440\u0430\u0443\u0437\u0435\u0440 \u0440\u0430\u0437\u0440\u0435\u0448\u0430\u0435\u0442 \u0437\u0432\u0443\u043a \u0442\u043e\u043b\u044c\u043a\u043e \u043f\u043e\u0441\u043b\u0435 \u043a\u0430\u0441\u0430\u043d\u0438\u044f, \u043f\u043e\u044d\u0442\u043e\u043c\u0443 \u0441\u0442\u0430\u0440\u0442\u0443\u0435\u043c \u0441 \u043f\u0435\u0440\u0432\u043e\u0433\u043e \u043a\u0430\u0441\u0430\u043d\u0438\u044f
+  document.addEventListener('pointerdown',()=>{if(menu()&&on()&&!audio&&list.length)M.play()},{passive:true});
+  document.addEventListener('visibilitychange',()=>{if(document.hidden)M.pause();else M.resume()});
+  return M;
 })();
-ACT.music=()=>Page.push('music','\u0421\u0432\u043e\u044f \u043c\u0443\u0437\u044b\u043a\u0430',renderMusic);
+ACT.music=()=>{Page.push('music','\u0421\u0432\u043e\u044f \u043c\u0443\u0437\u044b\u043a\u0430',renderMusic);musicSync(true)};
+let musicSt={busy:false,step:'',err:''};
+async function musicSync(quiet){
+  if(musicSt.busy||Net.status!=='on')return;musicSt={busy:true,step:'',err:''};Page.renderTop();
+  try{const r=await Music.sync(t=>{musicSt.step='\u0421\u043a\u0430\u0447\u0438\u0432\u0430\u044e \u00ab'+t.title+'\u00bb\u2026';const e=$('mu-step');if(e)e.textContent=musicSt.step});if(r.added)toast(r.added+' '+plural(r.added,'\u0442\u0440\u0435\u043a','\u0442\u0440\u0435\u043a\u0430','\u0442\u0440\u0435\u043a\u043e\u0432')+' \u0438\u0437 \u0431\u043e\u0442\u0430 \u0434\u043e\u0431\u0430\u0432\u043b\u0435\u043d\u043e');else if(!quiet)toast('\u041d\u043e\u0432\u044b\u0445 \u0442\u0440\u0435\u043a\u043e\u0432 \u0432 \u0431\u043e\u0442\u0435 \u043d\u0435\u0442')}
+  catch(e){musicSt.err=e.message||'\u041d\u0435 \u0443\u0434\u0430\u043b\u043e\u0441\u044c \u0441\u043a\u0430\u0447\u0430\u0442\u044c \u0442\u0440\u0435\u043a\u0438';if(!quiet)toast(musicSt.err,'err')}
+  musicSt.busy=false;musicSt.step='';Page.renderTop();
+}
 function renderMusic(el){
-  const l=Music.list();
-  el.innerHTML='<p class="lead">\u0422\u0440\u0435\u043a\u0438 \u0438\u0433\u0440\u0430\u044e\u0442 \u043f\u043e \u043a\u0440\u0443\u0433\u0443 \u0432\u043e \u0432\u0440\u0435\u043c\u044f Rider \u0438 \u0421\u0442\u0430\u043d\u0442\u0430. \u0424\u0430\u0439\u043b\u044b \u043e\u0441\u0442\u0430\u044e\u0442\u0441\u044f \u0442\u043e\u043b\u044c\u043a\u043e \u043d\u0430 \u044d\u0442\u043e\u043c \u0443\u0441\u0442\u0440\u043e\u0439\u0441\u0442\u0432\u0435, \u043d\u0430 \u0441\u0435\u0440\u0432\u0435\u0440 \u043d\u0438\u0447\u0435\u0433\u043e \u043d\u0435 \u0437\u0430\u0433\u0440\u0443\u0436\u0430\u0435\u0442\u0441\u044f.</p>'+
-    '<div class="group"><div class="li noic"><span class="lt">\u041c\u0443\u0437\u044b\u043a\u0430 \u0432 \u0438\u0433\u0440\u0430\u0445</span><button class="pill" data-act="musicOn">'+(Music.on()?'\u0412\u043a\u043b\u044e\u0447\u0435\u043d\u0430':'\u0412\u044b\u043a\u043b\u044e\u0447\u0435\u043d\u0430')+'</button></div></div>'+
-    '<div class="sec">\u0422\u0440\u0435\u043a\u0438</div>'+(l.length?'<div class="group">'+l.map(t=>'<div class="li"><span class="lic" style="background:var(--pink)">'+ic('music')+'</span><span class="lt" style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+esc(t.name)+'</span><span class="lv num">'+(t.size/1e6).toFixed(1).replace('.',',')+' \u041c\u0411</span><button class="iconbtn" data-act="musicDel" data-id="'+t.id+'" aria-label="\u0423\u0434\u0430\u043b\u0438\u0442\u044c">'+ic('trash')+'</button></div>').join('')+'</div>':'<div class="empty">\u041f\u043e\u043a\u0430 \u043f\u0443\u0441\u0442\u043e</div>')+
-    '<div class="foot" style="padding-inline:var(--g)"><label class="btn pri wide" style="cursor:pointer">'+ic('plus')+'\u0414\u043e\u0431\u0430\u0432\u0438\u0442\u044c \u0442\u0440\u0435\u043a\u0438<input type="file" accept="audio/*" multiple hidden data-on="musicFile"></label></div>';
+  const l=Music.list();const bot=Net.cfg.bot||'';
+  el.innerHTML='<p class="lead">\u0421\u0432\u043e\u0438 \u0442\u0440\u0435\u043a\u0438 \u0438\u0433\u0440\u0430\u044e\u0442 \u043f\u043e \u043a\u0440\u0443\u0433\u0443 \u0432\u043e \u0432\u0440\u0435\u043c\u044f \u0437\u0430\u0435\u0437\u0434\u043e\u0432, \u0430 \u0435\u0441\u043b\u0438 \u0432\u043a\u043b\u044e\u0447\u0438\u0442\u044c \u2014 \u0438 \u0432 \u043c\u0435\u043d\u044e. \u0424\u0430\u0439\u043b\u044b \u0445\u0440\u0430\u043d\u044f\u0442\u0441\u044f \u043d\u0430 \u044d\u0442\u043e\u043c \u0443\u0441\u0442\u0440\u043e\u0439\u0441\u0442\u0432\u0435.</p>'+
+    '<div class="group">'+
+      '<div class="li noic"><span class="lt">\u041c\u0443\u0437\u044b\u043a\u0430</span><button class="pill" data-act="musicOn">'+(Music.on()?'\u0412\u043a\u043b\u044e\u0447\u0435\u043d\u0430':'\u0412\u044b\u043a\u043b\u044e\u0447\u0435\u043d\u0430')+'</button></div>'+
+      '<div class="li noic"><span class="lt">\u0413\u0434\u0435 \u0438\u0433\u0440\u0430\u0435\u0442</span><button class="pill" data-act="musicMenu">'+(Music.menu()?'\u0412\u0435\u0437\u0434\u0435, \u0438 \u0432 \u043c\u0435\u043d\u044e':'\u0422\u043e\u043b\u044c\u043a\u043e \u0432 \u0437\u0430\u0435\u0437\u0434\u0430\u0445')+'</button></div>'+
+    '</div>'+
+    '<div class="sec">\u0414\u043e\u0431\u0430\u0432\u0438\u0442\u044c \u0447\u0435\u0440\u0435\u0437 \u0431\u043e\u0442\u0430</div>'+
+    '<div class="card p" style="margin:0 var(--g);display:grid;gap:10px"><div style="font:600 16px var(--f-ui)">\u0421\u0430\u043c\u044b\u0439 \u043d\u0430\u0434\u0451\u0436\u043d\u044b\u0439 \u0441\u043f\u043e\u0441\u043e\u0431 \u2014 \u0438 \u043d\u0430 iPhone, \u0438 \u043d\u0430 Android</div>'+
+      '<div class="muted" style="font-size:14px;line-height:1.4">1. \u041e\u0442\u043a\u0440\u043e\u0439\u0442\u0435 \u0447\u0430\u0442 \u0441 \u0431\u043e\u0442\u043e\u043c.<br>2. \u041d\u0430\u0436\u043c\u0438\u0442\u0435 \u0441\u043a\u0440\u0435\u043f\u043a\u0443 \u2192 \u00ab\u0424\u0430\u0439\u043b\u00bb \u0438 \u0432\u044b\u0431\u0435\u0440\u0438\u0442\u0435 \u0442\u0440\u0435\u043a: mp3 \u0438\u043b\u0438 m4a, \u0434\u043e 20 \u041c\u0411. \u041c\u043e\u0436\u043d\u043e \u043f\u0440\u044f\u043c\u043e \u0438\u0437 iCloud Drive, Google \u0414\u0438\u0441\u043a\u0430 \u0438\u043b\u0438 \u00ab\u0417\u0430\u0433\u0440\u0443\u0437\u043e\u043a\u00bb.<br>3. \u0412\u0435\u0440\u043d\u0438\u0442\u0435\u0441\u044c \u0441\u044e\u0434\u0430 \u2014 \u0442\u0440\u0435\u043a \u0441\u043a\u0430\u0447\u0430\u0435\u0442\u0441\u044f \u0441\u0430\u043c.</div>'+
+      '<div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn pri" data-act="musicBot"'+(bot?'':' disabled')+'>'+ic('chat')+'\u041e\u0442\u043a\u0440\u044b\u0442\u044c \u0447\u0430\u0442 \u0441 \u0431\u043e\u0442\u043e\u043c</button><button class="btn'+(musicSt.busy?' busy':'')+'" data-act="musicSync">\u041f\u0440\u043e\u0432\u0435\u0440\u0438\u0442\u044c \u043d\u043e\u0432\u044b\u0435</button></div>'+
+      (musicSt.busy?'<div class="muted" id="mu-step" style="font-size:13px">'+esc(musicSt.step||'\u041f\u0440\u043e\u0432\u0435\u0440\u044f\u044e\u2026')+'</div>':musicSt.err?'<div style="font-size:13px;color:var(--red)">'+esc(musicSt.err)+'</div>':'')+
+    '</div>'+
+    '<div class="sec">\u0422\u0440\u0435\u043a\u0438 <small>'+l.length+'</small></div>'+(l.length?'<div class="group">'+l.map(t=>'<div class="li"><span class="lic" style="background:'+(t.srv?'var(--blue)':'var(--pink)')+'">'+ic(t.srv?'chat':'music')+'</span><span class="lt" style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+esc(t.name)+'</span><span class="lv num">'+(t.size/1e6).toFixed(1).replace('.',',')+' \u041c\u0411</span><button class="iconbtn" data-act="musicDel" data-id="'+esc(t.id)+'" aria-label="\u0423\u0434\u0430\u043b\u0438\u0442\u044c">'+ic('trash')+'</button></div>').join('')+'</div>':'<div class="empty">\u041f\u043e\u043a\u0430 \u043f\u0443\u0441\u0442\u043e</div>')+
+    '<div class="sec">\u0418\u043b\u0438 \u0444\u0430\u0439\u043b\u043e\u043c \u0441 \u0443\u0441\u0442\u0440\u043e\u0439\u0441\u0442\u0432\u0430</div>'+
+    '<div class="pad"><label class="btn wide" style="cursor:pointer">'+ic('plus')+'\u0412\u044b\u0431\u0440\u0430\u0442\u044c \u0444\u0430\u0439\u043b\u044b<input type="file" accept=".mp3,.m4a,.aac,.wav,audio/mpeg,audio/mp4,audio/x-m4a,audio/aac,audio/wav" multiple hidden data-on="musicFile"></label></div>'+
+    '<p class="note">\u041d\u0430 iPhone \u0432 \u043e\u043a\u043d\u0435 \u0432\u044b\u0431\u043e\u0440\u0430 \u043d\u0430\u0436\u043c\u0438\u0442\u0435 \u00ab\u041e\u0431\u0437\u043e\u0440\u00bb (\u0438\u043b\u0438 \u00ab\u0412\u044b\u0431\u0440\u0430\u0442\u044c \u0444\u0430\u0439\u043b\u00bb), \u0447\u0442\u043e\u0431\u044b \u043e\u0442\u043a\u0440\u044b\u0442\u044c iCloud Drive. \u0415\u0441\u043b\u0438 \u0444\u0430\u0439\u043b \u043d\u0435 \u0432\u044b\u0431\u0438\u0440\u0430\u0435\u0442\u0441\u044f, \u043e\u0442\u043f\u0440\u0430\u0432\u044c\u0442\u0435 \u0435\u0433\u043e \u0431\u043e\u0442\u0443 \u2014 \u044d\u0442\u043e \u0440\u0430\u0431\u043e\u0442\u0430\u0435\u0442 \u0432\u0441\u0435\u0433\u0434\u0430.</p>';
 }
 ACT.musicOn=()=>{Music.set(!Music.on());Page.renderTop()};
-ACT.musicDel=async el=>{await Music.del(el.dataset.id);Page.renderTop()};
-ON.musicFileChange=async el=>{try{await Music.add([...el.files]);toast('\u0422\u0440\u0435\u043a\u0438 \u0434\u043e\u0431\u0430\u0432\u043b\u0435\u043d\u044b')}catch(e){toast(e.message,'err')}Page.renderTop()};
+ACT.musicMenu=()=>{Music.setMenu(!Music.menu());toast(Music.menu()?'\u041c\u0443\u0437\u044b\u043a\u0430 \u0438\u0433\u0440\u0430\u0435\u0442 \u0438 \u0432 \u043c\u0435\u043d\u044e':'\u041c\u0443\u0437\u044b\u043a\u0430 \u0438\u0433\u0440\u0430\u0435\u0442 \u0442\u043e\u043b\u044c\u043a\u043e \u0432 \u0437\u0430\u0435\u0437\u0434\u0430\u0445');Page.renderTop()};
+ACT.musicBot=()=>{const bot=Net.cfg.bot||'';if(!bot){toast('\u0411\u043e\u0442 \u0435\u0449\u0451 \u043d\u0435 \u043f\u043e\u0434\u043a\u043b\u044e\u0447\u0451\u043d','err');return}openLink('https://t.me/'+bot)};
+ACT.musicSync=()=>musicSync(false);
+ACT.musicDel=async el=>{try{await Music.del(el.dataset.id)}catch(e){toast(e.message,'err')}Page.renderTop()};
+ON.musicFileChange=async el=>{try{const n=await Music.add([...el.files]);if(n)toast(n+' '+plural(n,'\u0442\u0440\u0435\u043a \u0434\u043e\u0431\u0430\u0432\u043b\u0435\u043d','\u0442\u0440\u0435\u043a\u0430 \u0434\u043e\u0431\u0430\u0432\u043b\u0435\u043d\u043e','\u0442\u0440\u0435\u043a\u043e\u0432 \u0434\u043e\u0431\u0430\u0432\u043b\u0435\u043d\u043e'))}catch(e){toast(e.message,'err')}el.value='';Page.renderTop()};
 
 /* ================= \u0432\u043a\u043b\u0430\u0434\u043a\u0430 \u00ab\u0412\u043b\u043e\u0436\u0435\u043d\u0438\u044f\u00bb ================= */
 const INV_FEAT=[
@@ -1594,33 +1718,48 @@ ACT.upGo=async el=>{
 };
 
 /* ---------- \u043a\u043b\u0438\u043a\u0435\u0440 ---------- */
+// 2.2: \u0441\u0435\u0441\u0441\u0438\u044f \u0438\u0434\u0451\u0442 \u043d\u0430 \u043e\u0442\u0434\u0435\u043b\u044c\u043d\u043e\u043c \u043f\u043e\u043b\u043d\u043e\u044d\u043a\u0440\u0430\u043d\u043d\u043e\u043c \u0441\u043b\u043e\u0435 \u2014 \u0431\u0435\u0437 \u043f\u0440\u043e\u043a\u0440\u0443\u0442\u043a\u0438, \u0432\u044b\u0434\u0435\u043b\u0435\u043d\u0438\u044f, \u043c\u0435\u043d\u044e \u0434\u043e\u043b\u0433\u043e\u0433\u043e \u043d\u0430\u0436\u0430\u0442\u0438\u044f,
+// \u043c\u0430\u0441\u0448\u0442\u0430\u0431\u0438\u0440\u043e\u0432\u0430\u043d\u0438\u044f \u0434\u0432\u0443\u043c\u044f \u043f\u0430\u043b\u044c\u0446\u0430\u043c\u0438 \u0438 \u0441\u0432\u0430\u0439\u043f\u043e\u0432 Telegram. \u041a\u0430\u0436\u0434\u044b\u0439 \u043f\u0430\u043b\u0435\u0446 \u2014 \u043e\u0442\u0434\u0435\u043b\u044c\u043d\u043e\u0435 \u043d\u0430\u0436\u0430\u0442\u0438\u0435.
 let clk=null;
-OPEN.clicker=()=>Page.push('clicker','\u041a\u043b\u0438\u043a\u0435\u0440',renderClicker,{onClose:()=>{if(clk&&clk.on)toast('\u0421\u0435\u0441\u0441\u0438\u044f \u043a\u043b\u0438\u043a\u0435\u0440\u0430 \u043f\u0440\u043e\u0434\u043e\u043b\u0436\u0430\u0435\u0442\u0441\u044f, \u0432\u0435\u0440\u043d\u0438\u0442\u0435\u0441\u044c, \u0447\u0442\u043e\u0431\u044b \u0437\u0430\u0431\u0440\u0430\u0442\u044c \u043d\u0430\u0433\u0440\u0430\u0434\u0443')}});
+OPEN.clicker=()=>Page.push('clicker','\u041a\u043b\u0438\u043a\u0435\u0440',renderClicker);
 function renderClicker(el){
-  if(clk&&clk.on){
-    el.innerHTML='<p class="lead">\u0416\u043c\u0438\u0442\u0435 \u043d\u0430 \u043a\u043d\u043e\u043f\u043a\u0443. \u0417\u0430\u0441\u0447\u0438\u0442\u044b\u0432\u0430\u0435\u0442\u0441\u044f \u0434\u043e '+L.CLICK.cps+' \u043d\u0430\u0436\u0430\u0442\u0438\u0439 \u0432 \u0441\u0435\u043a\u0443\u043d\u0434\u0443, \u043a\u0430\u0436\u0434\u043e\u0435 \u2014 '+fmt(L.CLICK.pay)+'.</p><div style="display:grid;justify-items:center;gap:14px;padding:10px 0"><div style="font:800 64px/1 var(--f-ui)" class="num" id="clk-n">'+clk.n+'</div><div class="muted num" id="clk-t">'+Math.ceil(clk.left)+' \u0441</div><button id="clk-btn" style="width:220px;height:220px;border-radius:50%;background:linear-gradient(180deg,#ffd426,#f0a800);box-shadow:0 14px 40px rgba(240,168,0,.45),inset 0 2px 0 rgba(255,255,255,.5);color:#3a2600;font:800 28px var(--f-ui);touch-action:manipulation">\u0416\u041c\u0418</button><div class="muted num" id="clk-m">'+fmt(clk.n*L.CLICK.pay)+'</div></div>';
-    const b=$('clk-btn');b.addEventListener('pointerdown',e=>{e.preventDefault();clickTap()});
-    return;
-  }
   const max=L.CLICK.sec*L.CLICK.cps*L.CLICK.pay;
-  el.innerHTML='<p class="lead">\u041e\u0434\u043d\u0430 \u043c\u0438\u043d\u0443\u0442\u0430 \u043a\u043b\u0438\u043a\u043e\u0432 \u0441\u0442\u043e\u0438\u0442 '+keyN(L.CLICK.keys)+' ('+fmt(L.CLICK.keys*L.KEY_COINS)+'). \u0414\u043e '+L.CLICK.cps+' \u043d\u0430\u0436\u0430\u0442\u0438\u0439 \u0432 \u0441\u0435\u043a\u0443\u043d\u0434\u0443, \u043a\u0430\u0436\u0434\u043e\u0435 \u043f\u0440\u0438\u043d\u043e\u0441\u0438\u0442 '+fmt(L.CLICK.pay)+'. \u041c\u0430\u043a\u0441\u0438\u043c\u0443\u043c \u0437\u0430 \u0441\u0435\u0441\u0441\u0438\u044e \u2014 '+fmt(max)+'.</p>'+
+  el.innerHTML='<p class="lead">\u041e\u0434\u043d\u0430 \u043c\u0438\u043d\u0443\u0442\u0430 \u043a\u043b\u0438\u043a\u043e\u0432 \u0441\u0442\u043e\u0438\u0442 '+keyN(L.CLICK.keys)+' ('+fmt(L.CLICK.keys*L.KEY_COINS)+'). \u0414\u043e '+L.CLICK.cps+' \u043d\u0430\u0436\u0430\u0442\u0438\u0439 \u0432 \u0441\u0435\u043a\u0443\u043d\u0434\u0443, \u043a\u0430\u0436\u0434\u043e\u0435 \u043f\u0440\u0438\u043d\u043e\u0441\u0438\u0442 '+fmt(L.CLICK.pay)+'. \u041c\u0430\u043a\u0441\u0438\u043c\u0443\u043c \u0437\u0430 \u0441\u0435\u0441\u0441\u0438\u044e \u2014 '+fmt(max)+'. \u041c\u043e\u0436\u043d\u043e \u0436\u0430\u0442\u044c \u043d\u0435\u0441\u043a\u043e\u043b\u044c\u043a\u0438\u043c\u0438 \u043f\u0430\u043b\u044c\u0446\u0430\u043c\u0438.</p>'+
     '<div class="gc g-yellow" style="margin:0 var(--g);height:200px"><span class="art" style="right:14px;top:14px;width:90px;height:90px;color:rgba(255,255,255,.55)">'+ic('tap')+'</span><span class="k">\u0423 \u0432\u0430\u0441 '+keyN(S.keys)+'</span><span class="t" style="font-size:24px">\u041a\u043b\u0438\u043a\u0435\u0440</span><span class="s">60 \u0441\u0435\u043a\u0443\u043d\u0434, \u0447\u0442\u043e\u0431\u044b \u043d\u0430\u0431\u0440\u0430\u0442\u044c \u043a\u0430\u043a \u043c\u043e\u0436\u043d\u043e \u0431\u043e\u043b\u044c\u0448\u0435</span><span class="act"><button class="pill on-card" data-act="clickStart">'+ic('key')+'\u041d\u0430\u0447\u0430\u0442\u044c \u0437\u0430 '+keyN(L.CLICK.keys)+'</button></span></div>';
 }
 ACT.clickStart=async el=>{
+  if(clk)return;
   if(S.keys<L.CLICK.keys){toast('\u041d\u0443\u0436\u043d\u043e '+keyN(L.CLICK.keys)+'. \u041a\u043b\u044e\u0447\u0438 \u0434\u0430\u044e\u0442 \u043c\u0438\u043d\u0438-\u0438\u0433\u0440\u044b, \u0437\u0430\u0434\u0430\u043d\u0438\u044f, \u043e\u0433\u043e\u043d\u0451\u043a \u0438 \u0434\u043e\u043d\u0430\u0442','err');return}
   const r=await run('clickStart',{},{btn:el,quiet:true});if(!r)return;
-  clk={id:r.click,n:0,t0:performance.now(),left:L.CLICK.sec,on:true,stamps:[]};Page.renderTop();
-  const tick=()=>{if(!clk||!clk.on)return;clk.left=L.CLICK.sec-(performance.now()-clk.t0)/1000;const t=$('clk-t');if(t)t.textContent=Math.max(0,Math.ceil(clk.left))+' \u0441';if(clk.left<=0){clickEnd();return}requestAnimationFrame(tick)};requestAnimationFrame(tick);
+  clk={id:r.click,n:0,t0:performance.now(),left:L.CLICK.sec,on:true,stamps:[],tm:0};
+  clickOverlay();
+  const tick=()=>{if(!clk||!clk.on)return;clk.left=L.CLICK.sec-(performance.now()-clk.t0)/1000;const t=$('clk-t');if(t)t.textContent=Math.max(0,Math.ceil(clk.left))+' \u0441';if(clk.left<=0)clickEnd()};
+  clk.tm=setInterval(tick,200);
 };
+const clkBlock=e=>{if(e.cancelable)e.preventDefault()};
+function clickOverlay(){
+  const ov=document.createElement('div');ov.id='clk-ov';ov.className='clk-ov';
+  ov.innerHTML='<div class="clk-top"><div><div class="num" id="clk-n">0</div><div class="clk-sub num" id="clk-m">'+fmt(0)+'</div></div><div class="clk-time num" id="clk-t">'+L.CLICK.sec+' \u0441</div></div>'+
+    '<div class="clk-zone" id="clk-zone"><div class="clk-btn" id="clk-btn">\u0416\u041c\u0418</div><div class="clk-hint">\u0416\u043c\u0438\u0442\u0435 \u0432 \u043b\u044e\u0431\u043e\u043c \u043c\u0435\u0441\u0442\u0435 \u044d\u0442\u043e\u0439 \u0437\u043e\u043d\u044b, \u043c\u043e\u0436\u043d\u043e \u0434\u0432\u0443\u043c\u044f \u0440\u0443\u043a\u0430\u043c\u0438</div></div>';
+  document.body.appendChild(ov);document.body.classList.add('clk-on');
+  ['touchstart','touchmove','touchend','gesturestart','gesturechange','gestureend','contextmenu','selectstart','dblclick'].forEach(t=>ov.addEventListener(t,clkBlock,{passive:false}));
+  $('clk-zone').addEventListener('pointerdown',e=>{if(e.cancelable)e.preventDefault();clickTap()},{passive:false});
+  try{if(TG){if(TG.disableVerticalSwipes)TG.disableVerticalSwipes();if(TG.enableClosingConfirmation)TG.enableClosingConfirmation()}}catch(e){}
+}
+function clickOverlayOff(){
+  const ov=$('clk-ov');if(ov)ov.remove();document.body.classList.remove('clk-on');
+  try{if(TG&&TG.disableClosingConfirmation)TG.disableClosingConfirmation()}catch(e){}
+}
 function clickTap(){
   if(!clk||!clk.on)return;const t=performance.now();clk.stamps=clk.stamps.filter(x=>t-x<1000);
   if(clk.stamps.length>=L.CLICK.cps)return;clk.stamps.push(t);clk.n++;
   const n=$('clk-n'),m=$('clk-m'),b=$('clk-btn');if(n)n.textContent=clk.n;if(m)m.textContent=fmt(clk.n*L.CLICK.pay);
-  if(b){b.style.transform='scale(.94)';setTimeout(()=>b.style.transform='',70)}
+  if(b){b.classList.remove('hit');void b.offsetWidth;b.classList.add('hit')}
   Haptic.tick();if(clk.n%5===0)Snd.tick();
 }
 async function clickEnd(){
-  if(!clk)return;clk.on=false;const c=clk;
+  if(!clk||!clk.on)return;clk.on=false;clearInterval(clk.tm);const c=clk;
+  clickOverlayOff();
   try{const r=await act('clickEnd',{id:c.id,n:c.n});toast(r.msg);Snd.coin()}catch(e){toast(e.message,e.pending?'':'err')}
   clk=null;render();
 }
@@ -1820,7 +1959,7 @@ RENDER.account=()=>{
       '<button class="li" data-act="history"><span class="lic" style="background:var(--stars)">'+ic('star')+'</span><span class="lt">\u041c\u043e\u0438 \u043f\u043e\u043a\u0443\u043f\u043a\u0438</span>'+ic('chev','chev')+'</button>'+
       (Net.me.role?'<button class="li" data-act="admin"><span class="lic" style="background:var(--red)">'+ic('shield')+'</span><span class="lt">\u0410\u0434\u043c\u0438\u043d-\u043f\u0430\u043d\u0435\u043b\u044c</span>'+(Net.me.role==='owner'&&!Net.me.elev?'<span class="lv">'+ic('lock')+'</span>':'')+ic('chev','chev')+'</button>':'')+
     '</div>'+
-    '<div class="pad" style="margin-top:22px;text-align:center">'+(Net.me.role==='admin'?'':'<button class="muted" data-act="ownerLogin" style="font-size:13px">'+(Net.me.role==='owner'?'\u0421\u0435\u0441\u0441\u0438\u044f \u0432\u043b\u0430\u0434\u0435\u043b\u044c\u0446\u0430':'\u0412\u0445\u043e\u0434 \u0434\u043b\u044f \u0432\u043b\u0430\u0434\u0435\u043b\u044c\u0446\u0430')+'</button>')+'<div class="muted" style="font-size:12px;margin-top:6px">\u0412\u044b\u0431\u0438\u0432\u0430\u043d\u0438\u0435 \u043d\u043e\u043c\u0435\u0440\u043e\u0432 2.1</div></div>';
+    '<div class="pad" style="margin-top:22px;text-align:center">'+(Net.me.role==='admin'?'':'<button class="muted" data-act="ownerLogin" style="font-size:13px">'+(Net.me.role==='owner'?'\u0421\u0435\u0441\u0441\u0438\u044f \u0432\u043b\u0430\u0434\u0435\u043b\u044c\u0446\u0430':'\u0412\u0445\u043e\u0434 \u0434\u043b\u044f \u0432\u043b\u0430\u0434\u0435\u043b\u044c\u0446\u0430')+'</button>')+'<div class="muted" style="font-size:12px;margin-top:6px">\u0412\u044b\u0431\u0438\u0432\u0430\u043d\u0438\u0435 \u043d\u043e\u043c\u0435\u0440\u043e\u0432 2.2</div></div>';
   hydrateAvas(el);
   requestAnimationFrame(()=>{const cv=$('acc-veh');if(cv)Draw.preview(cv,gV,vehLook(gV),{k:gV==='bike'?.82:.86})});
   loadWall(Net.me.uid,$('acc-wall'));
@@ -2510,7 +2649,7 @@ const Games=window.makeGames({
   colors:gameColors,
   after:()=>{render();showInbox()}
 });
-window.__app={get S(){return S},Net,Games,Reel,render,act,run,L,Page,Sheet,Tabs};
+window.__app={get S(){return S},Net,Games,Reel,render,act,run,L,Page,Sheet,Tabs,Music};
 document.addEventListener('themechange',()=>{if(shopBuilt)render()});
 Tabs.init();
 RENDER.shop();

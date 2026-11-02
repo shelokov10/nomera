@@ -1,10 +1,18 @@
-/* \u041c\u0438\u043d\u0438-\u0438\u0433\u0440\u044b 2.1: Rider, \u0421\u0442\u0430\u043d\u0442 (\u0432 \u0434\u0443\u0445\u0435 Wheelie Life), \u00ab\u0413\u0430\u0437 \u0432 \u043f\u043e\u043b\u00bb. \u041f\u043e\u0434\u043a\u043b\u044e\u0447\u0430\u044e\u0442\u0441\u044f \u043a \u043f\u0440\u0438\u043b\u043e\u0436\u0435\u043d\u0438\u044e \u0447\u0435\u0440\u0435\u0437 makeGames(api). */
+/* \u041c\u0438\u043d\u0438-\u0438\u0433\u0440\u044b 2.2: Rider, \u0421\u0442\u0430\u043d\u0442 (\u0432 \u0434\u0443\u0445\u0435 Wheelie Life), \u00ab\u0413\u0430\u0437 \u0432 \u043f\u043e\u043b\u00bb. \u041f\u043e\u0434\u043a\u043b\u044e\u0447\u0430\u044e\u0442\u0441\u044f \u043a \u043f\u0440\u0438\u043b\u043e\u0436\u0435\u043d\u0438\u044e \u0447\u0435\u0440\u0435\u0437 makeGames(api). */
 window.makeGames=function(api){
   const root=document.getElementById('game');
+  // 2.2: \u0432 \u0438\u0433\u0440\u0430\u0445 \u043d\u0435\u043b\u044c\u0437\u044f \u0441\u043b\u0443\u0447\u0430\u0439\u043d\u043e \u043f\u0440\u043e\u043a\u0440\u0443\u0442\u0438\u0442\u044c, \u043c\u0430\u0441\u0448\u0442\u0430\u0431\u0438\u0440\u043e\u0432\u0430\u0442\u044c \u0434\u0432\u0443\u043c\u044f \u043f\u0430\u043b\u044c\u0446\u0430\u043c\u0438 \u0438\u043b\u0438 \u0432\u044b\u0437\u0432\u0430\u0442\u044c \u043c\u0435\u043d\u044e \u0434\u043e\u043b\u0433\u0438\u043c \u043d\u0430\u0436\u0430\u0442\u0438\u0435\u043c
+  const block=e=>{if(e.cancelable)e.preventDefault()};
+  ['touchmove','gesturestart','gesturechange','gestureend','contextmenu','selectstart'].forEach(t=>root.addEventListener(t,block,{passive:false}));
   const TAU=Math.PI*2;
   const esc=api.esc,ic=api.ic,fmtN=api.fmtN,fmt=api.fmt;
   let cur=null; // \u0442\u0435\u043a\u0443\u0449\u0430\u044f \u0438\u0433\u0440\u0430
   const warned=api.limitWarned||{v:false}; // \u043f\u0440\u0435\u0434\u0443\u043f\u0440\u0435\u0436\u0434\u0435\u043d\u0438\u0435 \u043e \u043b\u0438\u043c\u0438\u0442\u0435 \u2014 \u043e\u0434\u0438\u043d \u0440\u0430\u0437 \u0437\u0430 \u0441\u0435\u0441\u0441\u0438\u044e
+
+  // Rider: \u0440\u0435\u0437\u043a\u043e\u0441\u0442\u044c \u043f\u043e\u0432\u043e\u0440\u043e\u0442\u0430 \u0432 \u0432\u043e\u0437\u0434\u0443\u0445\u0435 (\u043d\u0430\u0441\u0442\u0440\u043e\u0439\u043a\u0430 \u0438\u0433\u0440\u043e\u043a\u0430)
+  const riderSoft=()=>{try{return localStorage.getItem('rider_soft')==='1'}catch(e){return false}};
+  const riderSoftSet=v=>{try{localStorage.setItem('rider_soft',v?'1':'0')}catch(e){}};
+  const steerLabel=()=>'\u0423\u043f\u0440\u0430\u0432\u043b\u0435\u043d\u0438\u0435: '+(riderSoft()?'\u043c\u044f\u0433\u043a\u043e\u0435':'\u0440\u0435\u0437\u043a\u043e\u0435');
 
   /* ---------- \u043e\u0431\u0449\u0438\u0439 \u043a\u0430\u0440\u043a\u0430\u0441 \u044d\u043a\u0440\u0430\u043d\u0430 ---------- */
   function shell(html){
@@ -90,8 +98,16 @@ window.makeGames=function(api){
     const rng=()=>{seed=(Math.imul(seed,1664525)+1013904223)>>>0;return seed/4294967296};
     const addPt=(x,y)=>{xs.push(x);ys.push(y)};
     const clampY=y=>Math.max(-260,Math.min(260,y));
-    function flat(len){const n=Math.max(1,Math.round(len/60));const x0=genX;for(let i=1;i<=n;i++)addPt(genX+len*i/n,genY);genX+=len;placeCan(x0,genX)}
-    function placeCan(a,b){if(nextCan>a&&nextCan<b-40){cans.push({x:nextCan,got:false});nextCan+=2400+rng()*1900}else if(nextCan<=a)nextCan=a+300}
+    // 2.2: \u043a\u0430\u043d\u0438\u0441\u0442\u0440\u044b \u043d\u0435 \u0441\u0442\u0430\u0432\u044f\u0442\u0441\u044f \u0443 \u043f\u043e\u0434\u043d\u043e\u0436\u0438\u044f \u0442\u0440\u0430\u043c\u043f\u043b\u0438\u043d\u0430 \u0438 \u0432 \u0437\u043e\u043d\u0435 \u043f\u0440\u0438\u0437\u0435\u043c\u043b\u0435\u043d\u0438\u044f \u2014 \u0438\u0445 \u043c\u043e\u0436\u043d\u043e \u0432\u0437\u044f\u0442\u044c \u0438 \u043f\u043e\u0441\u043b\u0435 \u0441\u0430\u043b\u044c\u0442\u043e
+    function flat(len){const n=Math.max(1,Math.round(len/60));for(let i=1;i<=n;i++)addPt(genX+len*i/n,genY);genX+=len}
+    // \u043a\u0430\u043d\u0438\u0441\u0442\u0440\u044b \u0447\u0435\u0440\u0435\u0437 \u043a\u0430\u0436\u0434\u044b\u0435 2400\u20134300 \u043f\u043e \u0432\u0441\u0435\u0439 \u0442\u0440\u0430\u0441\u0441\u0435, \u043a\u0440\u043e\u043c\u0435 \u043f\u043e\u0434\u043d\u043e\u0436\u0438\u044f \u0442\u0440\u0430\u043c\u043f\u043b\u0438\u043d\u0430, \u0441\u0430\u043c\u043e\u0433\u043e \u0442\u0440\u0430\u043c\u043f\u043b\u0438\u043d\u0430 \u0438 \u0437\u043e\u043d\u044b \u043f\u0440\u0438\u0437\u0435\u043c\u043b\u0435\u043d\u0438\u044f
+    function placeCans(){
+      while(nextCan<genX-60){
+        const z=kicks.find(([a,e])=>nextCan>a-150&&nextCan<e+22+700);
+        if(z){nextCan=z[1]+22+700+40;continue}
+        cans.push({x:nextCan,got:false});nextCan+=2400+rng()*1900;
+      }
+    }
     function kicker(){
       flat(160+rng()*160);
       const Lk=150+rng()*110,end=.8+rng()*.45,Hh=end*Lk/2,x0=genX,y0=genY;
@@ -101,7 +117,7 @@ window.makeGames=function(api){
     }
     function hill(){const Lh=380+rng()*240,h=50+rng()*80,x0=genX,y0=genY;for(let i=1;i<=18;i++){const t=i/18;addPt(x0+Lh*t,y0+h*(1-Math.cos(TAU*t))/2)}genX+=Lh;flat(120)}
     function slope(dy,Ls){const x0=genX,y0=genY,ny=clampY(y0+dy);for(let i=1;i<=7;i++){const t=i/7;addPt(x0+Ls*t,y0+(ny-y0)*t*t*(3-2*t))}genX+=Ls;genY=ny;flat(160)}
-    function gen(until){while(genX<until){const r=rng();segN++;if(segN<=1)flat(700);else if(r<.5)kicker();else if(r<.66)hill();else if(r<.82)slope(-(60+rng()*100),280+rng()*100);else if(r<.93)slope(40+rng()*100,330+rng()*120);else flat(220+rng()*200)}}
+    function gen(until){while(genX<until){const r=rng();segN++;if(segN<=1)flat(700);else if(r<.5)kicker();else if(r<.66)hill();else if(r<.82)slope(-(60+rng()*100),280+rng()*100);else if(r<.93)slope(40+rng()*100,330+rng()*120);else flat(220+rng()*200)}placeCans()}
     function segAt(x){let lo=0,hi=xs.length-2;if(hi<0)return 0;if(x<=xs[0])return 0;if(x>=xs[hi+1])return hi;while(lo<hi){const m=(lo+hi+1)>>1;if(xs[m]<=x)lo=m;else hi=m-1}return lo}
     const segAng=i=>Math.atan2(ys[i+1]-ys[i],xs[i+1]-xs[i]);
     const segLen=i=>Math.hypot(xs[i+1]-xs[i],ys[i+1]-ys[i]);
@@ -149,11 +165,11 @@ window.makeGames=function(api){
       }else{
         r.vy-=G*dt;r.x+=r.vx*dt;r.y+=r.vy*dt;
         const tq=(ctl.gas()?1:0)-(brake?1:0);
-        if(tq)r.av+=tq*26*dt;else r.av*=Math.max(0,1-4.5*dt);
-        r.av=Math.max(-11,Math.min(11,r.av));r.ang+=r.av*dt;r.rot+=r.av*dt;r.air+=dt;r.wheel+=(ctl.gas()?30:6)*dt;
+        const soft=riderSoft();if(tq)r.av+=tq*(soft?17:26)*dt;else r.av*=Math.max(0,1-(soft?5.5:4.5)*dt);
+        const avMax=soft?8:11;r.av=Math.max(-avMax,Math.min(avMax,r.av));r.ang+=r.av*dt;r.rot+=r.av*dt;r.air+=dt;r.wheel+=(ctl.gas()?30:6)*dt;
         const g=gy(r.x);if(r.y<=g)land(g);
       }
-      for(const cn of cans){if(cn.got||Math.abs(cn.x-r.x)>36)continue;const cy=gy(cn.x)+28;if(Math.abs(r.y+24-cy)<46){cn.got=true;r.fuel=Math.min(100,r.fuel+38);r.cans++;r.dry=0;pop('+\u0442\u043e\u043f\u043b\u0438\u0432\u043e','');burst(cn.x,cy,10,'can');api.Snd.coin();api.Haptic.tap()}}
+      for(const cn of cans){if(cn.got||Math.abs(cn.x-r.x)>36)continue;const cy=gy(cn.x)+28;const dy=r.y+24-cy;if(Math.abs(dy)<46||(!r.ground&&dy>0&&dy<170)){cn.got=true;r.fuel=Math.min(100,r.fuel+38);r.cans++;r.dry=0;pop('+\u0442\u043e\u043f\u043b\u0438\u0432\u043e','');burst(cn.x,cy,10,'can');api.Snd.coin();api.Haptic.tap()}}
       if(r.x>r.maxX){r.score+=(r.x-r.maxX)*.05;r.maxX=r.x}
       limitCheck(sv,r.score);
     }
@@ -242,7 +258,7 @@ window.makeGames=function(api){
       go();
     }
     function go(){overlay(null);run.state='run';ctl.clear();acc=0;last=performance.now();api.Music.play()}
-    function intro(){newRun();overlay('<h3>Rider</h3><p>\u041f\u0440\u0430\u0432\u0430\u044f \u043f\u043e\u043b\u043e\u0432\u0438\u043d\u0430 \u044d\u043a\u0440\u0430\u043d\u0430 \u2014 \u0433\u0430\u0437, \u043b\u0435\u0432\u0430\u044f \u2014 \u0442\u043e\u0440\u043c\u043e\u0437. \u0412 \u0432\u043e\u0437\u0434\u0443\u0445\u0435 \u0433\u0430\u0437 \u043a\u0440\u0443\u0442\u0438\u0442 \u043d\u0430\u0437\u0430\u0434, \u0442\u043e\u0440\u043c\u043e\u0437 \u2014 \u0432\u043f\u0435\u0440\u0451\u0434. \u0421\u043e\u0431\u0438\u0440\u0430\u0439\u0442\u0435 \u043a\u0430\u043d\u0438\u0441\u0442\u0440\u044b: \u0442\u043e\u043f\u043b\u0438\u0432\u043e \u043a\u043e\u043d\u0447\u0430\u0435\u0442\u0441\u044f. \u041e\u0434\u043d\u043e \u043e\u0447\u043a\u043e \u2014 \u043e\u0434\u043d\u0430 \u043c\u043e\u043d\u0435\u0442\u0430.</p><div class="acts"><button class="btn pri wide" data-g="start">\u041f\u043e\u0435\u0445\u0430\u043b\u0438</button><button class="btn wide" data-g="exit">\u0412\u044b\u0439\u0442\u0438</button></div>')}
+    function intro(){newRun();overlay('<h3>Rider</h3><p>\u041f\u0440\u0430\u0432\u0430\u044f \u043f\u043e\u043b\u043e\u0432\u0438\u043d\u0430 \u044d\u043a\u0440\u0430\u043d\u0430 \u2014 \u0433\u0430\u0437, \u043b\u0435\u0432\u0430\u044f \u2014 \u0442\u043e\u0440\u043c\u043e\u0437. \u0412 \u0432\u043e\u0437\u0434\u0443\u0445\u0435 \u0433\u0430\u0437 \u043a\u0440\u0443\u0442\u0438\u0442 \u043d\u0430\u0437\u0430\u0434, \u0442\u043e\u0440\u043c\u043e\u0437 \u2014 \u0432\u043f\u0435\u0440\u0451\u0434. \u0421\u043e\u0431\u0438\u0440\u0430\u0439\u0442\u0435 \u043a\u0430\u043d\u0438\u0441\u0442\u0440\u044b: \u0442\u043e\u043f\u043b\u0438\u0432\u043e \u043a\u043e\u043d\u0447\u0430\u0435\u0442\u0441\u044f. \u041e\u0434\u043d\u043e \u043e\u0447\u043a\u043e \u2014 \u043e\u0434\u043d\u0430 \u043c\u043e\u043d\u0435\u0442\u0430.</p><div class="acts"><button class="btn pri wide" data-g="start">\u041f\u043e\u0435\u0445\u0430\u043b\u0438</button><button class="btn wide" data-g="steer">'+steerLabel()+'</button><button class="btn wide" data-g="exit">\u0412\u044b\u0439\u0442\u0438</button></div>')}
     const onResize=()=>{({c,W,H}=fitCv(cv));SC=scOf()};window.addEventListener('resize',onResize);
     intro();last=performance.now();raf=requestAnimationFrame(loop);
     const vis=()=>{if(document.hidden&&run&&run.state==='run')pause()};document.addEventListener('visibilitychange',vis);
@@ -251,11 +267,12 @@ window.makeGames=function(api){
       stop(){cancelAnimationFrame(raf);ctl.off();window.removeEventListener('resize',onResize);document.removeEventListener('visibilitychange',vis)},
       cmd(k){
         if(k==='start')start();else if(k==='go')go();else if(k==='pause')pause();
+        else if(k==='steer'){riderSoftSet(!riderSoft());intro()}
         else if(k==='resume'){if(run&&run.state==='pause'){run.state='run';overlay(null);last=performance.now()}}
         else if(k==='quit'){if(run){run.why='\u0417\u0430\u0435\u0437\u0434 \u0437\u0430\u0432\u0435\u0440\u0448\u0451\u043d';run.state='run';finish()}}
         else if(k==='again'){intro()}else if(k==='exit'){if(run&&run.state==='pause'){run.why='\u0417\u0430\u0435\u0437\u0434 \u0437\u0430\u0432\u0435\u0440\u0448\u0451\u043d';run.state='run';finish().then(close)}else close()}
       },
-      _t:{get r(){return run},crash}
+      _t:{get r(){return run},crash,get cans(){return cans},get kicks(){return kicks},gen:x=>gen(x)}
     };
   }
 
@@ -388,7 +405,9 @@ window.makeGames=function(api){
       const order=m==='bot'?[1,0]:st.p.map((_,i)=>i);
       root.innerHTML='<div class="tap-zones" style="'+grid+'">'+order.map(i=>{const p=st.p[i];const flip=m!=='bot'&&((players===2&&i===0)||(players===4&&i<2));return'<button class="tz" data-z="'+i+'" style="background:linear-gradient(180deg,'+COLORS[i]+','+shade(COLORS[i])+');'+(flip?'transform:rotate(180deg);':'')+(p.bot?'pointer-events:none;filter:saturate(.75);':'')+'"><div class="lane"><canvas></canvas></div><div class="cnt num">0</div><div style="font:600 15px -apple-system,sans-serif;opacity:.85">'+(p.bot?'\u0411\u043e\u0442 \u00b7 '+DIFF[diff]:m==='bot'?'\u0412\u044b \u2014 \u0436\u043c\u0438\u0442\u0435 \u0437\u0434\u0435\u0441\u044c':'\u0418\u0433\u0440\u043e\u043a '+(i+1))+'</div></button>'}).join('')+'</div><div class="gpop" style="top:42%"></div>';
       qsa('.tz').forEach(z=>z.addEventListener('pointerdown',e=>{e.preventDefault();tap(+z.dataset.z,z)}));
-      st.go=performance.now()+3000;raf=requestAnimationFrame(loop);
+      st.go=performance.now()+3000;st.last=0;
+      // \u043e\u0434\u0438\u043d \u0446\u0438\u043a\u043b \u043d\u0430 \u0433\u043e\u043d\u043a\u0443: \u043f\u0440\u043e\u0448\u043b\u044b\u0439 \u0446\u0438\u043a\u043b \u043e\u0441\u0442\u0430\u043d\u0430\u0432\u043b\u0438\u0432\u0430\u0435\u043c, \u0438\u043d\u0430\u0447\u0435 \u043f\u0440\u0438 \u0440\u0435\u0432\u0430\u043d\u0448\u0435 \u0431\u043e\u0442 \u0443\u0441\u043a\u043e\u0440\u044f\u043b\u0441\u044f \u0441 \u043a\u0430\u0436\u0434\u043e\u0439 \u043f\u043e\u043f\u044b\u0442\u043a\u043e\u0439
+      cancelAnimationFrame(raf);raf=requestAnimationFrame(loop);
     }
     function shade(h){const nn=parseInt(h.slice(1),16);const f=v=>Math.round(v*.62);return'rgb('+f(nn>>16)+','+f(nn>>8&255)+','+f(nn&255)+')'}
     const qsa=s=>[...root.querySelectorAll(s)];
@@ -411,7 +430,9 @@ window.makeGames=function(api){
       raf=requestAnimationFrame(loop);if(!st)return;
       const pop=root.querySelector('.gpop');
       if(st.state==='count'){const lf=Math.ceil((st.go-ts)/1000);if(pop){pop.innerHTML=lf>0?String(lf):'\u0413\u0430\u0437!';pop.classList.add('show')}if(ts>=st.go){st.state='race';st.t0=ts;api.Haptic.heavy();setTimeout(()=>{if(pop)pop.classList.remove('show')},500)}}
-      if(st.state==='race'){for(const p of st.p)if(p.bot){const rate=[5.2,7.2,9.4][diff]*(0.85+Math.random()*.3);p.t+=rate*(1/60);while(p.t>=1){p.t-=1;p.c++;if(p.c>=GOAL){win(st.p.indexOf(p));break}}}}
+      // \u0441\u043a\u043e\u0440\u043e\u0441\u0442\u044c \u0431\u043e\u0442\u0430 \u0441\u0447\u0438\u0442\u0430\u0435\u0442\u0441\u044f \u043f\u043e \u0440\u0435\u0430\u043b\u044c\u043d\u043e\u043c\u0443 \u0432\u0440\u0435\u043c\u0435\u043d\u0438, \u0430 \u043d\u0435 \u043f\u043e \u043a\u0430\u0434\u0440\u0430\u043c: \u043d\u0430 \u044d\u043a\u0440\u0430\u043d\u0430\u0445 120 \u0413\u0446 \u043e\u043d \u0431\u043e\u043b\u044c\u0448\u0435 \u043d\u0435 \u0436\u043c\u0451\u0442 \u0432\u0434\u0432\u043e\u0435 \u0431\u044b\u0441\u0442\u0440\u0435\u0435
+      const dt=st.last?Math.min(.1,Math.max(0,(ts-st.last)/1000)):0;st.last=ts;
+      if(st.state==='race'){for(const p of st.p)if(p.bot){const rate=[5.2,7.2,9.4][diff]*(0.85+Math.random()*.3);p.t+=rate*dt;while(p.t>=1){p.t-=1;p.c++;if(p.c>=GOAL){win(st.p.indexOf(p));break}}}}
       qsa('.tz').forEach(z=>{const i=+z.dataset.z;const p=st.p[i];z.querySelector('.cnt').textContent=Math.min(GOAL,p.c);const cv=z.querySelector('canvas');if(!cv._fit){const r=cv.getBoundingClientRect();cv.width=r.width*2;cv.height=r.height*2;cv._fit=1}const c=cv.getContext('2d');c.setTransform(2,0,0,2,0,0);const W=cv.width/2,H=cv.height/2;c.clearRect(0,0,W,H);
         for(let j=0;j<4;j++){c.fillStyle=j%2?'#111':'#fff';c.fillRect(W-14,j*H/4,7,H/4);c.fillStyle=j%2?'#fff':'#111';c.fillRect(W-7,j*H/4,7,H/4)}
         const x=12+(W-60)*Math.min(1,p.c/GOAL);api.Draw.car(c,x+20,H-6,H/70,{skin:['car:muscle','car:sport','car:coupe','car:buggy'][i],c1:'white',c2:'black',wh:'sport'},{wheelRot:p.c,noShadow:true})});

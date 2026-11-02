@@ -1,4 +1,4 @@
-/* Vybivanie nomerov 2.1: shared game logic */
+/* Vybivanie nomerov 2.2: shared game logic */
 (function(root){
 root.L=(function(){
 'use strict';
@@ -87,11 +87,12 @@ const RULES4=[
 // \u041a\u043e\u0440\u043e\u0442\u043a\u0438\u0435 \u043d\u043e\u043c\u0435\u0440\u0430 (\u0413\u0435\u0440\u043c\u0430\u043d\u0438\u044f, \u0414\u0443\u0431\u0430\u0439): \u0447\u0435\u043c \u043c\u0435\u043d\u044c\u0448\u0435 \u0446\u0438\u0444\u0440, \u0442\u0435\u043c \u0434\u043e\u0440\u043e\u0436\u0435
 const RULES_SHORT={
  de:[null,{t:'\u041e\u0434\u043d\u0430 \u0446\u0438\u0444\u0440\u0430',m:20},{t:'\u0414\u0432\u0435 \u0446\u0438\u0444\u0440\u044b',m:5}],
- ae:[null,{t:'\u041e\u0434\u043d\u0430 \u0446\u0438\u0444\u0440\u0430',m:400},{t:'\u0414\u0432\u0435 \u0446\u0438\u0444\u0440\u044b',m:60},{t:'\u0422\u0440\u0438 \u0446\u0438\u0444\u0440\u044b',m:10},{t:'\u0427\u0435\u0442\u044b\u0440\u0435 \u0446\u0438\u0444\u0440\u044b',m:2.2}]
+ // 2.2: \u0434\u0436\u0435\u043a\u043f\u043e\u0442\u044b \u0414\u0443\u0431\u0430\u044f \u0441\u0436\u0430\u0442\u044b, \u0431\u0430\u0437\u0430 \u043f\u043e\u0434\u043d\u044f\u0442\u0430 \u2014 \u043c\u0435\u0434\u0438\u0430\u043d\u0430 \u0432\u044b\u0440\u043e\u0441\u043b\u0430 \u0432\u0434\u0432\u043e\u0435 \u043f\u0440\u0438 \u0442\u043e\u0439 \u0436\u0435 \u043e\u043a\u0443\u043f\u0430\u0435\u043c\u043e\u0441\u0442\u0438 (~65%)
+ ae:[null,{t:'\u041e\u0434\u043d\u0430 \u0446\u0438\u0444\u0440\u0430',m:200},{t:'\u0414\u0432\u0435 \u0446\u0438\u0444\u0440\u044b',m:25},{t:'\u0422\u0440\u0438 \u0446\u0438\u0444\u0440\u044b',m:6},{t:'\u0427\u0435\u0442\u044b\u0440\u0435 \u0446\u0438\u0444\u0440\u044b',m:2}]
 };
 const RULES_AE=[
- {t:'\u0412\u0441\u0435 \u0446\u0438\u0444\u0440\u044b \u043e\u0434\u0438\u043d\u0430\u043a\u043e\u0432\u044b\u0435',m:12,f:same},
- {t:'\u041b\u0435\u0441\u0435\u043d\u043a\u0430',m:4,f:seq},
+ {t:'\u0412\u0441\u0435 \u0446\u0438\u0444\u0440\u044b \u043e\u0434\u0438\u043d\u0430\u043a\u043e\u0432\u044b\u0435',m:6,f:same},
+ {t:'\u041b\u0435\u0441\u0435\u043d\u043a\u0430',m:4,f:d=>d.length>2&&seq(d)},
  {t:'\u0417\u0435\u0440\u043a\u0430\u043b\u044c\u043d\u044b\u0439',m:2,f:d=>d.length>2&&d===[...d].reverse().join('')},
  {t:'\u041a\u0440\u0443\u0433\u043b\u044b\u0439',m:2,f:d=>d.length>1&&/^\d0+$/.test(d)},
  {t:'\u041f\u0430\u0440\u0430',m:1.3,f:d=>/(\d)\1/.test(d)}
@@ -128,7 +129,7 @@ const LRULES={
   {t:'\u041f\u0430\u0440\u043d\u044b\u0435 \u0431\u0443\u043a\u0432\u044b',m:1.5,f:p=>p.s[0]===p.s[1]}
  ]
 };
-const BASE={ru:73.3,ua:96.1,kz:74,us:97.6,eu:72.6,ae:24.5,sp:1};
+const BASE={ru:73.3,ua:96.1,kz:74,us:97.6,eu:72.6,ae:50,sp:1};
 
 /* ---------- \u043c\u0430\u0442\u0435\u0440\u0438\u0430\u043b\u044b, \u0438\u0437\u043d\u043e\u0441, \u0448\u0440\u0438\u0444\u0442 ---------- */
 const MATS=[
@@ -228,7 +229,8 @@ function comboOf(pl){
     lr=pl.p.length===1?{t:'\u041e\u0434\u043d\u0430 \u0431\u0443\u043a\u0432\u0430',m:1.3}:pl.p[0]===pl.p[1]?{t:'\u041f\u0430\u0440\u043d\u044b\u0435 \u0431\u0443\u043a\u0432\u044b',m:1.4}:{t:'\u0414\u0432\u0435 \u0431\u0443\u043a\u0432\u044b',m:1};
   }
   // \u043a\u0440\u044b\u043b\u0430\u0442\u044b\u0435 \u0446\u0438\u0444\u0440\u044b \u0438 \u0431\u0443\u043a\u0432\u044b
-  if(NO_BONUS_D.has(pl.d)||pl.d.includes('1488'))dr=one;
+  // \u0437\u0430\u043f\u0440\u0435\u0449\u0451\u043d\u043d\u044b\u0435 \u0447\u0438\u0441\u043b\u0430 \u0442\u0435\u0440\u044f\u044e\u0442 \u043d\u0430\u0434\u0431\u0430\u0432\u043a\u0443 \u0437\u0430 \u00ab\u043a\u0440\u0430\u0441\u043e\u0442\u0443\u00bb, \u043d\u043e \u043a\u043e\u0440\u043e\u0442\u043a\u0438\u0439 \u043d\u043e\u043c\u0435\u0440 \u0414\u0443\u0431\u0430\u044f \u0438\u043b\u0438 \u0413\u0435\u0440\u043c\u0430\u043d\u0438\u0438 \u043e\u0441\u0442\u0430\u0451\u0442\u0441\u044f \u043a\u043e\u0440\u043e\u0442\u043a\u0438\u043c
+  if(NO_BONUS_D.has(pl.d)||pl.d.includes('1488')){const sh=c==='ae'?RULES_SHORT.ae[pl.d.length]:c==='eu'&&pl.r==='D'&&pl.d.length<3?RULES_SHORT.de[pl.d.length]:null;dr=sh||one}
   else{const w=WINGED_D[pl.d];if(w&&w[0]>dr.m)dr={t:w[1],m:w[0]};else if(pl.d.length===4&&pl.d.includes('911')&&!w&&dr.m<2.5)dr={t:'\u0421\u043e\u0434\u0435\u0440\u0436\u0438\u0442 911',m:2.5}}
   if(c==='us'||c==='kz'||(c==='eu'&&pl.r==='E')){const w=WINGED_L[pl.s];if(w&&w[0]>lr.m)lr={t:w[1],m:w[0]}}
   if(c==='ae'){const w=WINGED_AE[pl.p];if(w)lr={t:w[1],m:Math.max(lr.m,w[0])}}
@@ -266,7 +268,7 @@ function rollItem(pl,matW){
   return{pl,m,f,pt:rnd(1001),w:wIdx(FONTS.map(x=>x.w))};
 }
 const MAT_W=[79.92,15.98,3.2,.64,.26];
-const AE_B=[1.18,1.18,1.34];
+const AE_B=[1.24,1.24,1.40];
 
 /* ---------- \u043a\u0435\u0439\u0441\u044b \u0441 \u043d\u043e\u043c\u0435\u0440\u0430\u043c\u0438 ---------- */
 const TIERS=[
@@ -354,7 +356,7 @@ const SEASON={name:'\u042d\u043c\u043e\u0446\u0438\u0438 \u043b\u0443\u0447\u044
 const WEEK_XP=5000;
 const BANK={rate:.01,maxDays:30,cap:3000000,maxN:3,pen:.05,min:1000};
 const TOTE={max:50000,min:100,perDay:30,margin:1.06};
-const CLICK={sec:60,cps:10,pay:10,keys:5};
+const CLICK={sec:60,cps:13,pay:10,keys:5};
 const FIRE={every:7,keys:5,rep:90*DAY,win:7};   // \u043e\u0433\u043e\u043d\u0451\u043a: \u043a\u043b\u044e\u0447\u0438 \u043a\u0430\u0436\u0434\u044b\u0435 7 \u0434\u043d\u0435\u0439, \u0440\u0430\u0437\u043c\u043e\u0440\u043e\u0437\u043a\u0430 \u0440\u0430\u0437 \u0432 90 \u0434\u043d\u0435\u0439, \u0435\u0441\u043b\u0438 \u043f\u0440\u043e\u043f\u0443\u0441\u043a \u043d\u0435 \u0434\u043e\u043b\u044c\u0448\u0435 7 \u0434\u043d\u0435\u0439
 const RUN_KEEP=3,RUN_TTL=DAY;
 
@@ -478,7 +480,7 @@ function cleanText(s,n){return String(s==null?'':s).replace(INVIS,'').trim().sli
 /* ---------- \u0441\u043e\u0441\u0442\u043e\u044f\u043d\u0438\u0435 \u0438\u0433\u0440\u043e\u043a\u0430 ---------- */
 function newVeh(k){return k==='car'?{skin:'car:sedan',c1:'orange',c2:'white',wh:'std',kit:'none',st:[],plate:0}:{skin:'bike:std',c1:'orange',c2:'black',wh:'std',kit:'none',st:[],plate:0}}
 const freeP=()=>TIERS.map(()=>0);
-function fresh(){return{v:21,bal:START_BAL,keys:0,box:[],inv:[],nextId:1,opened:0,spent:0,best:null,
+function fresh(){return{v:22,pv:'',bal:START_BAL,keys:0,box:[],inv:[],nextId:1,opened:0,spent:0,best:null,
   xp:0,prem:0,don:0,cf:[],cp:[],titles:[],title:'',
   daily:{d:'',q:[],p:{},done:[]},week:{w:-1,xp:0,opts:[],got:[]},
   fire:{n:0,d:'',best:0,rep:0,lost:null},rb:null,
@@ -496,6 +498,17 @@ function cleanItem(x){
   return Object.assign({id:Math.floor(num(x.id)),pl},f,{t:num(x.t,Date.now()),pin:!!x.pin,src:typeof x.src==='string'?x.src.slice(0,12):''});
 }
 function priceItem(x){x.price=appraise(x).price;return x}
+function keepPrice(x,raw){const p=Math.floor(num(raw&&raw.price));if(p>0&&p<1e13)x.price=p;else priceItem(x);return x}
+// \u0412\u0435\u0440\u0441\u0438\u044f \u0446\u0435\u043d: \u043c\u0435\u043d\u044f\u0435\u0442\u0441\u044f \u0441 \u043e\u0431\u043d\u043e\u0432\u043b\u0435\u043d\u0438\u0435\u043c \u043a\u043e\u044d\u0444\u0444\u0438\u0446\u0438\u0435\u043d\u0442\u043e\u0432 \u0432 \u043a\u043e\u0434\u0435 (PRICE_V) \u0438\u043b\u0438 \u043a\u043e\u0433\u0434\u0430 \u0430\u0434\u043c\u0438\u043d\u0438\u0441\u0442\u0440\u0430\u0442\u043e\u0440 \u043c\u0435\u043d\u044f\u0435\u0442 \u0440\u0443\u0447\u043d\u044b\u0435 \u0446\u0435\u043d\u044b.
+// \u041f\u043e\u043a\u0430 \u0432\u0435\u0440\u0441\u0438\u044f \u0443 \u0438\u0433\u0440\u043e\u043a\u0430 \u043f\u0440\u0435\u0436\u043d\u044f\u044f, \u0446\u0435\u043d\u044b \u0435\u0433\u043e \u043d\u043e\u043c\u0435\u0440\u043e\u0432 \u043d\u0435 \u0442\u0440\u043e\u0433\u0430\u044e\u0442\u0441\u044f.
+const PRICE_V='22';
+function reprice(S,pv){
+  if(S.pv===pv)return false;
+  S.box.forEach(priceItem);
+  if(S.best&&S.best.pl)priceItem(S.best);
+  S.box.forEach(x=>{if(!S.best||x.price>S.best.price)S.best=Object.assign({},x)});
+  S.pv=pv;return true;
+}
 function cleanGive(g){
   // \u043d\u0430\u0433\u0440\u0430\u0434\u0430: \u043c\u043e\u043d\u0435\u0442\u044b, \u043a\u043b\u044e\u0447\u0438, \u043a\u0435\u0439\u0441\u044b, \u0432\u0430\u0443\u0447\u0435\u0440\u044b. \u0413\u043e\u043b\u0434\u0430 \u0438\u0437 2.0 \u043f\u0435\u0440\u0435\u0432\u043e\u0434\u0438\u0442\u0441\u044f \u0432 \u043c\u043e\u043d\u0435\u0442\u044b
   const o={};if(!g||typeof g!=='object')return o;
@@ -552,7 +565,9 @@ function normalize(o){
   // \u043d\u043e\u043c\u0435\u0440\u0430
   const seen=new Set();let maxId=0;
   const fix=x=>{let id=Math.floor(num(x.id));if(!id||seen.has(id))x.id=0;else{seen.add(id);x.id=id;if(id>maxId)maxId=id}return x};
-  s.box=(Array.isArray(o.box)?o.box:[]).map(cleanItem).filter(Boolean).map(fix).map(priceItem);
+  // 2.2: \u0446\u0435\u043d\u0430 \u043d\u043e\u043c\u0435\u0440\u0430 \u0445\u0440\u0430\u043d\u0438\u0442\u0441\u044f \u0438 \u043d\u0435 \u043f\u0435\u0440\u0435\u0441\u0447\u0438\u0442\u044b\u0432\u0430\u0435\u0442\u0441\u044f \u043f\u0440\u0438 \u043a\u0430\u0436\u0434\u043e\u0439 \u0437\u0430\u0433\u0440\u0443\u0437\u043a\u0435 (\u0440\u0430\u043d\u044c\u0448\u0435 \u043f\u0440\u044b\u0433\u0430\u043b\u0430, \u0435\u0441\u043b\u0438 \u043d\u0430\u0441\u0442\u0440\u043e\u0439\u043a\u0438 \u0446\u0435\u043d \u0435\u0449\u0451 \u043d\u0435 \u043f\u043e\u0434\u0442\u044f\u043d\u0443\u043b\u0438\u0441\u044c)
+  s.box=(Array.isArray(o.box)?o.box:[]).map(r=>{const it=cleanItem(r);if(it)keepPrice(it,r);return it}).filter(Boolean).map(fix);
+  s.pv=typeof o.pv==='string'?o.pv.slice(0,40):'';
   s.inv=(Array.isArray(o.inv)?o.inv:[]).map(x=>{
     if(!x||typeof x!=='object')return null;
     if(x.k==='skin'&&SKINS[x.v]&&!SKINS[x.v].free)return fix({id:x.id,k:'skin',v:x.v,t:num(x.t),src:String(x.src||'').slice(0,12)});
@@ -571,7 +586,7 @@ function normalize(o){
     d.st=arrN(v.st).filter(id=>s.inv.some(i=>i.id===id&&i.k==='sticker')).slice(0,3);
     d.plate=s.box.some(b=>b.id===num(v.plate))?num(v.plate):0;
   }
-  if(o.best&&o.best.pl){const b=cleanItem(Object.assign({id:1},o.best));if(b)s.best=priceItem(b)}
+  if(o.best&&o.best.pl){const b=cleanItem(Object.assign({id:1},o.best));if(b)s.best=keepPrice(b,o.best)}
   s.box.forEach(x=>{if(!s.best||x.price>s.best.price)s.best=Object.assign({},x)});
   return s;
 }
@@ -971,7 +986,8 @@ const ACTIONS={
     const g=run.g;let el=(ctx.now-run.t)/1000;
     if(p.dur!=null&&num(p.dur)>0)el=Math.min(el,num(p.dur));
     if(el<1.5)fail('\u0421\u043b\u0438\u0448\u043a\u043e\u043c \u043a\u043e\u0440\u043e\u0442\u043a\u0438\u0439 \u0437\u0430\u0435\u0437\u0434');
-    const score=Math.max(0,Math.min(int(p.score),Math.floor(el*RATE[g]),200000));
+    // 2.2: \u0440\u0435\u043a\u043e\u0440\u0434 \u0431\u0435\u0437 \u043f\u043e\u0442\u043e\u043b\u043a\u0430 \u2014 \u0437\u0430\u0449\u0438\u0442\u0430 \u0442\u043e\u043b\u044c\u043a\u043e \u043f\u043e \u0441\u043a\u043e\u0440\u043e\u0441\u0442\u0438 \u043d\u0430\u0431\u043e\u0440\u0430 \u043e\u0447\u043a\u043e\u0432; \u043c\u043e\u043d\u0435\u0442\u044b \u043f\u043e-\u043f\u0440\u0435\u0436\u043d\u0435\u043c\u0443 \u043e\u0433\u0440\u0430\u043d\u0438\u0447\u0435\u043d\u044b \u043b\u0438\u043c\u0438\u0442\u043e\u043c
+    const score=Math.max(0,Math.min(int(p.score),Math.floor(el*RATE[g])));
     const left=gameLeft(S,g,ctx.now);
     if(winFresh(S,ctx.now)){S.games.w={t0:ctx.now,e:{}}}
     const money=Math.max(0,Math.min(left,score));
@@ -1181,6 +1197,6 @@ function checkComment(text){
 }
 // ==/FILTER==
 
-return{get RNG(){return RNG},rnd,pick,seeded,withRng,seq,same,wpick,wIdx,RU_LET,UA_LET,KZ_LET,US_LET,DE_LET,FR_LET,ES_LET,AE_LET,COUNTRY,COUNTRIES,RU_TOP,RU_PLAIN,UA_REG,KZ_REG,US_REG,US_LOOK,EU_REG,DE_CITY,AE_REG,topCodes,RU_REG,REG,RMAP,DEMAP,digitsStr,letters,RULES3,RULES4,RULES_SHORT,RULES_AE,lrun,L3,SERIES_RU,WINGED_D,NO_BONUS_D,WINGED_L,WINGED_AE,LRULES,BASE,MATS,WEARS,FONTS,wearOf,floatMult,BUILTIN_PAT,OV,setOv,getOv,patInfo,genPlate,plateKey,plateText,niceRound,comboOf,APC,appraise,rollItem,MAT_W,AE_B,TIERS,EU_K,REG_AVG,regionPrice,caseRoll,LAT,CYR,toLat,has,cleanPlate,cleanItemFields,parsePlateInput,MSK,BOX_CAP,KEY_COINS,GOLD_RATE,GAME_TOTAL,PAY_GAMES,DAILY_M,SEASON,WEEK_XP,BANK,TOTE,CLICK,FIRE,RUN_KEEP,SKINS,STICKERS,SKIN_R,STK_R,SKIN_CASE,COLORS,WHEELS,KITS,TITLES,PLUS,plusTier,STATUS_N,REF_REW,REF_CAP,INV_REW,REF_LVL,refRewardFor,invRewardFor,refCapFor,SPECIAL,buildPass,PASS,QUESTS,QUEST_XP,num,fmtN,pluralW,fmt,keyN,pad8,hashStr,mskDate,mskMidnight,dayNum,weekId,weekEnd,INVIS,cleanNick,cleanText,newVeh,freeP,fresh,cleanItem,priceItem,cleanGive,normalize,seasonOn,level,lvlPct,isPrem,worth,badges,addXp,ensureDaily,quest,questReady,claimable,dayReady,fireAlive,fireCanFix,fireFixAt,rbReady,rbPart,weekOpts,weekTick,rewardText,addPlate,addInv,grant,claimLevel,inbox,buyback,invValue,invBuyback,sellQuick,unmount,plateLocked,skinLocked,rollSkin,rollSticker,skinOdds,stickerOdds,gameCaps,winFresh,gameEarned,gameLeft,gameReset,RATE,TOTE_SKINS,toteCard,toteProbs,UP,upChance,upGoal,upSkinTargets,UP_D,UPIDX,upIndex,lowerBound,upOffers,upStake,shopOffers,ensureShop,shopEnds,GameError,fail,int,rid,needCoins,needKeys,pay,ACTIONS,needAdm,act,OPTIMISTIC,LOOK_V,LOOK_T,V,BAD_ROOTS,BAD_GLUED,normFilter,words,hasBad,hasBad1,TLD,LINK_RES,hasLink,checkComment,DAY,WEEK,INV_CAP,BUYBACK,FEE,MAX_LIST,MIN_ASK,MAX_ASK,START_BAL,GAME_WIN,KEY_EVERY,FAV_W,FAV_MAX,RUN_TTL,STICKER_CASE,REF_PREM,INV_PREM,INV_DAYS,FREE,PREM};
+return{get RNG(){return RNG},rnd,pick,seeded,withRng,seq,same,wpick,wIdx,RU_LET,UA_LET,KZ_LET,US_LET,DE_LET,FR_LET,ES_LET,AE_LET,COUNTRY,COUNTRIES,RU_TOP,RU_PLAIN,UA_REG,KZ_REG,US_REG,US_LOOK,EU_REG,DE_CITY,AE_REG,topCodes,RU_REG,REG,RMAP,DEMAP,digitsStr,letters,RULES3,RULES4,RULES_SHORT,RULES_AE,lrun,L3,SERIES_RU,WINGED_D,NO_BONUS_D,WINGED_L,WINGED_AE,LRULES,BASE,MATS,WEARS,FONTS,wearOf,floatMult,BUILTIN_PAT,OV,setOv,getOv,patInfo,genPlate,plateKey,plateText,niceRound,comboOf,APC,appraise,rollItem,MAT_W,AE_B,TIERS,EU_K,REG_AVG,regionPrice,caseRoll,LAT,CYR,toLat,has,cleanPlate,cleanItemFields,parsePlateInput,MSK,BOX_CAP,KEY_COINS,GOLD_RATE,GAME_TOTAL,PAY_GAMES,DAILY_M,SEASON,WEEK_XP,BANK,TOTE,CLICK,FIRE,RUN_KEEP,SKINS,STICKERS,SKIN_R,STK_R,SKIN_CASE,COLORS,WHEELS,KITS,TITLES,PLUS,plusTier,STATUS_N,REF_REW,REF_CAP,INV_REW,REF_LVL,refRewardFor,invRewardFor,refCapFor,SPECIAL,buildPass,PASS,QUESTS,QUEST_XP,num,fmtN,pluralW,fmt,keyN,pad8,hashStr,mskDate,mskMidnight,dayNum,weekId,weekEnd,INVIS,cleanNick,cleanText,newVeh,freeP,fresh,cleanItem,priceItem,keepPrice,PRICE_V,reprice,cleanGive,normalize,seasonOn,level,lvlPct,isPrem,worth,badges,addXp,ensureDaily,quest,questReady,claimable,dayReady,fireAlive,fireCanFix,fireFixAt,rbReady,rbPart,weekOpts,weekTick,rewardText,addPlate,addInv,grant,claimLevel,inbox,buyback,invValue,invBuyback,sellQuick,unmount,plateLocked,skinLocked,rollSkin,rollSticker,skinOdds,stickerOdds,gameCaps,winFresh,gameEarned,gameLeft,gameReset,RATE,TOTE_SKINS,toteCard,toteProbs,UP,upChance,upGoal,upSkinTargets,UP_D,UPIDX,upIndex,lowerBound,upOffers,upStake,shopOffers,ensureShop,shopEnds,GameError,fail,int,rid,needCoins,needKeys,pay,ACTIONS,needAdm,act,OPTIMISTIC,LOOK_V,LOOK_T,V,BAD_ROOTS,BAD_GLUED,normFilter,words,hasBad,hasBad1,TLD,LINK_RES,hasLink,checkComment,DAY,WEEK,INV_CAP,BUYBACK,FEE,MAX_LIST,MIN_ASK,MAX_ASK,START_BAL,GAME_WIN,KEY_EVERY,FAV_W,FAV_MAX,RUN_TTL,STICKER_CASE,REF_PREM,INV_PREM,INV_DAYS,FREE,PREM};
 })();
 })(typeof window!=='undefined'?window:globalThis);
