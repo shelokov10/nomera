@@ -1,4 +1,4 @@
-/* Vybivanie nomerov 2.2: shared game logic */
+/* Vybivanie nomerov 2.3: shared game logic */
 (function(root){
 root.L=(function(){
 'use strict';
@@ -843,6 +843,14 @@ function pay(S,how,price,keys,ctx){
   if(how==='key'){needKeys(S,keys);S.keys-=keys}
   else{needCoins(S,price);S.bal-=price;S.spent+=price}
 }
+function rollOne(S,tier,c,reg,ctx){
+  const t=TIERS[tier];if(c==='mix')c=pick(COUNTRIES);
+  const it=caseRoll(c,tier,reg||undefined);
+  const item=addPlate(S,it,'case',ctx.now);S.opened++;
+  addXp(S,t.xp,ctx);quest(S,'open5',1,false,ctx);if(tier>0)quest(S,'gold2',1,false,ctx);
+  if(item.m>=1)quest(S,'rare1',1,false,ctx);
+  return{item,c,rare:item.m>=3||item.price>=50000};
+}
 const ACTIONS={
   welcome(S){S.welcome='';return{}},
   inboxSeen(S){S.inbox=[];return{}},
@@ -864,17 +872,28 @@ const ACTIONS={
     const pr=reg?regionPrice(c,reg,tier):{price:t.price,keys:t.keys};
     if(p.free){if(!(S.free.p[tier]>0))fail('\u0411\u0435\u0441\u043f\u043b\u0430\u0442\u043d\u044b\u0445 \u043a\u0435\u0439\u0441\u043e\u0432 \u00ab'+t.name+'\u00bb \u043d\u0435\u0442');S.free.p[tier]--}
     else pay(S,p.key?'key':'coin',pr.price,pr.keys,ctx);
-    if(c==='mix')c=pick(COUNTRIES);
-    const it=caseRoll(c,tier,reg||undefined);
-    const item=addPlate(S,it,'case',ctx.now);S.opened++;
-    addXp(S,t.xp,ctx);quest(S,'open5',1,false,ctx);if(tier>0)quest(S,'gold2',1,false,ctx);
-    if(item.m>=1)quest(S,'rare1',1,false,ctx);
-    const rare=item.m>=3||item.price>=50000;
-    return{item,tier,c,reg,rare};
+    const o=rollOne(S,tier,c,reg,ctx);
+    return{item:o.item,tier,c:o.c,reg,rare:o.rare};
+  },
+  // 2.3: \u043e\u0442\u043a\u0440\u044b\u0442\u044c \u043d\u0435\u0441\u043a\u043e\u043b\u044c\u043a\u043e \u043a\u0435\u0439\u0441\u043e\u0432 \u0441\u0440\u0430\u0437\u0443 (\u00d72, \u00d75, \u00d710). \u041e\u043f\u043b\u0430\u0442\u0430 \u0446\u0435\u043b\u0438\u043a\u043e\u043c \u0434\u043e \u043e\u0442\u043a\u0440\u044b\u0442\u0438\u044f, \u0448\u0430\u043d\u0441\u044b \u0442\u0435 \u0436\u0435, \u0447\u0442\u043e \u0443 \u043e\u0434\u043d\u043e\u0433\u043e \u043a\u0435\u0439\u0441\u0430.
+  openN(S,p,ctx){
+    const n=int(p.n);if(![2,5,10].includes(n))fail('\u041c\u043e\u0436\u043d\u043e \u043e\u0442\u043a\u0440\u044b\u0442\u044c 2, 5 \u0438\u043b\u0438 10 \u043a\u0435\u0439\u0441\u043e\u0432 \u0441\u0440\u0430\u0437\u0443');
+    const tier=int(p.tier),t=TIERS[tier];if(!t)fail('\u041d\u0435\u0442 \u0442\u0430\u043a\u043e\u0433\u043e \u043a\u0435\u0439\u0441\u0430');
+    if(t.event&&!seasonOn(ctx.now))fail('\u0421\u0435\u0437\u043e\u043d \u0437\u0430\u043a\u043e\u043d\u0447\u0438\u043b\u0441\u044f');
+    if(S.box.length+n>BOX_CAP)fail('\u0412 \u0433\u0430\u0440\u0430\u0436\u0435 \u043d\u0435\u0442 \u043c\u0435\u0441\u0442\u0430 \u0434\u043b\u044f '+n+' \u043d\u043e\u043c\u0435\u0440\u043e\u0432. \u041f\u0440\u043e\u0434\u0430\u0439\u0442\u0435 \u043b\u0438\u0448\u043d\u0438\u0435');
+    const c=COUNTRIES.includes(p.c)||p.c==='mix'?p.c:'ru';
+    let reg='';
+    if(p.reg){if(c==='mix'||c==='ae'||!RMAP[c]||!RMAP[c][String(p.reg)])fail('\u041d\u0435\u0442 \u0442\u0430\u043a\u043e\u0433\u043e \u0440\u0435\u0433\u0438\u043e\u043d\u0430');reg=String(p.reg)}
+    const pr=reg?regionPrice(c,reg,tier):{price:t.price,keys:t.keys};
+    pay(S,p.key?'key':'coin',pr.price*n,pr.keys*n,ctx);
+    const items=[];let rare=false;
+    for(let i=0;i<n;i++){const o=rollOne(S,tier,c,reg,ctx);items.push(o.item);if(o.rare)rare=true}
+    return{items,tier,c,reg,rare,n};
   },
   quick(S,p,ctx){const pay=sellQuick(S,int(p.id),ctx);if(pay===-1)fail('\u041d\u043e\u043c\u0435\u0440 \u043d\u0435 \u043d\u0430\u0439\u0434\u0435\u043d');if(pay===-2)fail('\u041d\u043e\u043c\u0435\u0440 \u0437\u0430\u043a\u0440\u0435\u043f\u043b\u0451\u043d. \u041e\u0442\u043a\u0440\u0435\u043f\u0438\u0442\u0435, \u0447\u0442\u043e\u0431\u044b \u043f\u0440\u043e\u0434\u0430\u0442\u044c');return{msg:'\u0421\u043a\u0443\u043f\u0449\u0438\u043a \u0437\u0430\u043f\u043b\u0430\u0442\u0438\u043b '+fmt(pay),pay}},
   bulk(S,p,ctx){
-    const l=S.box.filter(x=>!x.pin&&!plateLocked(S,x.id)&&(p.k==='all'||(p.k==='paper'?x.m===0:x.price<1000)));
+    const ids=p.k==='ids'&&Array.isArray(p.ids)?p.ids.map(int):null;
+    const l=S.box.filter(x=>!x.pin&&!plateLocked(S,x.id)&&(ids?ids.includes(x.id):p.k==='all'||(p.k==='paper'?x.m===0:x.price<1000)));
     if(!l.length)fail('\u041d\u0435\u0447\u0435\u0433\u043e \u0441\u0434\u0430\u0432\u0430\u0442\u044c');let sum=0;l.forEach(x=>{sum+=Math.max(0,sellQuick(S,x.id,ctx))});
     return{msg:'\u0421\u0434\u0430\u043d\u043e '+l.length+' \u0448\u0442. \u0437\u0430 '+fmt(sum),pay:sum};
   },
@@ -896,7 +915,7 @@ const ACTIONS={
   },
   weekPick(S,p,ctx){
     weekTick(S,ctx.now,ctx.srv);const i=int(p.i);
-    if(S.week.xp<WEEK_XP)fail('\u041d\u0430\u0433\u0440\u0430\u0434\u0430 \u043e\u0442\u043a\u0440\u043e\u0435\u0442\u0441\u044f, \u043a\u043e\u0433\u0434\u0430 \u0448\u043a\u0430\u043b\u0430 \u043d\u0435\u0434\u0435\u043b\u0438 \u0437\u0430\u043f\u043e\u043b\u043d\u0438\u0442\u0441\u044f');
+    // 2.3: \u043d\u0430\u0433\u0440\u0430\u0434\u0430 \u043d\u0435\u0434\u0435\u043b\u0438 \u043e\u0442\u043a\u0440\u044b\u0432\u0430\u0435\u0442\u0441\u044f \u0441\u0430\u043c\u0430 \u0432 \u043d\u0430\u0447\u0430\u043b\u0435 \u043d\u0435\u0434\u0435\u043b\u0438, \u043e\u043f\u044b\u0442 \u0431\u043e\u043b\u044c\u0448\u0435 \u043d\u0435 \u043d\u0443\u0436\u0435\u043d
     if(S.week.got.length>=2)fail('\u0412\u044b \u0443\u0436\u0435 \u0437\u0430\u0431\u0440\u0430\u043b\u0438 \u043d\u0430\u0433\u0440\u0430\u0434\u0443 \u044d\u0442\u043e\u0439 \u043d\u0435\u0434\u0435\u043b\u0438');
     if(!(i>=0&&i<S.week.opts.length)||S.week.got.includes(i))fail('\u0412\u044b\u0431\u0435\u0440\u0438\u0442\u0435 \u0434\u0440\u0443\u0433\u0443\u044e \u043d\u0430\u0433\u0440\u0430\u0434\u0443');
     S.week.got.push(i);grant(S,S.week.opts[i],'week',ctx.now);
@@ -1197,6 +1216,6 @@ function checkComment(text){
 }
 // ==/FILTER==
 
-return{get RNG(){return RNG},rnd,pick,seeded,withRng,seq,same,wpick,wIdx,RU_LET,UA_LET,KZ_LET,US_LET,DE_LET,FR_LET,ES_LET,AE_LET,COUNTRY,COUNTRIES,RU_TOP,RU_PLAIN,UA_REG,KZ_REG,US_REG,US_LOOK,EU_REG,DE_CITY,AE_REG,topCodes,RU_REG,REG,RMAP,DEMAP,digitsStr,letters,RULES3,RULES4,RULES_SHORT,RULES_AE,lrun,L3,SERIES_RU,WINGED_D,NO_BONUS_D,WINGED_L,WINGED_AE,LRULES,BASE,MATS,WEARS,FONTS,wearOf,floatMult,BUILTIN_PAT,OV,setOv,getOv,patInfo,genPlate,plateKey,plateText,niceRound,comboOf,APC,appraise,rollItem,MAT_W,AE_B,TIERS,EU_K,REG_AVG,regionPrice,caseRoll,LAT,CYR,toLat,has,cleanPlate,cleanItemFields,parsePlateInput,MSK,BOX_CAP,KEY_COINS,GOLD_RATE,GAME_TOTAL,PAY_GAMES,DAILY_M,SEASON,WEEK_XP,BANK,TOTE,CLICK,FIRE,RUN_KEEP,SKINS,STICKERS,SKIN_R,STK_R,SKIN_CASE,COLORS,WHEELS,KITS,TITLES,PLUS,plusTier,STATUS_N,REF_REW,REF_CAP,INV_REW,REF_LVL,refRewardFor,invRewardFor,refCapFor,SPECIAL,buildPass,PASS,QUESTS,QUEST_XP,num,fmtN,pluralW,fmt,keyN,pad8,hashStr,mskDate,mskMidnight,dayNum,weekId,weekEnd,INVIS,cleanNick,cleanText,newVeh,freeP,fresh,cleanItem,priceItem,keepPrice,PRICE_V,reprice,cleanGive,normalize,seasonOn,level,lvlPct,isPrem,worth,badges,addXp,ensureDaily,quest,questReady,claimable,dayReady,fireAlive,fireCanFix,fireFixAt,rbReady,rbPart,weekOpts,weekTick,rewardText,addPlate,addInv,grant,claimLevel,inbox,buyback,invValue,invBuyback,sellQuick,unmount,plateLocked,skinLocked,rollSkin,rollSticker,skinOdds,stickerOdds,gameCaps,winFresh,gameEarned,gameLeft,gameReset,RATE,TOTE_SKINS,toteCard,toteProbs,UP,upChance,upGoal,upSkinTargets,UP_D,UPIDX,upIndex,lowerBound,upOffers,upStake,shopOffers,ensureShop,shopEnds,GameError,fail,int,rid,needCoins,needKeys,pay,ACTIONS,needAdm,act,OPTIMISTIC,LOOK_V,LOOK_T,V,BAD_ROOTS,BAD_GLUED,normFilter,words,hasBad,hasBad1,TLD,LINK_RES,hasLink,checkComment,DAY,WEEK,INV_CAP,BUYBACK,FEE,MAX_LIST,MIN_ASK,MAX_ASK,START_BAL,GAME_WIN,KEY_EVERY,FAV_W,FAV_MAX,RUN_TTL,STICKER_CASE,REF_PREM,INV_PREM,INV_DAYS,FREE,PREM};
+return{get RNG(){return RNG},rnd,pick,seeded,withRng,seq,same,wpick,wIdx,RU_LET,UA_LET,KZ_LET,US_LET,DE_LET,FR_LET,ES_LET,AE_LET,COUNTRY,COUNTRIES,RU_TOP,RU_PLAIN,UA_REG,KZ_REG,US_REG,US_LOOK,EU_REG,DE_CITY,AE_REG,topCodes,RU_REG,REG,RMAP,DEMAP,digitsStr,letters,RULES3,RULES4,RULES_SHORT,RULES_AE,lrun,L3,SERIES_RU,WINGED_D,NO_BONUS_D,WINGED_L,WINGED_AE,LRULES,BASE,MATS,WEARS,FONTS,wearOf,floatMult,BUILTIN_PAT,OV,setOv,getOv,patInfo,genPlate,plateKey,plateText,niceRound,comboOf,APC,appraise,rollItem,MAT_W,AE_B,TIERS,EU_K,REG_AVG,regionPrice,caseRoll,LAT,CYR,toLat,has,cleanPlate,cleanItemFields,parsePlateInput,MSK,BOX_CAP,KEY_COINS,GOLD_RATE,GAME_TOTAL,PAY_GAMES,DAILY_M,SEASON,WEEK_XP,BANK,TOTE,CLICK,FIRE,RUN_KEEP,SKINS,STICKERS,SKIN_R,STK_R,SKIN_CASE,COLORS,WHEELS,KITS,TITLES,PLUS,plusTier,STATUS_N,REF_REW,REF_CAP,INV_REW,REF_LVL,refRewardFor,invRewardFor,refCapFor,SPECIAL,buildPass,PASS,QUESTS,QUEST_XP,num,fmtN,pluralW,fmt,keyN,pad8,hashStr,mskDate,mskMidnight,dayNum,weekId,weekEnd,INVIS,cleanNick,cleanText,newVeh,freeP,fresh,cleanItem,priceItem,keepPrice,PRICE_V,reprice,cleanGive,normalize,seasonOn,level,lvlPct,isPrem,worth,badges,addXp,ensureDaily,quest,questReady,claimable,dayReady,fireAlive,fireCanFix,fireFixAt,rbReady,rbPart,weekOpts,weekTick,rewardText,addPlate,addInv,grant,claimLevel,inbox,buyback,invValue,invBuyback,sellQuick,unmount,plateLocked,skinLocked,rollSkin,rollSticker,skinOdds,stickerOdds,gameCaps,winFresh,gameEarned,gameLeft,gameReset,RATE,TOTE_SKINS,toteCard,toteProbs,UP,upChance,upGoal,upSkinTargets,UP_D,UPIDX,upIndex,lowerBound,upOffers,upStake,shopOffers,ensureShop,shopEnds,GameError,fail,int,rid,needCoins,needKeys,pay,rollOne,ACTIONS,needAdm,act,OPTIMISTIC,LOOK_V,LOOK_T,V,BAD_ROOTS,BAD_GLUED,normFilter,words,hasBad,hasBad1,TLD,LINK_RES,hasLink,checkComment,DAY,WEEK,INV_CAP,BUYBACK,FEE,MAX_LIST,MIN_ASK,MAX_ASK,START_BAL,GAME_WIN,KEY_EVERY,FAV_W,FAV_MAX,RUN_TTL,STICKER_CASE,REF_PREM,INV_PREM,INV_DAYS,FREE,PREM};
 })();
 })(typeof window!=='undefined'?window:globalThis);
