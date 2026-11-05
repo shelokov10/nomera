@@ -1,4 +1,4 @@
-/* Vybivanie nomerov 2.3: shared game logic */
+/* Vybivanie nomerov 2.4: shared game logic */
 (function(root){
 root.L=(function(){
 'use strict';
