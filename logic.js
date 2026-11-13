@@ -1,4 +1,4 @@
-/* Vybivanie nomerov 2.4: shared game logic */
+/* Vybivanie nomerov 2.5.3: shared game logic */
 (function(root){
 root.L=(function(){
 'use strict';
@@ -276,7 +276,15 @@ const TIERS=[
  {id:'gold',name:'\u0417\u043e\u043b\u043e\u0442\u043e\u0439',k:1,price:1000,keys:2,xp:80,mw:[62.666,23.181,8.588,3.177,2.388],ae:1,desc:'\u0420\u0435\u0434\u043a\u0438\u0435 \u043c\u0430\u0442\u0435\u0440\u0438\u0430\u043b\u044b \u0432\u044b\u043f\u0430\u0434\u0430\u044e\u0442 \u0432 2\u20139 \u0440\u0430\u0437 \u0447\u0430\u0449\u0435'},
  {id:'elite',name:'\u042d\u043b\u0438\u0442\u043d\u044b\u0439',k:2,price:2000,keys:4,xp:160,mw:[54.729,24.622,11.094,4.992,4.563],ae:AE_B[0],desc:'\u041b\u0443\u0447\u0448\u0435\u0435 \u0438\u0437 \u0434\u0432\u0443\u0445 \u0441\u043e\u0447\u0435\u0442\u0430\u043d\u0438\u0439, \u043c\u0435\u0442\u0430\u043b\u043b \u0438 \u0437\u043e\u043b\u043e\u0442\u043e \u0447\u0430\u0449\u0435'},
  {id:'season',name:'\u0421\u0435\u0437\u043e\u043d\u043d\u044b\u0439',k:2,price:3500,keys:7,xp:250,event:true,mw:[0,58.174,23.881,9.791,8.154],ae:AE_B[1],desc:'\u041b\u0443\u0447\u0448\u0435\u0435 \u0438\u0437 \u0434\u0432\u0443\u0445 \u0441\u043e\u0447\u0435\u0442\u0430\u043d\u0438\u0439, \u0431\u0435\u0437 \u0431\u0443\u043c\u0430\u0436\u043d\u044b\u0445. \u0422\u043e\u043b\u044c\u043a\u043e \u0432 \u0441\u0435\u0437\u043e\u043d\u0435'},
- {id:'bill',name:'\u041c\u0438\u043b\u043b\u0438\u0430\u0440\u0434\u0435\u0440',k:3,mwc:{ua:[0,31,30,21.5,17.5],us:[0,30,30,22,18]},price:7000,keys:14,xp:400,mw:[0,34,30,20,16],ae:AE_B[2],desc:'\u041b\u0443\u0447\u0448\u0435\u0435 \u0438\u0437 \u0442\u0440\u0451\u0445 \u0441\u043e\u0447\u0435\u0442\u0430\u043d\u0438\u0439, \u0431\u0435\u0437 \u0431\u0443\u043c\u0430\u0436\u043d\u044b\u0445, \u0437\u043e\u043b\u043e\u0442\u043e \u0432 40 \u0440\u0430\u0437 \u0447\u0430\u0449\u0435'}
+ {id:'bill',name:'\u041c\u0438\u043b\u043b\u0438\u0430\u0440\u0434\u0435\u0440',k:3,mwc:{ua:[0,31,30,21.5,17.5],us:[0,30,30,22,18]},price:7000,keys:14,xp:400,mw:[0,34,30,20,16],ae:AE_B[2],desc:'\u041b\u0443\u0447\u0448\u0435\u0435 \u0438\u0437 \u0442\u0440\u0451\u0445 \u0441\u043e\u0447\u0435\u0442\u0430\u043d\u0438\u0439, \u0431\u0435\u0437 \u0431\u0443\u043c\u0430\u0436\u043d\u044b\u0445, \u0437\u043e\u043b\u043e\u0442\u043e \u0432 40 \u0440\u0430\u0437 \u0447\u0430\u0449\u0435'},
+ // 2.5.2: \u0434\u043e\u0440\u043e\u0433\u0438\u0435 \u043a\u0435\u0439\u0441\u044b. \u041e\u043a\u0443\u043f\u0430\u0435\u043c\u043e\u0441\u0442\u044c \u0442\u0430 \u0436\u0435 (~65% \u0432 \u043a\u0430\u0436\u0434\u043e\u0439 \u0441\u0442\u0440\u0430\u043d\u0435): \u0431\u043e\u043b\u044c\u0448\u0435 \u0441\u043e\u0447\u0435\u0442\u0430\u043d\u0438\u0439 \u043d\u0430 \u0432\u044b\u0431\u043e\u0440, \u0431\u0435\u0437 \u0431\u0443\u043c\u0430\u0436\u043d\u044b\u0445, \u0431\u043e\u043b\u044c\u0448\u0435 \u043c\u0435\u0442\u0430\u043b\u043b\u0430 \u0438 \u0437\u043e\u043b\u043e\u0442\u0430,
+ // \u0432 \u0414\u0443\u0431\u0430\u0435 \u2014 \u0431\u043e\u043b\u044c\u0448\u0435 \u043a\u043e\u0440\u043e\u0442\u043a\u0438\u0445 \u043d\u043e\u043c\u0435\u0440\u043e\u0432. \u0412\u0435\u0441\u0430 \u043c\u0430\u0442\u0435\u0440\u0438\u0430\u043b\u043e\u0432 \u043f\u043e\u0441\u0447\u0438\u0442\u0430\u043d\u044b \u043e\u0442\u0434\u0435\u043b\u044c\u043d\u043e \u0434\u043b\u044f \u043a\u0430\u0436\u0434\u043e\u0439 \u0441\u0442\u0440\u0430\u043d\u044b (test/tune25.cjs)
+ {id:'coll',name:'\u041a\u043e\u043b\u043b\u0435\u043a\u0446\u0438\u043e\u043d\u0435\u0440',k:5,price:15000,keys:30,xp:700,mw:[0,20.5,24,24,31.5],
+  mwc:{ua:[0,18.4,21.4,21.4,38.8],kz:[0,20.4,23.9,23.9,31.8],us:[0,17.9,20.9,20.9,40.3],eu:[0,20.4,23.8,23.8,32],ae:[0,21.8,25.4,25.4,27.4]},ae:1.7,desc:'\u041b\u0443\u0447\u0448\u0435\u0435 \u0438\u0437 \u043f\u044f\u0442\u0438 \u0441\u043e\u0447\u0435\u0442\u0430\u043d\u0438\u0439, \u0431\u0435\u0437 \u0431\u0443\u043c\u0430\u0436\u043d\u044b\u0445, \u0437\u043e\u043b\u043e\u0442\u043e \u043f\u043e\u0447\u0442\u0438 \u0432 \u043a\u0430\u0436\u0434\u043e\u043c \u0442\u0440\u0435\u0442\u044c\u0435\u043c'},
+ {id:'auc',name:'\u0410\u0443\u043a\u0446\u0438\u043e\u043d\u043d\u044b\u0439',k:10,price:30000,keys:60,xp:1100,mw:[0,0,17.2,40.1,42.7],
+  mwc:{ua:[0,0,13.4,31.4,55.2],kz:[0,0,17.1,39.9,43],us:[0,0,12.6,29.4,58],eu:[0,0,17.3,40.4,42.3],ae:[0,0,17.4,40.6,42]},ae:2,desc:'\u041b\u0443\u0447\u0448\u0435\u0435 \u0438\u0437 \u0434\u0435\u0441\u044f\u0442\u0438 \u0441\u043e\u0447\u0435\u0442\u0430\u043d\u0438\u0439, \u0442\u043e\u043b\u044c\u043a\u043e \u0433\u043e\u043b\u043e\u0433\u0440\u0430\u0444\u0438\u044f, \u043c\u0435\u0442\u0430\u043b\u043b \u0438 \u0437\u043e\u043b\u043e\u0442\u043e'},
+ {id:'plat',name:'\u041f\u043b\u0430\u0442\u0438\u043d\u043e\u0432\u044b\u0439',k:16,price:50000,keys:100,xp:1500,mw:[0,0,3.7,33.1,63.2],
+  mwc:{ua:[0,0,1.9,16.9,81.2],kz:[0,0,3.5,31.1,65.4],us:[0,0,1.5,13.8,84.7],eu:[0,0,3.6,32.7,63.7],ae:[0,0,4,35.6,60.4]},ae:2.3,desc:'\u041b\u0443\u0447\u0448\u0435\u0435 \u0438\u0437 \u0448\u0435\u0441\u0442\u043d\u0430\u0434\u0446\u0430\u0442\u0438 \u0441\u043e\u0447\u0435\u0442\u0430\u043d\u0438\u0439, \u043c\u0435\u0442\u0430\u043b\u043b \u0438 \u0437\u043e\u043b\u043e\u0442\u043e, \u0431\u043e\u043b\u044c\u0448\u0435 \u0432\u0441\u0435\u0433\u043e \u043a\u043e\u0440\u043e\u0442\u043a\u0438\u0445 \u043d\u043e\u043c\u0435\u0440\u043e\u0432 \u0432 \u0414\u0443\u0431\u0430\u0435'}
 ];
 // \u041a\u0435\u0439\u0441 \u043a\u043e\u043d\u043a\u0440\u0435\u0442\u043d\u043e\u0433\u043e \u0440\u0435\u0433\u0438\u043e\u043d\u0430: \u0446\u0435\u043d\u0430 = \u0446\u0435\u043d\u0430 \u043a\u0435\u0439\u0441\u0430 \u00d7 \u043c\u043d\u043e\u0436\u0438\u0442\u0435\u043b\u044c \u0440\u0435\u0433\u0438\u043e\u043d\u0430 / \u0441\u0440\u0435\u0434\u043d\u0438\u0439 \u043c\u043d\u043e\u0436\u0438\u0442\u0435\u043b\u044c \u0441\u0442\u0440\u0430\u043d\u044b. \u041e\u043a\u0443\u043f\u0430\u0435\u043c\u043e\u0441\u0442\u044c \u0442\u0430 \u0436\u0435.
 // \u0423 \u0441\u0442\u0440\u0430\u043d \u0415\u0432\u0440\u043e\u043f\u044b \u0440\u0430\u0437\u043d\u044b\u0439 \u0444\u043e\u0440\u043c\u0430\u0442 \u043d\u043e\u043c\u0435\u0440\u0430, \u043f\u043e\u044d\u0442\u043e\u043c\u0443 \u0438\u0445 \u0446\u0435\u043d\u043d\u043e\u0441\u0442\u044c \u043f\u043e\u0441\u0447\u0438\u0442\u0430\u043d\u0430 \u043c\u043e\u0434\u0435\u043b\u0438\u0440\u043e\u0432\u0430\u043d\u0438\u0435\u043c
@@ -289,8 +297,9 @@ function regionPrice(c,reg,tier){
   const k=c==='eu'?EU_K[reg]:r[2]/REG_AVG[c];
   return{price:Math.max(10,Math.round(t.price*k/10)*10),keys:Math.max(1,Math.round(t.keys*k))};
 }
-function caseRoll(c,tier,reg){
-  const t=TIERS[tier];let best=null;const k=c==='ae'?1:(t.kc&&t.kc[c])||t.k;
+// kmax \u2014 \u0442\u043e\u043b\u044c\u043a\u043e \u0434\u043b\u044f \u00ab\u0434\u0435\u043a\u043e\u0440\u0430\u0442\u0438\u0432\u043d\u044b\u0445\u00bb \u043d\u043e\u043c\u0435\u0440\u043e\u0432 \u0432 \u043b\u0435\u043d\u0442\u0435 \u0440\u0443\u043b\u0435\u0442\u043a\u0438: \u0447\u0442\u043e\u0431\u044b \u0442\u0435\u043b\u0435\u0444\u043e\u043d \u043d\u0435 \u043f\u0435\u0440\u0435\u0431\u0438\u0440\u0430\u043b \u043f\u043e 16 \u0441\u043e\u0447\u0435\u0442\u0430\u043d\u0438\u0439 \u043d\u0430 \u043a\u0430\u0436\u0434\u0443\u044e \u043a\u0430\u0440\u0442\u0438\u043d\u043a\u0443
+function caseRoll(c,tier,reg,kmax){
+  const t=TIERS[tier];let best=null;let k=c==='ae'?1:(t.kc&&t.kc[c])||t.k;if(kmax&&k>kmax)k=kmax;
   for(let i=0;i<k;i++){const pl=genPlate(c,c==='ae'?t.ae:1,reg);const cp=comboOf(pl).price;if(!best||cp>best.cp)best={pl,cp}}
   return rollItem(best.pl,(t.mwc&&t.mwc[c])||t.mw);
 }
@@ -376,16 +385,31 @@ const SKINS={
   'bike:chopper':{n:'\u0427\u043e\u043f\u043f\u0435\u0440',v:22500,r:3},
   'bike:emo':{n:'\u00ab\u042d\u043c\u043e\u0446\u0438\u0438\u00bb',v:75000,r:4,season:true}
 };
+// 2.5.3: \u0443 \u043a\u0430\u0436\u0434\u043e\u0439 \u043d\u0430\u043a\u043b\u0435\u0439\u043a\u0438 \u043a\u043e\u043b\u043b\u0435\u043a\u0446\u0438\u044f (col) \u0438 \u043f\u043e\u0434\u043f\u0438\u0441\u044c (cap). \u0420\u0435\u0434\u043a\u043e\u0441\u0442\u044c r \u2014 \u0438\u043d\u0434\u0435\u043a\u0441 \u0432 STK_R (\u043d\u043e\u043c\u0435\u0440\u0430 \u0438\u043d\u0434\u0435\u043a\u0441\u043e\u0432 \u043d\u0435 \u043c\u0435\u043d\u044f\u044e\u0442\u0441\u044f:
+// 3 \u2014 \u041b\u0435\u0433\u0435\u043d\u0434\u0430\u0440\u043d\u0430\u044f, 4 \u2014 \u043d\u043e\u0432\u0430\u044f \u041c\u0438\u0444\u0438\u0447\u0435\u0441\u043a\u0430\u044f; \u043f\u043e\u0440\u044f\u0434\u043e\u043a \u00ab\u043f\u043e \u043a\u0440\u0443\u0442\u043e\u0441\u0442\u0438\u00bb \u2014 STK_RANK)
 const STICKERS={
-  bolt:{n:'\u041c\u043e\u043b\u043d\u0438\u044f',v:2000,r:0},flame:{n:'\u041f\u043b\u0430\u043c\u044f',v:2000,r:0},star:{n:'\u0417\u0432\u0435\u0437\u0434\u0430',v:2000,r:0},check:{n:'\u0428\u0430\u0448\u043a\u0438',v:2000,r:0},heart:{n:'\u0421\u0435\u0440\u0434\u0446\u0435',v:2000,r:0},
-  one:{n:'\u041d\u043e\u043c\u0435\u0440 \u043e\u0434\u0438\u043d',v:5000,r:1},clover:{n:'\u041a\u043b\u0435\u0432\u0435\u0440',v:5000,r:1},wing:{n:'\u041a\u0440\u044b\u043b\u044c\u044f',v:5000,r:1},
-  crown:{n:'\u041a\u043e\u0440\u043e\u043d\u0430',v:15000,r:2},rocket:{n:'\u0420\u0430\u043a\u0435\u0442\u0430',v:15000,r:2},
-  gem:{n:'\u0411\u0440\u0438\u043b\u043b\u0438\u0430\u043d\u0442',v:50000,r:3}
+  bolt:{n:'\u041c\u043e\u043b\u043d\u0438\u044f',v:2000,r:0,col:'emo',cap:'\u0417\u0430\u0440\u044f\u0436\u0435\u043d'},flame:{n:'\u041f\u043b\u0430\u043c\u044f',v:2000,r:0,col:'emo',cap:'\u0411\u0435\u0437 \u0442\u043e\u0440\u043c\u043e\u0437\u043e\u0432'},star:{n:'\u0417\u0432\u0435\u0437\u0434\u0430',v:2000,r:0,col:'emo',cap:'\u0417\u0432\u0435\u0437\u0434\u0430 \u0440\u0430\u0439\u043e\u043d\u0430'},check:{n:'\u0428\u0430\u0448\u043a\u0438',v:2000,r:0,col:'emo',cap:'\u0424\u0438\u043d\u0438\u0448 \u0437\u0430 \u043c\u043d\u043e\u0439'},heart:{n:'\u0421\u0435\u0440\u0434\u0446\u0435',v:2000,r:0,col:'emo',cap:'\u041b\u044e\u0431\u043b\u044e \u0441\u0432\u043e\u044e \u043b\u0430\u0441\u0442\u043e\u0447\u043a\u0443'},
+  one:{n:'\u041d\u043e\u043c\u0435\u0440 \u043e\u0434\u0438\u043d',v:5000,r:1,col:'emo',cap:'\u041f\u0435\u0440\u0432\u044b\u0439 \u043d\u0430 \u0440\u0430\u0439\u043e\u043d\u0435'},clover:{n:'\u041a\u043b\u0435\u0432\u0435\u0440',v:5000,r:1,col:'emo',cap:'\u0424\u0430\u0440\u0442\u043e\u0432\u044b\u0439'},wing:{n:'\u041a\u0440\u044b\u043b\u044c\u044f',v:5000,r:1,col:'emo',cap:'\u041b\u0435\u0447\u0443 \u043d\u0438\u0437\u043a\u043e'},
+  crown:{n:'\u041a\u043e\u0440\u043e\u043d\u0430',v:15000,r:2,col:'emo',cap:'\u0425\u043e\u0437\u044f\u0438\u043d \u0434\u0432\u043e\u0440\u0430'},rocket:{n:'\u0420\u0430\u043a\u0435\u0442\u0430',v:15000,r:2,col:'emo',cap:'\u0421 \u043c\u0435\u0441\u0442\u0430 \u0432 \u043a\u0430\u0440\u044c\u0435\u0440'},
+  gem:{n:'\u0411\u0440\u0438\u043b\u043b\u0438\u0430\u043d\u0442',v:50000,r:3,col:'emo',cap:'\u0411\u043b\u0430\u0442\u043d\u043e\u0439'},
+  // \u00ab\u0420\u0432\u0430\u043d\u044b\u0435 \u043f\u0440\u0438\u043d\u0446\u0438\u043f\u044b\u00bb \u2014 \u043a\u0430\u0440\u0442\u0438\u043d\u043a\u0438, \u0432\u044b\u0440\u0435\u0437\u0430\u043d\u043d\u044b\u0435 \u043f\u043e \u043a\u043e\u043d\u0442\u0443\u0440\u0443 (web/stickers/*.webp)
+  rp01:{n:'\u0421\u0442\u0440\u0438\u0442\u0443\u0445\u0430',v:30000,r:4,col:'rp',img:1},rp02:{n:'\u0427\'\u041a',v:5000,r:1,col:'rp',img:1},rp03:{n:'\u0414\u0440\u0438\u0444\u0442\u0443\u044e \u0433\u0434\u0435 \u0445\u043e\u0447\u0443',v:2000,r:0,col:'rp',img:1},
+  rp04:{n:'\u0414\u0430\u044e \u0443\u0433\u043b\u0430 \u0433\u0434\u0435 \u0445\u043e\u0447\u0443',v:5000,r:1,col:'rp',img:1},rp05:{n:'#\u041e\u0422\u0412\u0415\u0420\u041d\u0418\u0421\u042c',v:2000,r:0,col:'rp',img:1},rp06:{n:'\u041b\u044e\u0431\u043b\u044e \u0441\u0432\u043e\u044e \u0441\u0443\u0434\u044c\u0431\u0443',v:5000,r:1,col:'rp',img:1},
+  rp07:{n:'AK47',v:15000,r:2,col:'rp',img:1},rp08:{n:'\u041e\u043f\u0435\u0440 Style',v:15000,r:2,col:'rp',img:1},rp09:{n:'#\u0417\u0410\u0422\u041e\u041d\u0415\u0412\u041a\u0420\u0415\u0414\u0418\u0422',v:5000,r:1,col:'rp',img:1},
+  rp10:{n:'#\u0421\u0415\u041b\u0410-\u0414\u0410\u041b\u0410',v:50000,r:3,col:'rp',img:1},rp11:{n:'4-Strokes S#ck',v:30000,r:4,col:'rp',img:1},rp12:{n:'The Dark Triad',v:50000,r:3,col:'rp',img:1},
+  rp13:{n:'\u0411\u0440\u043e\u0434\u044f\u0433\u0430',v:15000,r:2,col:'rp',img:1},rp14:{n:'\u0411\u043e\u0435\u0432\u0430\u044f \u043a\u043b\u0430\u0441\u0441\u0438\u043a\u0430',v:2000,r:0,col:'rp',img:1},rp15:{n:'\u0426\u0430\u0440\u044c \u0434\u043e\u0440\u043e\u0433',v:2000,r:0,col:'rp',img:1}
 };
+// \u043a\u043e\u043b\u043b\u0435\u043a\u0446\u0438\u0438: \u0441\u043a\u0438\u043d\u044b \u0438 \u043d\u0430\u043a\u043b\u0435\u0439\u043a\u0438 \u0441\u0435\u0437\u043e\u043d\u0430 \u2014 \u00ab\u042d\u043c\u043e\u0446\u0438\u0438 \u043b\u0443\u0447\u0448\u0435 \u041f\u041a\u00bb, \u043d\u043e\u0432\u044b\u0435 \u043d\u0430\u043a\u043b\u0435\u0439\u043a\u0438 \u2014 \u00ab\u0420\u0432\u0430\u043d\u044b\u0435 \u043f\u0440\u0438\u043d\u0446\u0438\u043f\u044b\u00bb
+const COLLECTIONS={emo:{n:'\u042d\u043c\u043e\u0446\u0438\u0438 \u043b\u0443\u0447\u0448\u0435 \u041f\u041a'},rp:{n:'\u0420\u0432\u0430\u043d\u044b\u0435 \u043f\u0440\u0438\u043d\u0446\u0438\u043f\u044b'}};
+const colOf=(kind,v)=>kind==='skin'?(SKINS[v]?'emo':''):((STICKERS[v]&&STICKERS[v].col)||'');
 const SKIN_R=[{n:'\u041e\u0431\u044b\u0447\u043d\u044b\u0439',c:'#8e8e93',w:70},{n:'\u041d\u0435\u043e\u0431\u044b\u0447\u043d\u044b\u0439',c:'#30d158',w:22},{n:'\u0420\u0435\u0434\u043a\u0438\u0439',c:'#0a84ff',w:6.5},{n:'\u042d\u043f\u0438\u0447\u0435\u0441\u043a\u0438\u0439',c:'#bf5af2',w:1.5},{n:'\u0423\u043d\u0438\u043a\u0430\u043b\u044c\u043d\u044b\u0439',c:'#ff9f0a',w:0}];
-const STK_R=[{n:'\u041e\u0431\u044b\u0447\u043d\u0430\u044f',c:'#8e8e93',w:70},{n:'\u0420\u0435\u0434\u043a\u0430\u044f',c:'#0a84ff',w:22},{n:'\u042d\u043f\u0438\u0447\u0435\u0441\u043a\u0430\u044f',c:'#bf5af2',w:6.5},{n:'\u041b\u0435\u0433\u0435\u043d\u0434\u0430\u0440\u043d\u0430\u044f',c:'#ffd60a',w:1.5}];
+const STK_R=[{n:'\u041e\u0431\u044b\u0447\u043d\u0430\u044f',c:'#8e8e93',w:70},{n:'\u0420\u0435\u0434\u043a\u0430\u044f',c:'#0a84ff',w:22},{n:'\u042d\u043f\u0438\u0447\u0435\u0441\u043a\u0430\u044f',c:'#bf5af2',w:6.5},{n:'\u041b\u0435\u0433\u0435\u043d\u0434\u0430\u0440\u043d\u0430\u044f',c:'#ffd60a',w:1.5},{n:'\u041c\u0438\u0444\u0438\u0447\u0435\u0441\u043a\u0430\u044f',c:'#ff453a',w:0}];
+const STK_RANK=[0,1,2,4,3];   // \u043e\u0442 \u043f\u0440\u043e\u0441\u0442\u043e\u0439 \u043a \u0441\u0430\u043c\u043e\u0439 \u043a\u0440\u0443\u0442\u043e\u0439: \u041e\u0431\u044b\u0447\u043d\u0430\u044f, \u0420\u0435\u0434\u043a\u0430\u044f, \u042d\u043f\u0438\u0447\u0435\u0441\u043a\u0430\u044f, \u041c\u0438\u0444\u0438\u0447\u0435\u0441\u043a\u0430\u044f, \u041b\u0435\u0433\u0435\u043d\u0434\u0430\u0440\u043d\u0430\u044f
 // \u0421\u0440\u0435\u0434\u043d\u044f\u044f \u0446\u0435\u043d\u043d\u043e\u0441\u0442\u044c \u0432\u044b\u043f\u0430\u0434\u0435\u043d\u0438\u044f \u2014 \u043e\u043a\u043e\u043b\u043e 65% \u0446\u0435\u043d\u044b \u043a\u0435\u0439\u0441\u0430, \u043a\u0430\u043a \u0443 \u043a\u0435\u0439\u0441\u043e\u0432 \u0441 \u043d\u043e\u043c\u0435\u0440\u0430\u043c\u0438
 const SKIN_CASE={price:4500,keys:9},STICKER_CASE={price:6500,keys:13};
+// 2.5.3: \u0434\u0432\u0430 \u043a\u0435\u0439\u0441\u0430 \u043d\u0430\u043a\u043b\u0435\u0435\u043a. w \u2014 \u0448\u0430\u043d\u0441 \u043a\u0430\u0436\u0434\u043e\u0439 \u0440\u0435\u0434\u043a\u043e\u0441\u0442\u0438 (\u0438\u043d\u0434\u0435\u043a\u0441\u044b \u043a\u0430\u043a \u0432 STK_R). \u041e\u043a\u0443\u043f\u0430\u0435\u043c\u043e\u0441\u0442\u044c ~65%:
+// \u00ab\u042d\u043c\u043e\u0446\u0438\u0438\u00bb: 70\u00d72000 + 22\u00d75000 + 6,5\u00d715000 + 1,5\u00d750000 = 4225 \u0438\u0437 6500; \u00ab\u0420\u0432\u0430\u043d\u044b\u0435 \u043f\u0440\u0438\u043d\u0446\u0438\u043f\u044b\u00bb: 70\u00d72000 + 22,2\u00d75000 + 5\u00d715000 + 0,6\u00d750000 + 2,2\u00d730000 = 4220 \u0438\u0437 6500
+const STK_CASES={emo:{n:'\u042d\u043c\u043e\u0446\u0438\u0438 \u043b\u0443\u0447\u0448\u0435 \u041f\u041a',price:6500,keys:13,w:[70,22,6.5,1.5,0]},rp:{n:'\u0420\u0432\u0430\u043d\u044b\u0435 \u043f\u0440\u0438\u043d\u0446\u0438\u043f\u044b',price:6500,keys:13,w:[70,22.2,5,.6,2.2]}};
 // \u041a\u0440\u0430\u0441\u043a\u0430: \u0434\u0432\u0430 \u0446\u0432\u0435\u0442\u0430, \u043a\u0430\u043a \u0432 Geometry Dash
 const COLORS={
   white:{n:'\u0411\u0435\u043b\u044b\u0439',c:'#f5f5f7',cost:0},black:{n:'\u0427\u0451\u0440\u043d\u044b\u0439',c:'#1c1c1e',cost:0},orange:{n:'\u041e\u0440\u0430\u043d\u0436\u0435\u0432\u044b\u0439',c:'#ff7a1a',cost:0},grey:{n:'\u0421\u0435\u0440\u044b\u0439',c:'#8e8e93',cost:0},
@@ -478,9 +502,9 @@ function cleanNick(s){return String(s==null?'':s).replace(INVIS,'').replace(/[<>
 function cleanText(s,n){return String(s==null?'':s).replace(INVIS,'').trim().slice(0,n)}
 
 /* ---------- \u0441\u043e\u0441\u0442\u043e\u044f\u043d\u0438\u0435 \u0438\u0433\u0440\u043e\u043a\u0430 ---------- */
-function newVeh(k){return k==='car'?{skin:'car:sedan',c1:'orange',c2:'white',wh:'std',kit:'none',st:[],plate:0}:{skin:'bike:std',c1:'orange',c2:'black',wh:'std',kit:'none',st:[],plate:0}}
+function newVeh(k){return k==='car'?{skin:'car:sedan',sid:'f:car',c1:'orange',c2:'white',wh:'std',kit:'none',st:[],plate:0}:{skin:'bike:std',sid:'f:bike',c1:'orange',c2:'black',wh:'std',kit:'none',st:[],plate:0}}
 const freeP=()=>TIERS.map(()=>0);
-function fresh(){return{v:22,pv:'',bal:START_BAL,keys:0,box:[],inv:[],nextId:1,opened:0,spent:0,best:null,
+function fresh(){return{v:25,pv:'',bal:START_BAL,keys:0,box:[],inv:[],nextId:1,opened:0,spent:0,best:null,
   xp:0,prem:0,don:0,cf:[],cp:[],titles:[],title:'',
   daily:{d:'',q:[],p:{},done:[]},week:{w:-1,xp:0,opts:[],got:[]},
   fire:{n:0,d:'',best:0,rep:0,lost:null},rb:null,
@@ -521,6 +545,8 @@ function cleanGive(g){
 function normalize(o){
   const s=fresh();if(!o||typeof o!=='object')return s;
   const old=num(o.v)<21;
+  // 2.5.3: \u043d\u0430\u043a\u043b\u0435\u0439\u043a\u0438 \u043a\u043b\u0435\u044f\u0442\u0441\u044f \u043d\u0430\u0432\u0441\u0435\u0433\u0434\u0430. \u041d\u0430\u043a\u043b\u0435\u0439\u043a\u0438, \u043a\u043e\u0442\u043e\u0440\u044b\u0435 \u0432 2.4 \u0438 \u0440\u0430\u043d\u044c\u0448\u0435 \u043f\u0440\u043e\u0441\u0442\u043e \u00ab\u0432\u0438\u0441\u0435\u043b\u0438\u00bb \u043d\u0430 \u043c\u0430\u0448\u0438\u043d\u0435, \u043f\u0440\u0438 \u043f\u0435\u0440\u0435\u0445\u043e\u0434\u0435 \u0432\u043e\u0437\u0432\u0440\u0430\u0449\u0430\u044e\u0442\u0441\u044f \u0432 \u0438\u043d\u0432\u0435\u043d\u0442\u0430\u0440\u044c
+  const old25=num(o.v)<25;
   s.bal=Math.max(0,Math.round(num(o.bal,START_BAL)));
   if(old)s.bal+=Math.max(0,Math.floor(num(o.gold)))*GOLD_RATE;   // \u043f\u0435\u0440\u0435\u043d\u043e\u0441 \u0433\u043e\u043b\u0434\u044b
   s.keys=Math.max(0,Math.floor(num(o.keys)));
@@ -571,7 +597,7 @@ function normalize(o){
   s.inv=(Array.isArray(o.inv)?o.inv:[]).map(x=>{
     if(!x||typeof x!=='object')return null;
     if(x.k==='skin'&&SKINS[x.v]&&!SKINS[x.v].free)return fix({id:x.id,k:'skin',v:x.v,t:num(x.t),src:String(x.src||'').slice(0,12)});
-    if(x.k==='sticker'&&STICKERS[x.v])return fix({id:x.id,k:'sticker',v:x.v,t:num(x.t),src:String(x.src||'').slice(0,12)});
+    if(x.k==='sticker'&&STICKERS[x.v]){const it=fix({id:x.id,k:'sticker',v:x.v,t:num(x.t),src:String(x.src||'').slice(0,12)});if(!old25&&typeof x.on==='string'&&/^(i\d{1,12}|f:(car|bike))$/.test(x.on))it.on=x.on;return it}
     return null;
   }).filter(Boolean);
   s.nextId=Math.max(num(o.nextId,1),maxId+1);
@@ -583,9 +609,13 @@ function normalize(o){
     if(typeof v.skin==='string'&&v.skin.startsWith(k+':')&&(SKINS[v.skin]&&(SKINS[v.skin].free||s.inv.some(i=>i.k==='skin'&&i.v===v.skin))))d.skin=v.skin;
     if(s.colors.includes(v.c1))d.c1=v.c1;if(s.colors.includes(v.c2))d.c2=v.c2;
     if(s.wheels.includes(v.wh))d.wh=v.wh;if(s.kits.includes(v.kit)&&KITS[k][v.kit])d.kit=v.kit;
-    d.st=arrN(v.st).filter(id=>s.inv.some(i=>i.id===id&&i.k==='sticker')).slice(0,3);
+    if(!old25&&typeof v.sid==='string')d.sid=v.sid;
     d.plate=s.box.some(b=>b.id===num(v.plate))?num(v.plate):0;
   }
+  // 2.5.3: \u043a\u0430\u043a\u0430\u044f \u0438\u043c\u0435\u043d\u043d\u043e \u0432\u0435\u0449\u044c-\u0441\u043a\u0438\u043d \u0441\u0442\u043e\u0438\u0442 \u043d\u0430 \u043c\u0430\u0448\u0438\u043d\u0435; \u043d\u0430\u043a\u043b\u0435\u0439\u043a\u0438, \u043f\u0440\u0438\u043a\u043b\u0435\u0435\u043d\u043d\u044b\u0435 \u043a \u043f\u0440\u043e\u043f\u0430\u0432\u0448\u0435\u043c\u0443 \u0441\u043a\u0438\u043d\u0443, \u0438\u0441\u0447\u0435\u0437\u0430\u044e\u0442 \u0432\u043c\u0435\u0441\u0442\u0435 \u0441 \u043d\u0438\u043c
+  for(const k of ['car','bike'])fixSid(s,k);
+  s.inv=s.inv.filter(i=>i.k!=='sticker'||!i.on||i.on.startsWith('f:')||s.inv.some(x=>x.k==='skin'&&'i'+x.id===i.on));
+  syncSt(s);
   if(o.best&&o.best.pl){const b=cleanItem(Object.assign({id:1},o.best));if(b)s.best=keepPrice(b,o.best)}
   s.box.forEach(x=>{if(!s.best||x.price>s.best.price)s.best=Object.assign({},x)});
   return s;
@@ -700,18 +730,38 @@ function sellQuick(S,id,ctx){
 }
 // \u041f\u0440\u0435\u0434\u043c\u0435\u0442 \u0443\u0448\u0451\u043b \u0438\u0437 \u0433\u0430\u0440\u0430\u0436\u0430: \u0441\u043d\u044f\u0442\u044c \u0441 \u043c\u0430\u0448\u0438\u043d\u044b, \u0441 \u0432\u0438\u0442\u0440\u0438\u043d\u044b \u0438 \u0438\u0437 \u043d\u0430\u043a\u043b\u0435\u0435\u043a
 function unmount(S,id){for(const k of ['car','bike']){const v=S.veh[k];if(v.plate===id)v.plate=0;v.st=v.st.filter(x=>x!==id)}S.show=S.show.filter(x=>x!==id)}
+/* ---------- 2.5.3: \u043d\u0430\u043a\u043b\u0435\u0439\u043a\u0430 \u043d\u0430\u0432\u0441\u0435\u0433\u0434\u0430 ----------
+   \u041d\u0430\u043a\u043b\u0435\u0439\u043a\u0430 \u043a\u043b\u0435\u0438\u0442\u0441\u044f \u043a \u043a\u043e\u043d\u043a\u0440\u0435\u0442\u043d\u043e\u043c\u0443 \u0441\u043a\u0438\u043d\u0443 (\u0432\u0435\u0449\u0438 \u0438\u0437 \u0438\u043d\u0432\u0435\u043d\u0442\u0430\u0440\u044f, \u043a\u043b\u044e\u0447 'i<id>') \u0438\u043b\u0438 \u043a \u0431\u0435\u0441\u043f\u043b\u0430\u0442\u043d\u043e\u043c\u0443 \u043a\u0443\u0437\u043e\u0432\u0443 ('f:car' / 'f:bike').
+   \u0421\u043d\u044f\u0442\u044c = \u0443\u043d\u0438\u0447\u0442\u043e\u0436\u0438\u0442\u044c. \u0421\u043a\u0438\u043d \u0443\u0445\u043e\u0434\u0438\u0442 (\u0440\u044b\u043d\u043e\u043a, \u0441\u043a\u0443\u043f\u0449\u0438\u043a, \u0430\u043f\u0433\u0440\u0435\u0439\u0434\u0435\u0440) \u2014 \u0442\u043e\u043b\u044c\u043a\u043e \u0432\u043c\u0435\u0441\u0442\u0435 \u0441\u043e \u0441\u0432\u043e\u0438\u043c\u0438 \u043d\u0430\u043a\u043b\u0435\u0439\u043a\u0430\u043c\u0438. \u041d\u0430 \u043c\u0430\u0448\u0438\u043d\u0435 \u0432\u0438\u0434\u043d\u044b \u043d\u0430\u043a\u043b\u0435\u0439\u043a\u0438 \u0435\u0451 \u0441\u043a\u0438\u043d\u0430. */
+const STK_MAX=3;
+function skinKey(S,k){return S.veh[k].sid||('f:'+k)}
+function glued(S,key){return S.inv.filter(i=>i.k==='sticker'&&i.on===key)}
+function stkOf(S,skinItem){return glued(S,'i'+skinItem.id)}
+function fixSid(S,k){
+  const V=S.veh[k];const def=SKINS[V.skin];
+  if(!def||def.free){V.sid='f:'+k;return}
+  const own=S.inv.filter(i=>i.k==='skin'&&i.v===V.skin);
+  if(own.some(i=>'i'+i.id===V.sid))return;
+  if(!own.length){V.skin=newVeh(k).skin;V.sid='f:'+k;return}
+  own.sort((a,b)=>glued(S,'i'+b.id).length-glued(S,'i'+a.id).length);V.sid='i'+own[0].id;
+}
+function syncSt(S){for(const k of ['car','bike']){const V=S.veh[k];V.st=glued(S,skinKey(S,k)).slice(0,STK_MAX).map(i=>i.id)}}
+// \u0443\u0431\u0440\u0430\u0442\u044c \u0441\u043a\u0438\u043d \u0432\u043c\u0435\u0441\u0442\u0435 \u0441 \u0435\u0433\u043e \u043d\u0430\u043a\u043b\u0435\u0439\u043a\u0430\u043c\u0438; \u0432\u0435\u0440\u043d\u0443\u0442\u044c \u0441\u0430\u043c\u0438 \u043d\u0430\u043a\u043b\u0435\u0439\u043a\u0438 (\u0434\u043b\u044f \u0440\u044b\u043d\u043a\u0430)
+function takeSkin(S,x){const st=stkOf(S,x);S.inv=S.inv.filter(i=>i!==x&&!st.includes(i));unmount(S,x.id);st.forEach(i=>unmount(S,i.id));syncSt(S);return st}
+function stkValue(S,x){return x.k==='skin'?stkOf(S,x).reduce((a,i)=>a+STICKERS[i.v].v,0):0}
 function plateLocked(S,id){return S.veh.car.plate===id||S.veh.bike.plate===id}
 // \u0421\u043a\u0438\u043d \u043d\u0435\u043b\u044c\u0437\u044f \u043f\u0440\u043e\u0434\u0430\u0442\u044c \u0438\u043b\u0438 \u043f\u043e\u0441\u0442\u0430\u0432\u0438\u0442\u044c, \u0435\u0441\u043b\u0438 \u043e\u043d \u0443\u0441\u0442\u0430\u043d\u043e\u0432\u043b\u0435\u043d \u0438 \u044d\u0442\u043e \u0435\u0434\u0438\u043d\u0441\u0442\u0432\u0435\u043d\u043d\u0430\u044f \u043a\u043e\u043f\u0438\u044f
-function skinLocked(S,x){return x.k==='skin'&&(S.veh.car.skin===x.v||S.veh.bike.skin===x.v)&&S.inv.filter(i=>i.k==='skin'&&i.v===x.v).length<2}
+function skinLocked(S,x){return x.k==='skin'&&(S.veh.car.sid==='i'+x.id||S.veh.bike.sid==='i'+x.id)}
+const stkLocked=x=>x.k==='sticker'&&!!x.on;
 
 /* ---------- \u043a\u0435\u0439\u0441\u044b \u0441\u043e \u0441\u043a\u0438\u043d\u0430\u043c\u0438 \u0438 \u043d\u0430\u043a\u043b\u0435\u0439\u043a\u0430\u043c\u0438 ---------- */
 function rollSkin(){
   const r=wIdx(SKIN_R.map(x=>x.w));const l=Object.keys(SKINS).filter(k=>SKINS[k].r===r&&!SKINS[k].free&&!SKINS[k].season);return pick(l);
 }
-function rollSticker(){const r=wIdx(STK_R.map(x=>x.w));const l=Object.keys(STICKERS).filter(k=>STICKERS[k].r===r);return pick(l)}
+function rollSticker(c){const C=STK_CASES[c]||STK_CASES.emo;const col=STK_CASES[c]?c:'emo';const r=wIdx(C.w);const l=Object.keys(STICKERS).filter(k=>STICKERS[k].r===r&&STICKERS[k].col===col);return pick(l)}
 // \u0428\u0430\u043d\u0441\u044b \u0434\u043b\u044f \u043f\u043e\u043a\u0430\u0437\u0430 \u0438\u0433\u0440\u043e\u043a\u0443: \u043a\u0430\u0436\u0434\u044b\u0439 \u043f\u0440\u0435\u0434\u043c\u0435\u0442 \u0438 \u0435\u0433\u043e \u0432\u0435\u0440\u043e\u044f\u0442\u043d\u043e\u0441\u0442\u044c
 function skinOdds(){const out=[];SKIN_R.forEach((R,r)=>{const l=Object.keys(SKINS).filter(k=>SKINS[k].r===r&&!SKINS[k].free&&!SKINS[k].season);l.forEach(k=>out.push({v:k,p:R.w/100/l.length}))});return out}
-function stickerOdds(){const out=[];STK_R.forEach((R,r)=>{const l=Object.keys(STICKERS).filter(k=>STICKERS[k].r===r);l.forEach(k=>out.push({v:k,p:R.w/100/l.length}))});return out}
+function stickerOdds(c){const C=STK_CASES[c]||STK_CASES.emo;const col=STK_CASES[c]?c:'emo';const out=[];STK_RANK.forEach(r=>{const l=Object.keys(STICKERS).filter(k=>STICKERS[k].r===r&&STICKERS[k].col===col);l.forEach(k=>out.push({v:k,p:C.w[r]/100/l.length}))});return out}
 
 /* ---------- \u043c\u0438\u043d\u0438-\u0438\u0433\u0440\u044b: \u043e\u0431\u0449\u0438\u0439 \u043b\u0438\u043c\u0438\u0442 60 000 \u0437\u0430 12 \u0447\u0430\u0441\u043e\u0432 ---------- */
 // \u041b\u0438\u043c\u0438\u0442 \u0434\u0435\u043b\u0438\u0442\u0441\u044f \u043c\u0435\u0436\u0434\u0443 \u0440\u0435\u0436\u0438\u043c\u0430\u043c\u0438: \u043b\u044e\u0431\u0438\u043c\u044b\u0435 (\u0441\u0435\u0440\u0434\u0435\u0447\u043a\u043e) \u0432\u0435\u0441\u044f\u0442 1,5, \u043e\u0441\u0442\u0430\u043b\u044c\u043d\u044b\u0435 1. \u0421 \u043f\u044f\u0442\u044c\u044e \u0440\u0435\u0436\u0438\u043c\u0430\u043c\u0438: 15 000 \u0438 10 000.
@@ -806,7 +856,7 @@ function upStake(S,kind,ids){
   let inV=0;const items=[];
   for(const id of ids){
     if(kind==='box'){const x=S.box.find(b=>b.id===id);if(!x)fail('\u041d\u043e\u043c\u0435\u0440 \u043d\u0435 \u043d\u0430\u0439\u0434\u0435\u043d');if(x.pin||plateLocked(S,id))fail('\u0417\u0430\u043a\u0440\u0435\u043f\u043b\u0451\u043d\u043d\u044b\u0435 \u0438 \u0443\u0441\u0442\u0430\u043d\u043e\u0432\u043b\u0435\u043d\u043d\u044b\u0435 \u043d\u043e\u043c\u0435\u0440\u0430 \u043d\u0435\u043b\u044c\u0437\u044f \u0441\u0442\u0430\u0432\u0438\u0442\u044c');items.push(x);inV+=x.price}
-    else{const x=S.inv.find(b=>b.id===id&&b.k==='skin');if(!x)fail('\u0421\u043a\u0438\u043d \u043d\u0435 \u043d\u0430\u0439\u0434\u0435\u043d');if(skinLocked(S,x))fail('\u0421\u043a\u0438\u043d \u00ab'+SKINS[x.v].n+'\u00bb \u0443\u0441\u0442\u0430\u043d\u043e\u0432\u043b\u0435\u043d. \u0415\u0433\u043e \u043d\u0435\u043b\u044c\u0437\u044f \u043f\u043e\u0441\u0442\u0430\u0432\u0438\u0442\u044c');items.push(x);inV+=SKINS[x.v].v}
+    else{const x=S.inv.find(b=>b.id===id&&b.k==='skin');if(!x)fail('\u0421\u043a\u0438\u043d \u043d\u0435 \u043d\u0430\u0439\u0434\u0435\u043d');if(skinLocked(S,x))fail('\u0421\u043a\u0438\u043d \u00ab'+SKINS[x.v].n+'\u00bb \u0443\u0441\u0442\u0430\u043d\u043e\u0432\u043b\u0435\u043d. \u0415\u0433\u043e \u043d\u0435\u043b\u044c\u0437\u044f \u043f\u043e\u0441\u0442\u0430\u0432\u0438\u0442\u044c');items.push(x);inV+=SKINS[x.v].v+stkValue(S,x)}
   }
   return{ids,items,inV};
 }
@@ -900,7 +950,10 @@ const ACTIONS={
   sellInv(S,p,ctx){
     const x=S.inv.find(i=>i.id===int(p.id));if(!x)fail('\u041f\u0440\u0435\u0434\u043c\u0435\u0442 \u043d\u0435 \u043d\u0430\u0439\u0434\u0435\u043d');
     if(skinLocked(S,x))fail('\u042d\u0442\u043e\u0442 \u0441\u043a\u0438\u043d \u0443\u0441\u0442\u0430\u043d\u043e\u0432\u043b\u0435\u043d. \u041f\u043e\u0441\u0442\u0430\u0432\u044c\u0442\u0435 \u0434\u0440\u0443\u0433\u043e\u0439, \u0447\u0442\u043e\u0431\u044b \u043f\u0440\u043e\u0434\u0430\u0442\u044c');
-    const pay=invBuyback(x);S.inv=S.inv.filter(i=>i!==x);unmount(S,x.id);S.bal+=pay;
+    if(stkLocked(x))fail('\u041d\u0430\u043a\u043b\u0435\u0439\u043a\u0430 \u043f\u0440\u0438\u043a\u043b\u0435\u0435\u043d\u0430. \u0415\u0451 \u043c\u043e\u0436\u043d\u043e \u0442\u043e\u043b\u044c\u043a\u043e \u0441\u043d\u044f\u0442\u044c \u2014 \u0442\u043e\u0433\u0434\u0430 \u043e\u043d\u0430 \u0438\u0441\u0447\u0435\u0437\u043d\u0435\u0442');
+    let pay=invBuyback(x);
+    if(x.k==='skin'){const st=takeSkin(S,x);pay+=st.reduce((a,i)=>a+invBuyback(i),0);S.bal+=pay;return{msg:'\u0421\u043a\u0443\u043f\u0449\u0438\u043a \u0437\u0430\u043f\u043b\u0430\u0442\u0438\u043b '+fmt(pay)+(st.length?' \u2014 \u0432\u043c\u0435\u0441\u0442\u0435 \u0441 \u043d\u0430\u043a\u043b\u0435\u0439\u043a\u0430\u043c\u0438 ('+st.length+')':''),pay}}
+    S.inv=S.inv.filter(i=>i!==x);unmount(S,x.id);S.bal+=pay;
     return{msg:'\u0421\u043a\u0443\u043f\u0449\u0438\u043a \u0437\u0430\u043f\u043b\u0430\u0442\u0438\u043b '+fmt(pay),pay};
   },
   pin(S,p){const x=S.box.find(v=>v.id===int(p.id));if(!x)fail('\u041d\u043e\u043c\u0435\u0440 \u043d\u0435 \u043d\u0430\u0439\u0434\u0435\u043d');x.pin=!x.pin;return{}},
@@ -956,14 +1009,24 @@ const ACTIONS={
     if(f==='c1'||f==='c2'){if(!S.colors.includes(val))fail('\u0421\u043d\u0430\u0447\u0430\u043b\u0430 \u043a\u0443\u043f\u0438\u0442\u0435 \u044d\u0442\u043e\u0442 \u0446\u0432\u0435\u0442');V[f]=val}
     else if(f==='wh'){if(!S.wheels.includes(val))fail('\u0421\u043d\u0430\u0447\u0430\u043b\u0430 \u043a\u0443\u043f\u0438\u0442\u0435 \u044d\u0442\u0438 \u043a\u043e\u043b\u0451\u0441\u0430');V.wh=val}
     else if(f==='kit'){if(!S.kits.includes(val)||!KITS[v][val])fail('\u0421\u043d\u0430\u0447\u0430\u043b\u0430 \u043a\u0443\u043f\u0438\u0442\u0435 \u044d\u0442\u043e\u0442 \u043e\u0431\u0432\u0435\u0441');V.kit=val}
-    else if(f==='skin'){const s=String(val);if(!SKINS[s]||!s.startsWith(v+':'))fail('\u041d\u0435\u0442 \u0442\u0430\u043a\u043e\u0433\u043e \u0441\u043a\u0438\u043d\u0430');if(!SKINS[s].free&&!S.inv.some(i=>i.k==='skin'&&i.v===s))fail('\u042d\u0442\u043e\u0433\u043e \u0441\u043a\u0438\u043d\u0430 \u043d\u0435\u0442 \u0432 \u0438\u043d\u0432\u0435\u043d\u0442\u0430\u0440\u0435');V.skin=s}
+    else if(f==='skin'){const s=String(val);if(!SKINS[s]||!s.startsWith(v+':'))fail('\u041d\u0435\u0442 \u0442\u0430\u043a\u043e\u0433\u043e \u0441\u043a\u0438\u043d\u0430');if(!SKINS[s].free&&!S.inv.some(i=>i.k==='skin'&&i.v===s))fail('\u042d\u0442\u043e\u0433\u043e \u0441\u043a\u0438\u043d\u0430 \u043d\u0435\u0442 \u0432 \u0438\u043d\u0432\u0435\u043d\u0442\u0430\u0440\u0435');
+      V.skin=s;V.sid='';const pid=int(p.id);if(pid&&S.inv.some(i=>i.k==='skin'&&i.v===s&&i.id===pid))V.sid='i'+pid;fixSid(S,v);syncSt(S)}
     else if(f==='plate'){const id=int(val);if(id&&!S.box.some(b=>b.id===id))fail('\u041d\u043e\u043c\u0435\u0440 \u043d\u0435 \u043d\u0430\u0439\u0434\u0435\u043d');for(const k of ['car','bike'])if(S.veh[k].plate===id)S.veh[k].plate=0;V.plate=id}
-    else if(f==='st'){
-      const ids=(Array.isArray(val)?val:[]).map(int).slice(0,3);
-      for(const id of ids)if(!S.inv.some(i=>i.id===id&&i.k==='sticker'))fail('\u041d\u0430\u043a\u043b\u0435\u0439\u043a\u0430 \u043d\u0435 \u043d\u0430\u0439\u0434\u0435\u043d\u0430');
-      const other=S.veh[v==='car'?'bike':'car'];other.st=other.st.filter(x=>!ids.includes(x));V.st=[...new Set(ids)];
-    }else fail('\u041d\u0435\u0438\u0437\u0432\u0435\u0441\u0442\u043d\u0430\u044f \u043d\u0430\u0441\u0442\u0440\u043e\u0439\u043a\u0430');
+    else if(f==='st')fail('\u041e\u0431\u043d\u043e\u0432\u0438\u0442\u0435 \u0438\u0433\u0440\u0443: \u043d\u0430\u043a\u043b\u0435\u0439\u043a\u0438 \u0442\u0435\u043f\u0435\u0440\u044c \u043a\u043b\u0435\u044f\u0442\u0441\u044f \u043d\u0430\u0432\u0441\u0435\u0433\u0434\u0430');
+    else fail('\u041d\u0435\u0438\u0437\u0432\u0435\u0441\u0442\u043d\u0430\u044f \u043d\u0430\u0441\u0442\u0440\u043e\u0439\u043a\u0430');
     return{};
+  },
+  // 2.5.3: \u043f\u0440\u0438\u043a\u043b\u0435\u0438\u0442\u044c \u043d\u0430\u043a\u043b\u0435\u0439\u043a\u0443 \u043a \u0441\u043a\u0438\u043d\u0443 \u043d\u0430 \u043c\u0430\u0448\u0438\u043d\u0435 (\u043d\u0430\u0432\u0441\u0435\u0433\u0434\u0430)
+  stkGlue(S,p){
+    const v=p.v==='bike'?'bike':'car';const x=S.inv.find(i=>i.id===int(p.id)&&i.k==='sticker');if(!x)fail('\u041d\u0430\u043a\u043b\u0435\u0439\u043a\u0430 \u043d\u0435 \u043d\u0430\u0439\u0434\u0435\u043d\u0430');
+    if(x.on)fail('\u042d\u0442\u0430 \u043d\u0430\u043a\u043b\u0435\u0439\u043a\u0430 \u0443\u0436\u0435 \u043f\u0440\u0438\u043a\u043b\u0435\u0435\u043d\u0430');const key=skinKey(S,v);
+    if(glued(S,key).length>=STK_MAX)fail('\u041d\u0430 \u0441\u043a\u0438\u043d\u0435 \u0443\u0436\u0435 '+STK_MAX+' \u043d\u0430\u043a\u043b\u0435\u0439\u043a\u0438. \u0421\u043d\u0438\u043c\u0438\u0442\u0435 \u043e\u0434\u043d\u0443, \u0447\u0442\u043e\u0431\u044b \u043f\u0440\u0438\u043a\u043b\u0435\u0438\u0442\u044c \u043d\u043e\u0432\u0443\u044e');
+    x.on=key;syncSt(S);return{msg:'\u041d\u0430\u043a\u043b\u0435\u0439\u043a\u0430 \u00ab'+STICKERS[x.v].n+'\u00bb \u043f\u0440\u0438\u043a\u043b\u0435\u0435\u043d\u0430'};
+  },
+  // \u0441\u043d\u044f\u0442\u044c = \u0443\u043d\u0438\u0447\u0442\u043e\u0436\u0438\u0442\u044c
+  stkPeel(S,p){
+    const x=S.inv.find(i=>i.id===int(p.id)&&i.k==='sticker');if(!x)fail('\u041d\u0430\u043a\u043b\u0435\u0439\u043a\u0430 \u043d\u0435 \u043d\u0430\u0439\u0434\u0435\u043d\u0430');if(!x.on)fail('\u041d\u0430\u043a\u043b\u0435\u0439\u043a\u0430 \u043d\u0435 \u043f\u0440\u0438\u043a\u043b\u0435\u0435\u043d\u0430');
+    S.inv=S.inv.filter(i=>i!==x);unmount(S,x.id);syncSt(S);return{msg:'\u041d\u0430\u043a\u043b\u0435\u0439\u043a\u0430 \u00ab'+STICKERS[x.v].n+'\u00bb \u0441\u043d\u044f\u0442\u0430 \u0438 \u0438\u0441\u0447\u0435\u0437\u043b\u0430'};
   },
   // \u0412\u0438\u0442\u0440\u0438\u043d\u0430: \u0434\u043e \u0442\u0440\u0451\u0445 \u043d\u043e\u043c\u0435\u0440\u043e\u0432 \u043d\u0430 \u0432\u044b\u0431\u043e\u0440 \u0438\u0433\u0440\u043e\u043a\u0430
   showSet(S,p){
@@ -988,8 +1051,9 @@ const ACTIONS={
   stickerCase(S,p,ctx){
     if(S.inv.length>=INV_CAP)fail('\u0418\u043d\u0432\u0435\u043d\u0442\u0430\u0440\u044c \u043f\u043e\u043b\u043e\u043d');
     if(p.free){if(!(S.free.tc>0))fail('\u0411\u0435\u0441\u043f\u043b\u0430\u0442\u043d\u044b\u0445 \u043a\u0435\u0439\u0441\u043e\u0432 \u043d\u0435\u0442');S.free.tc--}
-    else pay(S,p.key?'key':'coin',STICKER_CASE.price,STICKER_CASE.keys,ctx);
-    const v=rollSticker();const it=addInv(S,'sticker',v,'case',ctx.now);addXp(S,60,ctx);
+    const c=STK_CASES[p.c]?String(p.c):'emo';const C=STK_CASES[c];
+    if(!p.free)pay(S,p.key?'key':'coin',C.price,C.keys,ctx);
+    const v=rollSticker(c);const it=addInv(S,'sticker',v,'case',ctx.now);addXp(S,60,ctx);
     return{inv:it,rare:STICKERS[v].r>=2};
   },
   // ----- \u043c\u0438\u043d\u0438-\u0438\u0433\u0440\u044b -----
@@ -1083,7 +1147,7 @@ const ACTIONS={
     if(kind==='box'&&S.box.length-ids.length>=BOX_CAP)fail('\u0413\u0430\u0440\u0430\u0436 \u043f\u043e\u043b\u043e\u043d');
     const ch=upChance(st.inV,tv);const roll=RNG();const win=roll<ch;
     if(kind==='box'){S.box=S.box.filter(b=>!ids.includes(b.id));ids.forEach(id=>unmount(S,id));S.upo=null}
-    else{S.inv=S.inv.filter(b=>!ids.includes(b.id));ids.forEach(id=>unmount(S,id))}
+    else{S.inv.filter(b=>ids.includes(b.id)).forEach(x=>takeSkin(S,x))}
     let got=null;
     if(win){if(kind==='box')got=addPlate(S,target,'up',ctx.now);else got=addInv(S,'skin',target,'up',ctx.now)}
     S.stats.up++;
@@ -1216,6 +1280,6 @@ function checkComment(text){
 }
 // ==/FILTER==
 
-return{get RNG(){return RNG},rnd,pick,seeded,withRng,seq,same,wpick,wIdx,RU_LET,UA_LET,KZ_LET,US_LET,DE_LET,FR_LET,ES_LET,AE_LET,COUNTRY,COUNTRIES,RU_TOP,RU_PLAIN,UA_REG,KZ_REG,US_REG,US_LOOK,EU_REG,DE_CITY,AE_REG,topCodes,RU_REG,REG,RMAP,DEMAP,digitsStr,letters,RULES3,RULES4,RULES_SHORT,RULES_AE,lrun,L3,SERIES_RU,WINGED_D,NO_BONUS_D,WINGED_L,WINGED_AE,LRULES,BASE,MATS,WEARS,FONTS,wearOf,floatMult,BUILTIN_PAT,OV,setOv,getOv,patInfo,genPlate,plateKey,plateText,niceRound,comboOf,APC,appraise,rollItem,MAT_W,AE_B,TIERS,EU_K,REG_AVG,regionPrice,caseRoll,LAT,CYR,toLat,has,cleanPlate,cleanItemFields,parsePlateInput,MSK,BOX_CAP,KEY_COINS,GOLD_RATE,GAME_TOTAL,PAY_GAMES,DAILY_M,SEASON,WEEK_XP,BANK,TOTE,CLICK,FIRE,RUN_KEEP,SKINS,STICKERS,SKIN_R,STK_R,SKIN_CASE,COLORS,WHEELS,KITS,TITLES,PLUS,plusTier,STATUS_N,REF_REW,REF_CAP,INV_REW,REF_LVL,refRewardFor,invRewardFor,refCapFor,SPECIAL,buildPass,PASS,QUESTS,QUEST_XP,num,fmtN,pluralW,fmt,keyN,pad8,hashStr,mskDate,mskMidnight,dayNum,weekId,weekEnd,INVIS,cleanNick,cleanText,newVeh,freeP,fresh,cleanItem,priceItem,keepPrice,PRICE_V,reprice,cleanGive,normalize,seasonOn,level,lvlPct,isPrem,worth,badges,addXp,ensureDaily,quest,questReady,claimable,dayReady,fireAlive,fireCanFix,fireFixAt,rbReady,rbPart,weekOpts,weekTick,rewardText,addPlate,addInv,grant,claimLevel,inbox,buyback,invValue,invBuyback,sellQuick,unmount,plateLocked,skinLocked,rollSkin,rollSticker,skinOdds,stickerOdds,gameCaps,winFresh,gameEarned,gameLeft,gameReset,RATE,TOTE_SKINS,toteCard,toteProbs,UP,upChance,upGoal,upSkinTargets,UP_D,UPIDX,upIndex,lowerBound,upOffers,upStake,shopOffers,ensureShop,shopEnds,GameError,fail,int,rid,needCoins,needKeys,pay,rollOne,ACTIONS,needAdm,act,OPTIMISTIC,LOOK_V,LOOK_T,V,BAD_ROOTS,BAD_GLUED,normFilter,words,hasBad,hasBad1,TLD,LINK_RES,hasLink,checkComment,DAY,WEEK,INV_CAP,BUYBACK,FEE,MAX_LIST,MIN_ASK,MAX_ASK,START_BAL,GAME_WIN,KEY_EVERY,FAV_W,FAV_MAX,RUN_TTL,STICKER_CASE,REF_PREM,INV_PREM,INV_DAYS,FREE,PREM};
+return{get RNG(){return RNG},rnd,pick,seeded,withRng,seq,same,wpick,wIdx,RU_LET,UA_LET,KZ_LET,US_LET,DE_LET,FR_LET,ES_LET,AE_LET,COUNTRY,COUNTRIES,RU_TOP,RU_PLAIN,UA_REG,KZ_REG,US_REG,US_LOOK,EU_REG,DE_CITY,AE_REG,topCodes,RU_REG,REG,RMAP,DEMAP,digitsStr,letters,RULES3,RULES4,RULES_SHORT,RULES_AE,lrun,L3,SERIES_RU,WINGED_D,NO_BONUS_D,WINGED_L,WINGED_AE,LRULES,BASE,MATS,WEARS,FONTS,wearOf,floatMult,BUILTIN_PAT,OV,setOv,getOv,patInfo,genPlate,plateKey,plateText,niceRound,comboOf,APC,appraise,rollItem,MAT_W,AE_B,TIERS,EU_K,REG_AVG,regionPrice,caseRoll,LAT,CYR,toLat,has,cleanPlate,cleanItemFields,parsePlateInput,MSK,BOX_CAP,KEY_COINS,GOLD_RATE,GAME_TOTAL,PAY_GAMES,DAILY_M,SEASON,WEEK_XP,BANK,TOTE,CLICK,FIRE,RUN_KEEP,SKINS,STICKERS,COLLECTIONS,colOf,SKIN_R,STK_R,STK_RANK,SKIN_CASE,STK_CASES,COLORS,WHEELS,KITS,TITLES,PLUS,plusTier,STATUS_N,REF_REW,REF_CAP,INV_REW,REF_LVL,refRewardFor,invRewardFor,refCapFor,SPECIAL,buildPass,PASS,QUESTS,QUEST_XP,num,fmtN,pluralW,fmt,keyN,pad8,hashStr,mskDate,mskMidnight,dayNum,weekId,weekEnd,INVIS,cleanNick,cleanText,newVeh,freeP,fresh,cleanItem,priceItem,keepPrice,PRICE_V,reprice,cleanGive,normalize,seasonOn,level,lvlPct,isPrem,worth,badges,addXp,ensureDaily,quest,questReady,claimable,dayReady,fireAlive,fireCanFix,fireFixAt,rbReady,rbPart,weekOpts,weekTick,rewardText,addPlate,addInv,grant,claimLevel,inbox,buyback,invValue,invBuyback,sellQuick,unmount,STK_MAX,skinKey,glued,stkOf,fixSid,syncSt,takeSkin,stkValue,plateLocked,skinLocked,stkLocked,rollSkin,rollSticker,skinOdds,stickerOdds,gameCaps,winFresh,gameEarned,gameLeft,gameReset,RATE,TOTE_SKINS,toteCard,toteProbs,UP,upChance,upGoal,upSkinTargets,UP_D,UPIDX,upIndex,lowerBound,upOffers,upStake,shopOffers,ensureShop,shopEnds,GameError,fail,int,rid,needCoins,needKeys,pay,rollOne,ACTIONS,needAdm,act,OPTIMISTIC,LOOK_V,LOOK_T,V,BAD_ROOTS,BAD_GLUED,normFilter,words,hasBad,hasBad1,TLD,LINK_RES,hasLink,checkComment,DAY,WEEK,INV_CAP,BUYBACK,FEE,MAX_LIST,MIN_ASK,MAX_ASK,START_BAL,GAME_WIN,KEY_EVERY,FAV_W,FAV_MAX,RUN_TTL,STICKER_CASE,REF_PREM,INV_PREM,INV_DAYS,FREE,PREM};
 })();
 })(typeof window!=='undefined'?window:globalThis);
