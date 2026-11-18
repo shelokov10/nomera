@@ -434,6 +434,8 @@ select.inp{appearance:none;-webkit-appearance:none}
 .flt i{position:absolute;top:-5px;width:3px;height:20px;border-radius:2px;background:var(--text);margin-left:-1.5px;box-shadow:0 0 0 2px var(--bg)}
 .kv{display:grid;grid-template-columns:auto 1fr;gap:8px 14px;font-size:15px}
 .kv dt{color:var(--text2)}.kv dd{margin:0;text-align:right;font-weight:600;white-space:nowrap}
+/* 2.6.1: \434 \43b \438 \43d \43d \44b \435  \437 \43d \430 \447 \435 \43d \438 \44f  \43f \435 \440 \435 \43d \43e \441 \44f \442 \441 \44f , \430  \43d \435  \443 \435 \437 \436 \430 \44e \442  \437 \430  \43a \440 \430 \439  */
+.kv{grid-template-columns:minmax(0,max-content) minmax(0,1fr)}.kv>dt,.kv>dd{min-width:0}.kv dd{white-space:normal;overflow-wrap:anywhere}
 
 /* \43c \438 \43d \438 -\438 \433 \440 \44b  */
 #game{position:fixed;inset:0;z-index:80;background:#000;display:none;touch-action:none;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;overscroll-behavior:none}
@@ -499,7 +501,8 @@ i.coin::after{content:"";position:absolute;inset:26%;border-radius:50%;box-shado
 .segbox.tiers{flex-wrap:wrap;border-radius:22px}
 .segbox.tiers button{flex:1 1 30%;min-width:0}
 /* 2.5.2: \43b \435 \43d \442 \430  \43a \430 \440 \442 \43e \447 \435 \43a  \43a \435 \439 \441 \43e \432  */
-.trib{display:flex;gap:8px;overflow-x:auto;scroll-snap-type:x proximity;scrollbar-width:none;margin:0 calc(-1 * var(--g));padding:4px var(--g) 6px;scroll-padding:0 var(--g)}
+/* 2.6.1: \43b \435 \43d \442 \430  \431 \43e \43b \44c \448 \435  \43d \435  \432 \44b \445 \43e \434 \438 \442  \437 \430  \43a \440 \430 \44f  \2014  \440 \430 \43d \44c \448 \435  \438 \437 -\437 \430  \43d \435 \451  \432 \441 \44f  \441 \442 \440 \430 \43d \438 \446 \430  \441 \442 \430 \43d \43e \432 \438 \43b \430 \441 \44c  \448 \438 \440 \435  \44d \43a \440 \430 \43d \430  */
+.trib{display:flex;gap:8px;overflow-x:auto;scroll-snap-type:x proximity;scrollbar-width:none;margin:0;padding:4px 0 6px;max-width:100%;overscroll-behavior-x:contain}
 .trib::-webkit-scrollbar{display:none}
 .tc{flex:none;width:122px;height:84px;border-radius:20px;position:relative;overflow:hidden;color:#fff;background:var(--gc);scroll-snap-align:start;display:flex;flex-direction:column;justify-content:flex-end;align-items:flex-start;padding:0 10px 9px;text-align:left;opacity:.72;transform:scale(.96);transition:transform .2s,opacity .2s,box-shadow .2s}
 .tc.on{opacity:1;transform:none;box-shadow:inset 0 0 0 2.5px rgba(255,255,255,.9),0 6px 18px rgba(0,0,0,.25)}
@@ -697,6 +700,20 @@ html.tour-lock body{position:fixed;left:0;right:0;width:100%}
 .di-ctl .di-pp .ic{width:36px;height:36px}
 .di-ctl button:first-child,.di-ctl .di-sh{color:rgba(235,235,245,.6)}.di-ctl button:first-child .ic,.di-ctl .di-sh .ic{width:24px;height:24px}
 .di-ctl .di-sh.on{color:var(--di)}
+/* 2.6.1: \43e \441 \442 \440 \43e \432 \43e \43a  \432 \441 \435 \433 \434 \430  \43d \430  \44d \43a \440 \430 \43d \435 . \412  \43f \43e \43b \43d \43e \44d \43a \440 \430 \43d \43d \43e \43c  Telegram \2014  \432  \440 \44f \434 \443  \43a \43d \43e \43f \43e \43a  \ab \417 \430 \43a \440 \44b \442 \44c \bb  \438  \ab \2304  \22ef \bb , \432 \44b \441 \43e \442 \43e \439  \441  \43d \438 \445  */
+.di.c{height:30px;width:min(178px,calc(100vw - 236px))}
+.di.c .di-art.s{width:20px;height:20px;border-radius:5px}
+.di.c .di-wave{height:13px}
+.di.real.c{width:min(178px,calc(100vw - 236px))}
+.di:not(.tgrow).c{width:178px}
+.di-add{position:absolute;inset:0;display:none;align-items:center;justify-content:center;gap:6px;font:600 13px/1 -apple-system,var(--f-ui);color:#fff;white-space:nowrap;padding:0 10px}
+.di-add .ic{width:16px;height:16px;flex:none;color:var(--di)}
+.di.add .di-c,.di.add .di-x{display:none}.di.add .di-add{display:flex}
+.di-ctl button{width:44px;height:44px}
+.di-ctl .di-rp{color:rgba(235,235,245,.6)}.di-ctl .di-rp .ic{width:24px;height:24px}.di-ctl .di-rp.on{color:var(--di)}
+html.di-pad #app{padding-top:38px}
+html.di-pad .nav{padding-top:calc(var(--safe-t) + 46px)}html.di-pad #toasts{top:calc(var(--safe-t) + 44px)}
+html.fx-off .di{display:none}
 #tb-games.di-in .ic{animation:dibump .5s cubic-bezier(.3,1.6,.5,1)}
 @keyframes dibump{0%{transform:scale(1)}35%{transform:scale(1.32)}100%{transform:scale(1)}}
 #tabs button{-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}
@@ -822,6 +839,8 @@ html.lg-r #dock .round{-webkit-backdrop-filter:url(#lg-round) var(--lg-blur-bar)
 .mk-col{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;margin:2px 0 10px}.mk-col::-webkit-scrollbar{display:none}
 .mk-col .pill{flex:none;height:32px;font-size:13px}.mk-col .pill.on{background:var(--accent);color:#fff}
 .lv-vis{position:relative}.lv-stk{position:absolute;right:2px;bottom:-2px;display:flex;gap:2px;filter:drop-shadow(0 1px 2px rgba(0,0,0,.35))}
+/* 2.6.1: \441 \442 \440 \430 \43d \438 \446 \430  \43d \438 \43a \43e \433 \434 \430  \43d \435  \448 \438 \440 \435  \44d \43a \440 \430 \43d \430  (iOS \ab \43f \43b \430 \432 \430 \43b \bb  \432 \431 \43e \43a , Android \43e \431 \440 \435 \437 \430 \43b  \43a \43d \43e \43f \43a \438 ) */
+html,body{overflow-x:clip;max-width:100%}#app{overflow-x:clip}
 /* ================= 2.5.2: \43f \435 \440 \435 \43a \43b \44e \447 \430 \442 \435 \43b \438  \43f \430 \43b \44c \446 \435 \43c  ================= */
 #tabs,.segbox{touch-action:pan-y}
 .scrub-lens{position:absolute;left:0;top:0;z-index:0;border-radius:999px;pointer-events:none;
@@ -832,7 +851,9 @@ html.lg-r #dock .round{-webkit-backdrop-filter:url(#lg-round) var(--lg-blur-bar)
 html.lg-r .scrub-lens{-webkit-backdrop-filter:url(#lg-pill) blur(2px);backdrop-filter:url(#lg-pill) blur(2px)}
 .scrub>button{position:relative;z-index:1}
 .scrub>button.on{background:transparent!important;box-shadow:none!important}
-#tabs.scrub .lens{opacity:0}
+/* 2.6.1: \43f \440 \438  \432 \435 \434 \435 \43d \438 \438  \43f \430 \43b \44c \446 \435 \43c  \434 \432 \438 \433 \430 \435 \442 \441 \44f  \441 \430 \43c \430  \43a \430 \43f \43b \44f  \432 \43a \43b \430 \434 \43e \43a  (\432 \442 \43e \440 \43e \439  \43a \430 \43f \43b \438  \43d \435 \442 ) */
+#tabs .lens{transition:none!important;will-change:transform;transform-origin:50% 50%}
+#tabs .lens.press{box-shadow:inset 0 1px .5px var(--lg-hi,rgba(255,255,255,.5)),inset 0 -.5px .5px var(--lg-lo,rgba(255,255,255,.1)),0 8px 22px rgba(0,0,0,.28)}
 .scrub>button.hov{color:var(--text)}
 #tabs.scrub button.hov{color:var(--accent);transform:scale(1.08)}
 /* ================= 2.5.1: \43e \431 \43b \435 \433 \447 \451 \43d \43d \44b \435  \44d \444 \444 \435 \43a \442 \44b  \438  \43f \430 \443 \437 \430  \44d \444 \444 \435 \43a \442 \43e \432  ================= */
@@ -840,6 +861,8 @@ html.lg-r .scrub-lens{-webkit-backdrop-filter:url(#lg-pill) blur(2px);backdrop-f
 html.lite{--lg-tint:rgba(44,44,48,.93);--lg-tint-strong:rgba(30,30,32,.98);--lg-bar:rgba(36,36,40,.96);--glass:rgba(36,36,38,.95);--glass-strong:rgba(44,44,46,.98);--pill:rgba(255,255,255,.26)}
 html.lite[data-theme="light"]{--lg-tint:rgba(255,255,255,.94);--lg-tint-strong:rgba(250,250,252,.98);--lg-bar:rgba(255,255,255,.96);--glass:rgba(255,255,255,.95);--glass-strong:rgba(255,255,255,.98)}
 html.lite *,html.lite *::before,html.lite *::after{-webkit-backdrop-filter:none!important;backdrop-filter:none!important}
+/* 2.6.1 (\43f \435 \440 \435 \433 \440 \435 \432 ): \432  \43e \431 \43b \435 \433 \447 \451 \43d \43d \43e \43c  \440 \435 \436 \438 \43c \435  \43d \435 \442  \443 \43a \440 \430 \448 \430 \44e \449 \438 \445  \431 \435 \441 \43a \43e \43d \435 \447 \43d \44b \445  \430 \43d \438 \43c \430 \446 \438 \439  \2014  \431 \43b \451 \441 \442 \43a \438 , \431 \43b \438 \43a , \432 \43e \43b \43d \430  \43c \443 \437 \44b \43a \438 , \43e \433 \43e \43d \451 \43a  */
+html.lite .m1 .pb::after,html.lite .m4 .pb::after,html.lite .di-wave i,html.lite .eq i,html.lite #tb-games.mus::after,html.lite .firechip,html.lite .firechip *,html.lite #boot .logo{animation:none!important}
 /* fx-off: \43f \43e \43a \430  \43e \442 \43a \440 \44b \442  \44d \43a \440 \430 \43d  \43a \435 \439 \441 \43e \432  \d7 N \438 \43b \438  \43c \438 \43d \438 -\438 \433 \440 \430 , \432 \441 \451 , \447 \442 \43e  \43f \43e \434  \43d \438 \43c \438 , \43d \435  \440 \438 \441 \443 \435 \442 \441 \44f  \432 \43e \432 \441 \435  */
 html.fx-off #app{display:none}
 html.fx-off #stack,html.fx-off #dock,html.fx-off .fadebar,html.fx-off #edge-top,
@@ -879,10 +902,10 @@ html.scrolled #edge-top{opacity:1}
 <div id="sheets"></div>
 <div id="toasts" aria-live="polite"></div>
 <div id="game"></div>
-<script src="config.js?v=253" charset="utf-8"></script>
-<script src="logic.js?v=253" charset="utf-8"></script>
-<script src="draw.js?v=253" charset="utf-8"></script>
-<script src="games.js?v=253" charset="utf-8"></script>
-<script src="app.js?v=253" charset="utf-8"></script>
+<script src="config.js?v=261" charset="utf-8"></script>
+<script src="logic.js?v=261" charset="utf-8"></script>
+<script src="draw.js?v=261" charset="utf-8"></script>
+<script src="games.js?v=261" charset="utf-8"></script>
+<script src="app.js?v=261" charset="utf-8"></script>
 </body>
 </html>

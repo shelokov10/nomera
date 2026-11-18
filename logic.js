@@ -1,4 +1,4 @@
-/* Vybivanie nomerov 2.5.3: shared game logic */
+/* Vybivanie nomerov 2.6.1: shared game logic */
 (function(root){
 root.L=(function(){
 'use strict';
@@ -355,7 +355,7 @@ function parsePlateInput(c,str){
 
 // ==LOGIC== \u041e\u0431\u0449\u0430\u044f \u043b\u043e\u0433\u0438\u043a\u0430 \u0438\u0433\u0440\u044b 2.1: \u043e\u0434\u0438\u043d\u0430\u043a\u043e\u0432\u043e \u0440\u0430\u0431\u043e\u0442\u0430\u0435\u0442 \u043d\u0430 \u0441\u0435\u0440\u0432\u0435\u0440\u0435 \u0438 \u0432 \u0431\u0440\u0430\u0443\u0437\u0435\u0440\u0435.
 const MSK=3*3600e3,DAY=864e5,WEEK=7*DAY;
-const BOX_CAP=250,INV_CAP=300,BUYBACK=.70,FEE=.05,MAX_LIST=12,MIN_ASK=10,MAX_ASK=1e10,START_BAL=100000;
+const BOX_CAP=250,INV_CAP=300,BUYBACK=.70,FEE=.05,MAX_LIST=500,MIN_ASK=10,MAX_ASK=1e10,START_BAL=100000;
 const KEY_COINS=500;            // 1 \u043a\u043b\u044e\u0447 = 500 \u043c\u043e\u043d\u0435\u0442, \u0442\u043e\u043b\u044c\u043a\u043e \u0432 \u044d\u0442\u0443 \u0441\u0442\u043e\u0440\u043e\u043d\u0443
 const GOLD_RATE=50;             // \u043f\u0435\u0440\u0435\u043d\u043e\u0441 \u0433\u043e\u043b\u0434\u044b \u0438\u0437 2.0: 1 \u0433\u043e\u043b\u0434\u0430 = 50 \u043c\u043e\u043d\u0435\u0442
 const GAME_TOTAL=60000,GAME_WIN=12*3600e3,KEY_EVERY=3000,FAV_W=1.5,FAV_MAX=2;
@@ -393,10 +393,11 @@ const STICKERS={
   crown:{n:'\u041a\u043e\u0440\u043e\u043d\u0430',v:15000,r:2,col:'emo',cap:'\u0425\u043e\u0437\u044f\u0438\u043d \u0434\u0432\u043e\u0440\u0430'},rocket:{n:'\u0420\u0430\u043a\u0435\u0442\u0430',v:15000,r:2,col:'emo',cap:'\u0421 \u043c\u0435\u0441\u0442\u0430 \u0432 \u043a\u0430\u0440\u044c\u0435\u0440'},
   gem:{n:'\u0411\u0440\u0438\u043b\u043b\u0438\u0430\u043d\u0442',v:50000,r:3,col:'emo',cap:'\u0411\u043b\u0430\u0442\u043d\u043e\u0439'},
   // \u00ab\u0420\u0432\u0430\u043d\u044b\u0435 \u043f\u0440\u0438\u043d\u0446\u0438\u043f\u044b\u00bb \u2014 \u043a\u0430\u0440\u0442\u0438\u043d\u043a\u0438, \u0432\u044b\u0440\u0435\u0437\u0430\u043d\u043d\u044b\u0435 \u043f\u043e \u043a\u043e\u043d\u0442\u0443\u0440\u0443 (web/stickers/*.webp)
-  rp01:{n:'\u0421\u0442\u0440\u0438\u0442\u0443\u0445\u0430',v:30000,r:4,col:'rp',img:1},rp02:{n:'\u0427\'\u041a',v:5000,r:1,col:'rp',img:1},rp03:{n:'\u0414\u0440\u0438\u0444\u0442\u0443\u044e \u0433\u0434\u0435 \u0445\u043e\u0447\u0443',v:2000,r:0,col:'rp',img:1},
+  // 2.6.1: \u0430\u0440\u0445\u0438\u0432\u043d\u0430\u044f \u043a\u043e\u043b\u043b\u0435\u043a\u0446\u0438\u044f. \u041c\u0438\u0444\u0438\u0447\u0435\u0441\u043a\u0438\u0435 600 000, \u043b\u0435\u0433\u0435\u043d\u0434\u0430\u0440\u043d\u044b\u0435 1 000 000; bb \u2014 \u0441\u0442\u0430\u0440\u0430\u044f \u0446\u0435\u043d\u0430, \u043f\u043e \u043d\u0435\u0439 \u043f\u043b\u0430\u0442\u0438\u0442 \u0441\u043a\u0443\u043f\u0449\u0438\u043a
+  rp01:{n:'\u0421\u0442\u0440\u0438\u0442\u0443\u0445\u0430',v:600000,bb:30000,r:4,col:'rp',img:1},rp02:{n:'\u0427\'\u041a',v:5000,r:1,col:'rp',img:1},rp03:{n:'\u0414\u0440\u0438\u0444\u0442\u0443\u044e \u0433\u0434\u0435 \u0445\u043e\u0447\u0443',v:2000,r:0,col:'rp',img:1},
   rp04:{n:'\u0414\u0430\u044e \u0443\u0433\u043b\u0430 \u0433\u0434\u0435 \u0445\u043e\u0447\u0443',v:5000,r:1,col:'rp',img:1},rp05:{n:'#\u041e\u0422\u0412\u0415\u0420\u041d\u0418\u0421\u042c',v:2000,r:0,col:'rp',img:1},rp06:{n:'\u041b\u044e\u0431\u043b\u044e \u0441\u0432\u043e\u044e \u0441\u0443\u0434\u044c\u0431\u0443',v:5000,r:1,col:'rp',img:1},
   rp07:{n:'AK47',v:15000,r:2,col:'rp',img:1},rp08:{n:'\u041e\u043f\u0435\u0440 Style',v:15000,r:2,col:'rp',img:1},rp09:{n:'#\u0417\u0410\u0422\u041e\u041d\u0415\u0412\u041a\u0420\u0415\u0414\u0418\u0422',v:5000,r:1,col:'rp',img:1},
-  rp10:{n:'#\u0421\u0415\u041b\u0410-\u0414\u0410\u041b\u0410',v:50000,r:3,col:'rp',img:1},rp11:{n:'4-Strokes S#ck',v:30000,r:4,col:'rp',img:1},rp12:{n:'The Dark Triad',v:50000,r:3,col:'rp',img:1},
+  rp10:{n:'#\u0421\u0415\u041b\u0410-\u0414\u0410\u041b\u0410',v:1000000,bb:50000,r:3,col:'rp',img:1},rp11:{n:'4-Strokes S#ck',v:600000,bb:30000,r:4,col:'rp',img:1},rp12:{n:'The Dark Triad',v:1000000,bb:50000,r:3,col:'rp',img:1},
   rp13:{n:'\u0411\u0440\u043e\u0434\u044f\u0433\u0430',v:15000,r:2,col:'rp',img:1},rp14:{n:'\u0411\u043e\u0435\u0432\u0430\u044f \u043a\u043b\u0430\u0441\u0441\u0438\u043a\u0430',v:2000,r:0,col:'rp',img:1},rp15:{n:'\u0426\u0430\u0440\u044c \u0434\u043e\u0440\u043e\u0433',v:2000,r:0,col:'rp',img:1}
 };
 // \u043a\u043e\u043b\u043b\u0435\u043a\u0446\u0438\u0438: \u0441\u043a\u0438\u043d\u044b \u0438 \u043d\u0430\u043a\u043b\u0435\u0439\u043a\u0438 \u0441\u0435\u0437\u043e\u043d\u0430 \u2014 \u00ab\u042d\u043c\u043e\u0446\u0438\u0438 \u043b\u0443\u0447\u0448\u0435 \u041f\u041a\u00bb, \u043d\u043e\u0432\u044b\u0435 \u043d\u0430\u043a\u043b\u0435\u0439\u043a\u0438 \u2014 \u00ab\u0420\u0432\u0430\u043d\u044b\u0435 \u043f\u0440\u0438\u043d\u0446\u0438\u043f\u044b\u00bb
@@ -409,7 +410,7 @@ const STK_RANK=[0,1,2,4,3];   // \u043e\u0442 \u043f\u0440\u043e\u0441\u0442\u04
 const SKIN_CASE={price:4500,keys:9},STICKER_CASE={price:6500,keys:13};
 // 2.5.3: \u0434\u0432\u0430 \u043a\u0435\u0439\u0441\u0430 \u043d\u0430\u043a\u043b\u0435\u0435\u043a. w \u2014 \u0448\u0430\u043d\u0441 \u043a\u0430\u0436\u0434\u043e\u0439 \u0440\u0435\u0434\u043a\u043e\u0441\u0442\u0438 (\u0438\u043d\u0434\u0435\u043a\u0441\u044b \u043a\u0430\u043a \u0432 STK_R). \u041e\u043a\u0443\u043f\u0430\u0435\u043c\u043e\u0441\u0442\u044c ~65%:
 // \u00ab\u042d\u043c\u043e\u0446\u0438\u0438\u00bb: 70\u00d72000 + 22\u00d75000 + 6,5\u00d715000 + 1,5\u00d750000 = 4225 \u0438\u0437 6500; \u00ab\u0420\u0432\u0430\u043d\u044b\u0435 \u043f\u0440\u0438\u043d\u0446\u0438\u043f\u044b\u00bb: 70\u00d72000 + 22,2\u00d75000 + 5\u00d715000 + 0,6\u00d750000 + 2,2\u00d730000 = 4220 \u0438\u0437 6500
-const STK_CASES={emo:{n:'\u042d\u043c\u043e\u0446\u0438\u0438 \u043b\u0443\u0447\u0448\u0435 \u041f\u041a',price:6500,keys:13,w:[70,22,6.5,1.5,0]},rp:{n:'\u0420\u0432\u0430\u043d\u044b\u0435 \u043f\u0440\u0438\u043d\u0446\u0438\u043f\u044b',price:6500,keys:13,w:[70,22.2,5,.6,2.2]}};
+const STK_CASES={emo:{n:'\u042d\u043c\u043e\u0446\u0438\u0438 \u043b\u0443\u0447\u0448\u0435 \u041f\u041a',price:6500,keys:13,w:[70,22,6.5,1.5,0]},rp:{n:'\u0420\u0432\u0430\u043d\u044b\u0435 \u043f\u0440\u0438\u043d\u0446\u0438\u043f\u044b',price:65000,keys:130,w:[70,22.2,5,.6,2.2]}};
 // \u041a\u0440\u0430\u0441\u043a\u0430: \u0434\u0432\u0430 \u0446\u0432\u0435\u0442\u0430, \u043a\u0430\u043a \u0432 Geometry Dash
 const COLORS={
   white:{n:'\u0411\u0435\u043b\u044b\u0439',c:'#f5f5f7',cost:0},black:{n:'\u0427\u0451\u0440\u043d\u044b\u0439',c:'#1c1c1e',cost:0},orange:{n:'\u041e\u0440\u0430\u043d\u0436\u0435\u0432\u044b\u0439',c:'#ff7a1a',cost:0},grey:{n:'\u0421\u0435\u0440\u044b\u0439',c:'#8e8e93',cost:0},
@@ -540,6 +541,8 @@ function cleanGive(g){
   for(const k of ['k','sc','tc']){const v=Math.floor(num(g[k]));if(v>0)o[k]=v}
   if(Array.isArray(g.p)){const p=TIERS.map((_,i)=>Math.max(0,Math.floor(num(g.p[i]))));if(p.some(x=>x>0))o.p=p}
   if(g.prem)o.prem=1;
+  // 2.6.1: \u043f\u0440\u043e\u043c\u043e\u043a\u043e\u0434 \u043c\u043e\u0436\u0435\u0442 \u043f\u043e\u0434\u043d\u044f\u0442\u044c \u0443\u0440\u043e\u0432\u0435\u043d\u044c \u043f\u0440\u043e\u043f\u0443\u0441\u043a\u0430
+  {const v=Math.floor(num(g.lv));if(v>0)o.lv=Math.min(SEASON.max,v)}
   return o;
 }
 function normalize(o){
@@ -711,6 +714,7 @@ function grant(S,r,src,now){
   if(r.sticker&&STICKERS[r.sticker])addInv(S,'sticker',r.sticker,src,now);
   if(r.color&&COLORS[r.color]&&!S.colors.includes(r.color))S.colors.push(r.color);
   if(r.plate&&SPECIAL[r.plate])addPlate(S,SPECIAL[r.plate],src||'pass',now);
+  if(r.lv>0){S.xp=Math.min(SEASON.max*SEASON.lvlXp,S.xp+Math.floor(r.lv)*SEASON.lvlXp);const a=level(S);if(a>=30&&!S.titles.includes('moto'))S.titles.push('moto');if(a>=100&&!S.titles.includes('king'))S.titles.push('king')}
 }
 function claimLevel(S,trk,i,now){
   if(!(i>=1&&i<=level(S)))return false;
@@ -721,7 +725,8 @@ function claimLevel(S,trk,i,now){
 function inbox(S,text,now){S.inbox.push({t:now||Date.now(),text:String(text).slice(0,300)});S.inbox=S.inbox.slice(-20)}
 const buyback=x=>Math.floor(x.price*BUYBACK);
 const invValue=x=>x.k==='skin'?SKINS[x.v].v:STICKERS[x.v].v;
-const invBuyback=x=>Math.floor(invValue(x)*BUYBACK);
+// \u0441\u043a\u0443\u043f\u0449\u0438\u043a: \u0434\u043b\u044f \u00ab\u0420\u0432\u0430\u043d\u044b\u0445 \u043f\u0440\u0438\u043d\u0446\u0438\u043f\u043e\u0432\u00bb \u2014 \u043e\u0442 \u0441\u0442\u0430\u0440\u043e\u0439 \u0446\u0435\u043d\u044b (bb), \u0438\u043d\u0430\u0447\u0435 \u043f\u043e\u0434\u043e\u0440\u043e\u0436\u0430\u043d\u0438\u0435 \u0434\u0430\u043b\u043e \u0431\u044b \u043c\u043e\u043d\u0435\u0442\u044b \u0438\u0437 \u0432\u043e\u0437\u0434\u0443\u0445\u0430
+const invBuyback=x=>Math.floor((x.k==='skin'?SKINS[x.v].v:(STICKERS[x.v].bb||STICKERS[x.v].v))*BUYBACK);
 function sellQuick(S,id,ctx){
   const k=S.box.findIndex(x=>x.id===id);if(k<0)return -1;
   const x=S.box[k];if(x.pin)return -2;
@@ -774,6 +779,10 @@ function gameLeft(S,g,now){
 }
 function gameReset(S,now){return winFresh(S,now)?0:S.games.w.t0+GAME_WIN}
 const RATE={rider:2600,stunt:2600};
+// 2.6.1: \u0432 Rider \u043a\u043e\u043c\u0431\u043e \u0440\u0430\u0441\u0442\u0451\u0442 \u0431\u0435\u0437 \u043f\u043e\u0442\u043e\u043b\u043a\u0430, \u043f\u043e\u044d\u0442\u043e\u043c\u0443 \u0432 \u0434\u043e\u043b\u0433\u043e\u043c \u0437\u0430\u0435\u0437\u0434\u0435 \u043e\u0447\u043a\u0438 \u043d\u0430\u0431\u0438\u0440\u0430\u044e\u0442\u0441\u044f \u0432\u0441\u0451 \u0431\u044b\u0441\u0442\u0440\u0435\u0435.
+// \u041f\u0440\u0435\u0434\u0435\u043b: 2600\u00b7t + 8\u00b7t\u00b2 (t \u2014 \u0441\u0435\u043a\u0443\u043d\u0434\u044b \u0437\u0430\u0435\u0437\u0434\u0430). 3 \u043c\u0438\u043d\u0443\u0442\u044b \u2192 ~727 000, 5 \u043c\u0438\u043d\u0443\u0442 \u2192 1 500 000. \u0420\u0430\u043d\u044c\u0448\u0435 \u0431\u044b\u043b\u043e \u0442\u043e\u043b\u044c\u043a\u043e 2600\u00b7t
+const RATE_Q={rider:8,stunt:0};
+const scoreCap=(g,el)=>Math.floor(el*RATE[g]+el*el*(RATE_Q[g]||0));
 
 /* ---------- \u0442\u043e\u0442\u0430\u043b\u0438\u0437\u0430\u0442\u043e\u0440 ---------- */
 const TOTE_SKINS=['car:sedan','car:hatch','car:coupe','car:muscle','car:sport','car:buggy','car:retro','car:pickup','car:van','car:wagon'];
@@ -1050,8 +1059,10 @@ const ACTIONS={
   },
   stickerCase(S,p,ctx){
     if(S.inv.length>=INV_CAP)fail('\u0418\u043d\u0432\u0435\u043d\u0442\u0430\u0440\u044c \u043f\u043e\u043b\u043e\u043d');
-    if(p.free){if(!(S.free.tc>0))fail('\u0411\u0435\u0441\u043f\u043b\u0430\u0442\u043d\u044b\u0445 \u043a\u0435\u0439\u0441\u043e\u0432 \u043d\u0435\u0442');S.free.tc--}
     const c=STK_CASES[p.c]?String(p.c):'emo';const C=STK_CASES[c];
+    // 2.6.1: \u00ab\u0420\u0432\u0430\u043d\u044b\u0435 \u043f\u0440\u0438\u043d\u0446\u0438\u043f\u044b\u00bb \u0441\u0442\u0430\u043b\u0438 \u0432 10 \u0440\u0430\u0437 \u0434\u043e\u0440\u043e\u0436\u0435 \u2014 \u0431\u0435\u0441\u043f\u043b\u0430\u0442\u043d\u044b\u0435 \u043a\u0435\u0439\u0441\u044b \u043e\u0442\u043a\u0440\u044b\u0432\u0430\u044e\u0442 \u0442\u043e\u043b\u044c\u043a\u043e \u00ab\u042d\u043c\u043e\u0446\u0438\u0438 \u043b\u0443\u0447\u0448\u0435 \u041f\u041a\u00bb
+    if(p.free&&c==='rp')fail('\u0411\u0435\u0441\u043f\u043b\u0430\u0442\u043d\u044b\u0439 \u043a\u0435\u0439\u0441 \u043e\u0442\u043a\u0440\u044b\u0432\u0430\u0435\u0442 \u0442\u043e\u043b\u044c\u043a\u043e \u00ab\u042d\u043c\u043e\u0446\u0438\u0438 \u043b\u0443\u0447\u0448\u0435 \u041f\u041a\u00bb');
+    if(p.free){if(!(S.free.tc>0))fail('\u0411\u0435\u0441\u043f\u043b\u0430\u0442\u043d\u044b\u0445 \u043a\u0435\u0439\u0441\u043e\u0432 \u043d\u0435\u0442');S.free.tc--}
     if(!p.free)pay(S,p.key?'key':'coin',C.price,C.keys,ctx);
     const v=rollSticker(c);const it=addInv(S,'sticker',v,'case',ctx.now);addXp(S,60,ctx);
     return{inv:it,rare:STICKERS[v].r>=2};
@@ -1070,7 +1081,7 @@ const ACTIONS={
     if(p.dur!=null&&num(p.dur)>0)el=Math.min(el,num(p.dur));
     if(el<1.5)fail('\u0421\u043b\u0438\u0448\u043a\u043e\u043c \u043a\u043e\u0440\u043e\u0442\u043a\u0438\u0439 \u0437\u0430\u0435\u0437\u0434');
     // 2.2: \u0440\u0435\u043a\u043e\u0440\u0434 \u0431\u0435\u0437 \u043f\u043e\u0442\u043e\u043b\u043a\u0430 \u2014 \u0437\u0430\u0449\u0438\u0442\u0430 \u0442\u043e\u043b\u044c\u043a\u043e \u043f\u043e \u0441\u043a\u043e\u0440\u043e\u0441\u0442\u0438 \u043d\u0430\u0431\u043e\u0440\u0430 \u043e\u0447\u043a\u043e\u0432; \u043c\u043e\u043d\u0435\u0442\u044b \u043f\u043e-\u043f\u0440\u0435\u0436\u043d\u0435\u043c\u0443 \u043e\u0433\u0440\u0430\u043d\u0438\u0447\u0435\u043d\u044b \u043b\u0438\u043c\u0438\u0442\u043e\u043c
-    const score=Math.max(0,Math.min(int(p.score),Math.floor(el*RATE[g])));
+    const sent=Math.max(0,int(p.score));const score=Math.min(sent,scoreCap(g,el));
     const left=gameLeft(S,g,ctx.now);
     if(winFresh(S,ctx.now)){S.games.w={t0:ctx.now,e:{}}}
     const money=Math.max(0,Math.min(left,score));
@@ -1081,7 +1092,7 @@ const ACTIONS={
     if(g==='rider'){const fl=Math.max(0,Math.min(int(p.flips),Math.floor(el)));S.stats.flips+=fl;quest(S,'rider5k',score,true,ctx)}
     else{S.stats.wheelie+=Math.max(0,Math.min(num(p.wt),el));S.stats.tricks+=Math.max(0,Math.min(int(p.tricks),Math.floor(el)));quest(S,'stunt3k',score,true,ctx)}
     quest(S,'runs3',1,false,ctx);
-    return{money,keys,xp,rec,score,g,left:gameLeft(S,g,ctx.now),total:GAME_TOTAL-gameEarned(S,ctx.now),reset:gameReset(S,ctx.now),capped:money<score};
+    return{money,keys,xp,rec,score,sent,cut:score<sent,g,left:gameLeft(S,g,ctx.now),total:GAME_TOTAL-gameEarned(S,ctx.now),reset:gameReset(S,ctx.now),capped:money<score};
   },
   clickStart(S,p,ctx){needKeys(S,CLICK.keys);S.keys-=CLICK.keys;const id=rid()+rid();S.click={id,t:ctx.now};return{click:id}},
   clickEnd(S,p,ctx){
@@ -1280,6 +1291,6 @@ function checkComment(text){
 }
 // ==/FILTER==
 
-return{get RNG(){return RNG},rnd,pick,seeded,withRng,seq,same,wpick,wIdx,RU_LET,UA_LET,KZ_LET,US_LET,DE_LET,FR_LET,ES_LET,AE_LET,COUNTRY,COUNTRIES,RU_TOP,RU_PLAIN,UA_REG,KZ_REG,US_REG,US_LOOK,EU_REG,DE_CITY,AE_REG,topCodes,RU_REG,REG,RMAP,DEMAP,digitsStr,letters,RULES3,RULES4,RULES_SHORT,RULES_AE,lrun,L3,SERIES_RU,WINGED_D,NO_BONUS_D,WINGED_L,WINGED_AE,LRULES,BASE,MATS,WEARS,FONTS,wearOf,floatMult,BUILTIN_PAT,OV,setOv,getOv,patInfo,genPlate,plateKey,plateText,niceRound,comboOf,APC,appraise,rollItem,MAT_W,AE_B,TIERS,EU_K,REG_AVG,regionPrice,caseRoll,LAT,CYR,toLat,has,cleanPlate,cleanItemFields,parsePlateInput,MSK,BOX_CAP,KEY_COINS,GOLD_RATE,GAME_TOTAL,PAY_GAMES,DAILY_M,SEASON,WEEK_XP,BANK,TOTE,CLICK,FIRE,RUN_KEEP,SKINS,STICKERS,COLLECTIONS,colOf,SKIN_R,STK_R,STK_RANK,SKIN_CASE,STK_CASES,COLORS,WHEELS,KITS,TITLES,PLUS,plusTier,STATUS_N,REF_REW,REF_CAP,INV_REW,REF_LVL,refRewardFor,invRewardFor,refCapFor,SPECIAL,buildPass,PASS,QUESTS,QUEST_XP,num,fmtN,pluralW,fmt,keyN,pad8,hashStr,mskDate,mskMidnight,dayNum,weekId,weekEnd,INVIS,cleanNick,cleanText,newVeh,freeP,fresh,cleanItem,priceItem,keepPrice,PRICE_V,reprice,cleanGive,normalize,seasonOn,level,lvlPct,isPrem,worth,badges,addXp,ensureDaily,quest,questReady,claimable,dayReady,fireAlive,fireCanFix,fireFixAt,rbReady,rbPart,weekOpts,weekTick,rewardText,addPlate,addInv,grant,claimLevel,inbox,buyback,invValue,invBuyback,sellQuick,unmount,STK_MAX,skinKey,glued,stkOf,fixSid,syncSt,takeSkin,stkValue,plateLocked,skinLocked,stkLocked,rollSkin,rollSticker,skinOdds,stickerOdds,gameCaps,winFresh,gameEarned,gameLeft,gameReset,RATE,TOTE_SKINS,toteCard,toteProbs,UP,upChance,upGoal,upSkinTargets,UP_D,UPIDX,upIndex,lowerBound,upOffers,upStake,shopOffers,ensureShop,shopEnds,GameError,fail,int,rid,needCoins,needKeys,pay,rollOne,ACTIONS,needAdm,act,OPTIMISTIC,LOOK_V,LOOK_T,V,BAD_ROOTS,BAD_GLUED,normFilter,words,hasBad,hasBad1,TLD,LINK_RES,hasLink,checkComment,DAY,WEEK,INV_CAP,BUYBACK,FEE,MAX_LIST,MIN_ASK,MAX_ASK,START_BAL,GAME_WIN,KEY_EVERY,FAV_W,FAV_MAX,RUN_TTL,STICKER_CASE,REF_PREM,INV_PREM,INV_DAYS,FREE,PREM};
+return{get RNG(){return RNG},rnd,pick,seeded,withRng,seq,same,wpick,wIdx,RU_LET,UA_LET,KZ_LET,US_LET,DE_LET,FR_LET,ES_LET,AE_LET,COUNTRY,COUNTRIES,RU_TOP,RU_PLAIN,UA_REG,KZ_REG,US_REG,US_LOOK,EU_REG,DE_CITY,AE_REG,topCodes,RU_REG,REG,RMAP,DEMAP,digitsStr,letters,RULES3,RULES4,RULES_SHORT,RULES_AE,lrun,L3,SERIES_RU,WINGED_D,NO_BONUS_D,WINGED_L,WINGED_AE,LRULES,BASE,MATS,WEARS,FONTS,wearOf,floatMult,BUILTIN_PAT,OV,setOv,getOv,patInfo,genPlate,plateKey,plateText,niceRound,comboOf,APC,appraise,rollItem,MAT_W,AE_B,TIERS,EU_K,REG_AVG,regionPrice,caseRoll,LAT,CYR,toLat,has,cleanPlate,cleanItemFields,parsePlateInput,MSK,BOX_CAP,KEY_COINS,GOLD_RATE,GAME_TOTAL,PAY_GAMES,DAILY_M,SEASON,WEEK_XP,BANK,TOTE,CLICK,FIRE,RUN_KEEP,SKINS,STICKERS,COLLECTIONS,colOf,SKIN_R,STK_R,STK_RANK,SKIN_CASE,STK_CASES,COLORS,WHEELS,KITS,TITLES,PLUS,plusTier,STATUS_N,REF_REW,REF_CAP,INV_REW,REF_LVL,refRewardFor,invRewardFor,refCapFor,SPECIAL,buildPass,PASS,QUESTS,QUEST_XP,num,fmtN,pluralW,fmt,keyN,pad8,hashStr,mskDate,mskMidnight,dayNum,weekId,weekEnd,INVIS,cleanNick,cleanText,newVeh,freeP,fresh,cleanItem,priceItem,keepPrice,PRICE_V,reprice,cleanGive,normalize,seasonOn,level,lvlPct,isPrem,worth,badges,addXp,ensureDaily,quest,questReady,claimable,dayReady,fireAlive,fireCanFix,fireFixAt,rbReady,rbPart,weekOpts,weekTick,rewardText,addPlate,addInv,grant,claimLevel,inbox,buyback,invValue,invBuyback,sellQuick,unmount,STK_MAX,skinKey,glued,stkOf,fixSid,syncSt,takeSkin,stkValue,plateLocked,skinLocked,stkLocked,rollSkin,rollSticker,skinOdds,stickerOdds,gameCaps,winFresh,gameEarned,gameLeft,gameReset,RATE,RATE_Q,scoreCap,TOTE_SKINS,toteCard,toteProbs,UP,upChance,upGoal,upSkinTargets,UP_D,UPIDX,upIndex,lowerBound,upOffers,upStake,shopOffers,ensureShop,shopEnds,GameError,fail,int,rid,needCoins,needKeys,pay,rollOne,ACTIONS,needAdm,act,OPTIMISTIC,LOOK_V,LOOK_T,V,BAD_ROOTS,BAD_GLUED,normFilter,words,hasBad,hasBad1,TLD,LINK_RES,hasLink,checkComment,DAY,WEEK,INV_CAP,BUYBACK,FEE,MAX_LIST,MIN_ASK,MAX_ASK,START_BAL,GAME_WIN,KEY_EVERY,FAV_W,FAV_MAX,RUN_TTL,STICKER_CASE,REF_PREM,INV_PREM,INV_DAYS,FREE,PREM};
 })();
 })(typeof window!=='undefined'?window:globalThis);
