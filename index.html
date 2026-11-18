@@ -285,9 +285,16 @@ button.li:active{background:var(--fill3)}
 .reel .fade{position:absolute;top:0;bottom:0;width:70px;z-index:2;pointer-events:none}
 .reel .fade.l{left:0;background:linear-gradient(90deg,var(--card),transparent)}
 .reel .fade.r{right:0;background:linear-gradient(270deg,var(--card),transparent)}
-.opener{margin:12px var(--g) 0;display:grid;gap:10px}
-.opener .acts{display:grid;grid-template-columns:1.35fr 1fr;gap:10px}
-.opener .btn{height:54px}
+.opener{margin:12px var(--g) 0;display:grid;gap:10px;grid-template-columns:minmax(0,1fr);min-width:0}
+.opener .acts{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);gap:10px}
+.opener .btn{height:54px;min-width:0;padding:0 14px;gap:7px;font-size:calc(17px*var(--tz,1))}
+.opener .btn small{font-size:calc(14px*var(--tz,1))}
+/* 2.6.1: \434 \432 \435  \441 \442 \440 \43e \43a \438 , \43a \43e \433 \434 \430  \432  \43e \434 \43d \443  \43d \435  \43f \43e \43c \435 \449 \430 \435 \442 \441 \44f  (\443 \437 \43a \438 \439  \44d \43a \440 \430 \43d , \43a \440 \443 \43f \43d \44b \439  \448 \440 \438 \444 \442  Android). --tz \2014  \442 \43e \43b \44c \43a \43e  \434 \43b \44f  \442 \435 \441 \442 \430  */
+.opener .btn>*{flex:none}
+.opener .btn .bl,.opener .btn .bp{display:inline-flex;align-items:center;gap:6px}
+.opener .btn.two{flex-direction:column;gap:2px;padding:0 10px;line-height:1.05}
+.opener .btn.two small{font-size:calc(13px*var(--tz,1))}
+.opener .btn.tight{font-size:calc(14px*var(--tz,1));padding:0 6px}.opener .btn.tight small{font-size:calc(11.5px*var(--tz,1))}.opener .btn.tight .coin{width:13px;height:13px}.opener .btn.tight .ic{width:16px;height:16px}
 .opener .btn small{font:500 14px var(--f-ui);opacity:.85}
 
 /* \432 \44b \43f \430 \432 \448 \438 \439  \43d \43e \43c \435 \440  */
@@ -629,7 +636,7 @@ body.clk-on{overflow:hidden;touch-action:none}
 .reel.cos{height:150px;margin:4px 0 0}
 .reel.cos .ri{width:150px;height:128px;padding:0 0 10px}
 .reel.cos .ri img{display:block}
-.segbox.nsel{margin-top:8px}.segbox.nsel button{height:32px;font-size:14px}
+.segbox.nsel{margin-top:8px;min-width:0}.segbox.nsel button{height:32px;font-size:calc(14px*var(--tz,1));min-width:0;padding:0 4px}
 .firechip{flex:none;height:34px;min-width:34px;padding:0 9px 0 6px;border-radius:999px;display:flex;align-items:center;gap:3px;background:var(--fill2);color:var(--text3)}
 .firechip .ic{width:20px;height:20px}.firechip b{font:800 14px var(--f-ui);color:var(--text2)}
 .firechip.lit{background:linear-gradient(180deg,#ff9f0a,#ff6a00);color:#fff;box-shadow:0 4px 14px rgba(255,120,0,.35)}.firechip.lit b{color:#fff}
@@ -851,6 +858,25 @@ html,body{overflow-x:clip;max-width:100%}#app{overflow-x:clip}
 html.lg-r .scrub-lens{-webkit-backdrop-filter:url(#lg-pill) blur(2px);backdrop-filter:url(#lg-pill) blur(2px)}
 .scrub>button{position:relative;z-index:1}
 .scrub>button.on{background:transparent!important;box-shadow:none!important}
+/* 2.6.1: \43a \430 \43f \43b \44f  Liquid Glass (Drop, 31_drop.js) \2014  \443  \432 \43a \43b \430 \434 \43e \43a  \438  \443  \432 \441 \435 \445  \43a \430 \43f \441 \443 \43b -\43f \435 \440 \435 \43a \43b \44e \447 \430 \442 \435 \43b \435 \439 .
+   \412  \43f \43e \43a \43e \435  \2014  \432 \44b \431 \440 \430 \43d \43d \430 \44f  \43f \43b \430 \448 \43a \430 ; \43f \440 \438  \43a \430 \441 \430 \43d \438 \438  \440 \430 \437 \434 \443 \432 \430 \435 \442 \441 \44f  \438  \441 \442 \430 \43d \43e \432 \438 \442 \441 \44f  \43f \440 \43e \437 \440 \430 \447 \43d \43e \439  \43b \438 \43d \437 \43e \439  \441  \431 \43b \438 \43a \43e \43c ,
+   \43f \43e \434  \43d \435 \439  \2014  \443 \432 \435 \43b \438 \447 \435 \43d \43d \430 \44f  \43a \43e \43f \438 \44f  \43a \43d \43e \43f \43e \43a  (.drop-mag) \438  \440 \430 \437 \43c \44b \442 \44b \435  \43d \430 \441 \442 \43e \44f \449 \438 \435  */
+#tabs>.lens,.segbox>.lens{position:absolute;left:0;top:0;bottom:auto;right:auto;margin:0;padding:0;border-radius:999px;pointer-events:none;z-index:0;background:rgba(36,36,40,calc(var(--p)*.72))!important;box-shadow:none!important;transition:none!important;will-change:transform;transform-origin:50% 50%;overflow:hidden;--p:0}
+:root[data-theme="light"] #tabs>.lens,:root[data-theme="light"] .segbox>.lens{background:rgba(250,250,252,calc(var(--p)*.78))!important}
+#tabs>button,.segbox>button{position:relative;z-index:1}
+.lens.lgdrop::before,.lens.lgdrop::after{content:'';position:absolute;inset:0;border-radius:inherit;pointer-events:none}
+.lens.lgdrop::before{background:var(--drop-bg);box-shadow:var(--drop-sh);opacity:calc(1 - var(--p)*.55)}
+.lens.lgdrop::after{z-index:2;opacity:var(--p);background:radial-gradient(90% 70% at 28% 12%,rgba(255,255,255,.38),transparent 58%),radial-gradient(70% 60% at 80% 100%,rgba(255,255,255,.14),transparent 60%);box-shadow:inset 0 0 0 .6px rgba(255,255,255,.6),inset 0 1.5px 1px rgba(255,255,255,.75),inset 0 -1px 1px rgba(255,255,255,.3),0 10px 28px rgba(0,0,0,.26)}
+.lens.lgdrop.press{z-index:3;-webkit-backdrop-filter:blur(9px) saturate(170%);backdrop-filter:blur(9px) saturate(170%)}
+.drop-mag{position:absolute;left:0;top:0;width:100%;height:100%;z-index:1;pointer-events:none}
+#tabs{--drop-bg:radial-gradient(120% 80% at 50% 0%,rgba(255,255,255,.22),transparent 70%),var(--lg-sel);--drop-sh:inset 0 1px .5px var(--lg-hi),inset 0 -.5px .5px var(--lg-lo),0 2px 10px rgba(0,0,0,.12)}
+.segbox{--drop-bg:radial-gradient(120% 90% at 50% 0%,rgba(255,255,255,.28),transparent 70%),var(--lg-sel);--drop-sh:inset 0 1px .5px var(--lg-hi),0 3px 10px rgba(0,0,0,.18)}
+:root[data-theme="light"] .segbox{--drop-bg:#fff;--drop-sh:inset 0 1px 0 #fff,0 3px 10px rgba(0,0,0,.1)}
+.segbox.dropped>button.on{background:transparent!important;box-shadow:none!important}
+:root[data-theme="light"] #tabs>.lens,:root[data-theme="light"] .segbox>.lens{background:rgba(255,255,255,calc(var(--p)*.45))!important}
+:root[data-theme="light"] .lens.lgdrop::after{background:radial-gradient(90% 70% at 28% 12%,rgba(255,255,255,.9),transparent 58%);box-shadow:inset 0 0 0 .6px rgba(0,0,0,.12),inset 0 1.5px 1px #fff,inset 0 -1px 1px rgba(0,0,0,.05),0 8px 22px rgba(0,0,0,.2)}
+html.lite .lens.lgdrop.press{-webkit-backdrop-filter:none;backdrop-filter:none}
+html.lite .lens.lgdrop::before{opacity:1}
 /* 2.6.1: \43f \440 \438  \432 \435 \434 \435 \43d \438 \438  \43f \430 \43b \44c \446 \435 \43c  \434 \432 \438 \433 \430 \435 \442 \441 \44f  \441 \430 \43c \430  \43a \430 \43f \43b \44f  \432 \43a \43b \430 \434 \43e \43a  (\432 \442 \43e \440 \43e \439  \43a \430 \43f \43b \438  \43d \435 \442 ) */
 #tabs .lens{transition:none!important;will-change:transform;transform-origin:50% 50%}
 #tabs .lens.press{box-shadow:inset 0 1px .5px var(--lg-hi,rgba(255,255,255,.5)),inset 0 -.5px .5px var(--lg-lo,rgba(255,255,255,.1)),0 8px 22px rgba(0,0,0,.28)}

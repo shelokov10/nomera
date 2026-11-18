@@ -542,46 +542,11 @@ const Tabs={
     $('donate-btn').innerHTML=ic('star');
     Tabs.lens(true);window.addEventListener('resize',()=>Tabs.lens(true));
   },
-  // 2.6.1: \u043e\u0434\u043d\u0430 \u043a\u0430\u043f\u043b\u044f-\u043b\u0438\u043d\u0437\u0430 \u043d\u0430 \u043f\u0440\u0443\u0436\u0438\u043d\u0435. \u0421\u0447\u0438\u0442\u0430\u0435\u0442\u0441\u044f \u043f\u043e \u0432\u0440\u0435\u043c\u0435\u043d\u0438, \u0430 \u043d\u0435 \u043f\u043e \u043a\u0430\u0434\u0440\u0430\u043c: \u043e\u0434\u0438\u043d\u0430\u043a\u043e\u0432\u043e \u043d\u0430 60 \u0438 120 \u0413\u0446.
-  // \u041d\u043e\u0432\u043e\u0435 \u0434\u0432\u0438\u0436\u0435\u043d\u0438\u0435 \u043d\u0430\u0447\u0438\u043d\u0430\u0435\u0442\u0441\u044f \u0441 \u0442\u043e\u0433\u043e \u043c\u0435\u0441\u0442\u0430, \u0433\u0434\u0435 \u043a\u0430\u043f\u043b\u044f \u0441\u0435\u0439\u0447\u0430\u0441, \u2014 \u0431\u0435\u0437 \u043f\u0440\u044b\u0436\u043a\u043e\u0432 \u043f\u0440\u0438 \u0431\u044b\u0441\u0442\u0440\u044b\u0445 \u043d\u0430\u0436\u0430\u0442\u0438\u044f\u0445.
-  // \u0412\u0435\u0434\u0435\u043d\u0438\u0435 \u043f\u0430\u043b\u044c\u0446\u0435\u043c (Scrub) \u0434\u0432\u0438\u0433\u0430\u0435\u0442 \u044d\u0442\u0443 \u0436\u0435 \u043a\u0430\u043f\u043b\u044e, \u0432\u0442\u043e\u0440\u043e\u0439 \u043a\u0430\u043f\u043b\u0438 \u0431\u043e\u043b\u044c\u0448\u0435 \u043d\u0435\u0442.
-  L_:{x:NaN,w:0,vx:0,vw:0,tx:0,tw:0,p:0,vp:0,tp:0,raf:0,last:0},
-  lensTo(tx,tw,press,snap){
-    const S=Tabs.L_;S.tx=tx;S.tw=tw;S.tp=press?1:0;
-    if(snap||isNaN(S.x)){S.x=tx;S.w=tw;S.vx=S.vw=0;Tabs.lensPaint();if(!press&&!S.p)return}
-    if(!S.raf){S.last=0;S.raf=requestAnimationFrame(Tabs.lensStep)}
-  },
-  lensStep(ts){
-    const S=Tabs.L_;S.raf=0;const l=qs('#tabs .lens');if(!l)return;
-    const dt=S.last?Math.min(.034,(ts-S.last)/1000):1/60;S.last=ts;
-    // \u043f\u0440\u0443\u0436\u0438\u043d\u0430: \u0436\u0451\u0441\u0442\u043a\u043e\u0441\u0442\u044c 420, \u0437\u0430\u0442\u0443\u0445\u0430\u043d\u0438\u0435 \u0447\u0443\u0442\u044c \u043c\u0435\u043d\u044c\u0448\u0435 \u043a\u0440\u0438\u0442\u0438\u0447\u0435\u0441\u043a\u043e\u0433\u043e \u2014 \u043a\u0430\u043f\u043b\u044f \u0441\u043b\u0435\u0433\u043a\u0430 \u00ab\u0434\u043e\u043f\u043b\u044b\u0432\u0430\u0435\u0442\u00bb
-    const K=420,C=2*Math.sqrt(K)*.78,Kp=520,Cp=2*Math.sqrt(Kp)*.7;
-    for(let n=Math.max(1,Math.round(dt/(1/240))),h=dt/n;n>0;n--){
-      S.vx+=(K*(S.tx-S.x)-C*S.vx)*h;S.x+=S.vx*h;
-      S.vw+=(K*(S.tw-S.w)-C*S.vw)*h;S.w+=S.vw*h;
-      S.vp+=(Kp*(S.tp-S.p)-Cp*S.vp)*h;S.p+=S.vp*h;
-    }
-    Tabs.lensPaint();
-    const rest=Math.abs(S.tx-S.x)<.3&&Math.abs(S.vx)<4&&Math.abs(S.tw-S.w)<.3&&Math.abs(S.tp-S.p)<.004&&Math.abs(S.vp)<.05;
-    if(rest){S.x=S.tx;S.w=S.tw;S.p=S.tp;S.vx=S.vw=S.vp=0;Tabs.lensPaint();return}
-    S.raf=requestAnimationFrame(Tabs.lensStep);
-  },
-  lensPaint(){
-    const S=Tabs.L_,l=qs('#tabs .lens');if(!l)return;
-    // \u0432 \u0434\u0432\u0438\u0436\u0435\u043d\u0438\u0438 \u043a\u0430\u043f\u043b\u044f \u0432\u044b\u0442\u044f\u0433\u0438\u0432\u0430\u0435\u0442\u0441\u044f \u043f\u043e \u0445\u043e\u0434\u0443 \u0438 \u0441\u043f\u043b\u044e\u0449\u0438\u0432\u0430\u0435\u0442\u0441\u044f \u043f\u043e \u0432\u044b\u0441\u043e\u0442\u0435; \u043f\u043e\u0434 \u043f\u0430\u043b\u044c\u0446\u0435\u043c \u2014 \u0440\u0430\u0437\u0434\u0443\u0432\u0430\u0435\u0442\u0441\u044f
-    const st=Math.min(.32,Math.abs(S.vx)/2600),sx=1+st+S.p*.12,sy=1/Math.sqrt(1+st)+S.p*.1;
-    l.style.width=S.w.toFixed(1)+'px';l.style.transform='translateX('+S.x.toFixed(1)+'px) scale('+sx.toFixed(3)+','+sy.toFixed(3)+')';
-    l.classList.toggle('press',S.p>.05);
-  },
+  // 2.6.1: \u043a\u0430\u043f\u043b\u044f \u043f\u043e\u0434 \u0432\u044b\u0431\u0440\u0430\u043d\u043d\u043e\u0439 \u0432\u043a\u043b\u0430\u0434\u043a\u043e\u0439 \u2014 \u043e\u0431\u0449\u0438\u0439 \u0434\u0432\u0438\u0436\u043e\u043a Drop (31_drop.js), \u0442\u043e\u0442 \u0436\u0435, \u0447\u0442\u043e \u0443 \u0432\u0441\u0435\u0445 \u043f\u0435\u0440\u0435\u043a\u043b\u044e\u0447\u0430\u0442\u0435\u043b\u0435\u0439
   lens(snap){
-    const b=$('tb-'+Tabs.cur),l=qs('#tabs .lens');if(!b||!l)return;
-    Tabs.lensTo(b.offsetLeft-4,b.offsetWidth,false,snap===true);
-    qsa('#tabs button').forEach(x2=>x2.classList.toggle('on',x2===b));
-  },
-  // \u0432\u0435\u0434\u0435\u043d\u0438\u0435 \u043f\u0430\u043b\u044c\u0446\u0435\u043c \u043f\u043e \u0432\u043a\u043b\u0430\u0434\u043a\u0430\u043c: \u043a\u0430\u043f\u043b\u044f \u0446\u0435\u043d\u0442\u0440\u0438\u0440\u0443\u0435\u0442\u0441\u044f \u043f\u043e\u0434 \u043f\u0430\u043b\u044c\u0446\u0435\u043c
-  follow(clientX,b){
-    const t=$('tabs'),r=t.getBoundingClientRect();const w=b.offsetWidth;
-    const x=Math.max(0,Math.min(t.clientWidth-w-8,clientX-r.left-w/2-4));Tabs.lensTo(x,w,true);
+    const b=$('tb-'+Tabs.cur);if(!b)return;
+    qsa('#tabs>button').forEach(x2=>x2.classList.toggle('on',x2===b));
+    Drop.sync(snap===true);
   },
   go(id){
     if(!RENDER[id])return;
@@ -775,6 +740,7 @@ document.addEventListener('click',e=>{
   // 2.6.1: \u043f\u043e\u0432\u0442\u043e\u0440\u043d\u044b\u0439 \u043a\u043b\u0438\u043a \u043f\u043e \u0442\u043e\u0439 \u0436\u0435 \u043a\u043d\u043e\u043f\u043a\u0435 \u0431\u044b\u0441\u0442\u0440\u0435\u0435 0,35 \u0441 (\u0434\u0440\u0435\u0431\u0435\u0437\u0433 \u043a\u0430\u0441\u0430\u043d\u0438\u044f) \u043f\u0440\u043e\u043f\u0443\u0441\u043a\u0430\u0435\u043c \u2014 \u043a\u0440\u043e\u043c\u0435 \u043a\u043d\u043e\u043f\u043e\u043a, \u043a\u043e\u0442\u043e\u0440\u044b\u0435 \u0436\u043c\u0443\u0442 \u0447\u0430\u0441\u0442\u043e
   const t=Date.now();if(el===lastAct.el&&t-lastAct.t<350&&!el.hasAttribute('data-rapid')){return}lastAct.el=el;lastAct.t=t;
   try{f(el,e)}catch(err){console.error(err);toast(err.message||'\u041e\u0448\u0438\u0431\u043a\u0430','err')}
+  Drop.later(); // \u0432\u044b\u0431\u043e\u0440 \u0432 \u043f\u0435\u0440\u0435\u043a\u043b\u044e\u0447\u0430\u0442\u0435\u043b\u0435 \u043c\u043e\u0433 \u0441\u043c\u0435\u043d\u0438\u0442\u044c\u0441\u044f \u0431\u0435\u0437 \u043f\u0435\u0440\u0435\u0440\u0438\u0441\u043e\u0432\u043a\u0438 \u2014 \u043a\u0430\u043f\u043b\u044f \u0434\u043e\u043f\u043b\u044b\u0432\u0451\u0442
 });
 document.addEventListener('input',e=>{const el=e.target.closest('[data-on]');if(el&&ON[el.dataset.on])ON[el.dataset.on](el,e)});
 document.addEventListener('change',e=>{const el=e.target.closest('[data-on]');if(el&&ON[el.dataset.on+'Change'])ON[el.dataset.on+'Change'](el,e)});
@@ -788,25 +754,22 @@ const Scrub=(()=>{
   const SEL='#tabs,.segbox';
   const btns=c=>[...c.children].filter(b=>b.tagName==='BUTTON'&&!b.disabled&&!b.classList.contains('off'));
   function at(x){const l=btns(st.c);let best=null,bd=1e9;for(const b of l){const r=b.getBoundingClientRect();const d=x<r.left?r.left-x:x>r.right?x-r.right:0;if(d<bd){bd=d;best=b}}return best}
+  // 2.6.1: \u043f\u0430\u043b\u0435\u0446 \u0432\u0435\u0434\u0451\u0442 \u0442\u0443 \u0436\u0435 \u043a\u0430\u043f\u043b\u044e, \u0447\u0442\u043e \u0441\u0442\u043e\u0438\u0442 \u043f\u043e\u0434 \u0432\u044b\u0431\u0440\u0430\u043d\u043d\u043e\u0439 \u043a\u043d\u043e\u043f\u043a\u043e\u0439 (Drop) \u2014 \u0443 \u0432\u043a\u043b\u0430\u0434\u043e\u043a \u0438 \u0443 \u0432\u0441\u0435\u0445 \u043a\u0430\u043f\u0441\u0443\u043b \u043e\u0434\u0438\u043d\u0430\u043a\u043e\u0432\u043e
   function place(x){
     const b=at(x);if(!b)return;
-    if(st.tabs){Tabs.follow(x,b);if(b!==st.hov){if(st.hov)st.hov.classList.remove('hov');b.classList.add('hov');st.hov=b;Haptic.tick()}return}
-    const cr=st.c.getBoundingClientRect(),br=b.getBoundingClientRect();
-    const w=br.width,h=br.height;const cx=Math.max(cr.left+w/2+2,Math.min(cr.right-w/2-2,x));
-    st.lens.style.width=w+'px';st.lens.style.height=h+'px';st.lens.style.top=(br.top-cr.top)+'px';
-    st.lens.style.transform='translateX('+(cx-cr.left-w/2)+'px) scale(1.14)';
-    if(b!==st.hov){if(st.hov)st.hov.classList.remove('hov');b.classList.add('hov');st.hov=b;Haptic.tick()}
+    Drop.follow(st.c,x,b);
+    if(b!==st.hov){if(st.hov)st.hov.classList.remove('hov');b.classList.add('hov');st.hov=b;Haptic.tick();Drop.remag(st.c)}
   }
   function begin(){
     if(!st||st.on)return;st.on=true;clearTimeout(st.tm);
-    st.c.classList.add('scrub');st.tabs=st.c.id==='tabs';
-    if(!st.tabs){const l=document.createElement('span');l.className='scrub-lens';st.c.appendChild(l);st.lens=l}
+    st.c.classList.add('scrub');
     place(st.x);
   }
   function end(){
     if(!st)return null;const s=st;st=null;clearTimeout(s.tm);
     window.removeEventListener('pointermove',mv,true);window.removeEventListener('pointerup',up,true);window.removeEventListener('pointercancel',cancel,true);
-    if(s.on){if(s.hov)s.hov.classList.remove('hov');s.c.classList.remove('scrub');if(s.lens)s.lens.remove();if(s.tabs)setTimeout(()=>Tabs.lens(),0)}
+    if(s.on){if(s.hov)s.hov.classList.remove('hov');s.c.classList.remove('scrub')}
+    Drop.release(s.c);
     return s;
   }
   function mv(e){if(!st||e.pointerId!==st.id)return;const dx=e.clientX-st.x0,dy=e.clientY-st.y0;st.x=e.clientX;
@@ -823,7 +786,8 @@ const Scrub=(()=>{
   document.addEventListener('pointerdown',e=>{
     if(e.button>0||st)return;const b=e.target.closest('button');if(!b)return;const c=b.parentElement;if(!c||!c.matches(SEL))return;
     if(btns(c).length<2)return;
-    st={c,id:e.pointerId,x0:e.clientX,y0:e.clientY,x:e.clientX,on:false,hov:null,lens:null,tm:setTimeout(()=>begin(),230)};
+    st={c,id:e.pointerId,x0:e.clientX,y0:e.clientY,x:e.clientX,on:false,hov:null,tm:setTimeout(()=>begin(),230)};
+    Drop.press(c); // \u043a\u0430\u043f\u043b\u044f \u0440\u0430\u0437\u0434\u0443\u0432\u0430\u0435\u0442\u0441\u044f \u0441\u0440\u0430\u0437\u0443 \u043f\u0440\u0438 \u043a\u0430\u0441\u0430\u043d\u0438\u0438, \u043a\u0430\u043a \u0443 Apple
     window.addEventListener('pointermove',mv,true);window.addEventListener('pointerup',up,true);window.addEventListener('pointercancel',cancel,true);
   },{passive:true});
   // \u043e\u0431\u044b\u0447\u043d\u044b\u0439 \u00ab\u043a\u043b\u0438\u043a\u00bb \u043f\u043e\u0441\u043b\u0435 \u0432\u0435\u0434\u0435\u043d\u0438\u044f \u043f\u0430\u043b\u044c\u0446\u0435\u043c \u043d\u0435 \u0434\u043e\u043b\u0436\u0435\u043d \u0441\u0440\u0430\u0431\u0430\u0442\u044b\u0432\u0430\u0442\u044c \u0432\u0442\u043e\u0440\u043e\u0439 \u0440\u0430\u0437
@@ -853,6 +817,143 @@ function openLink(url){try{if(TG&&/^https:\/\/t\.me\//.test(url)&&TG.openTelegra
 const numIn=v=>Math.max(0,Math.round(+String(v==null?'':v).replace(/[^\d]/g,'')||0));
 // \u041f\u0440\u043e\u0441\u0442\u043e\u0439 \u0442\u0430\u0439\u043c\u0435\u0440: \u043e\u0431\u043d\u043e\u0432\u043b\u044f\u0435\u0442 \u044d\u043b\u0435\u043c\u0435\u043d\u0442\u044b [data-left] \u0440\u0430\u0437 \u0432 20 \u0441\u0435\u043a\u0443\u043d\u0434
 setInterval(()=>{qsa('[data-left]').forEach(el=>{const t=+el.dataset.left;el.textContent=(el.dataset.pre||'')+left(t-now())})},20000);
+
+/* ================= 2.6.1: \u043a\u0430\u043f\u043b\u044f Liquid Glass \u0434\u043b\u044f \u0432\u0441\u0435\u0445 \u043f\u0435\u0440\u0435\u043a\u043b\u044e\u0447\u0430\u0442\u0435\u043b\u0435\u0439 ================= */
+// \u041e\u0434\u043d\u0430 \u0438 \u0442\u0430 \u0436\u0435 \u043a\u0430\u043f\u043b\u044f \u0443 \u043d\u0438\u0436\u043d\u0438\u0445 \u0432\u043a\u043b\u0430\u0434\u043e\u043a (#tabs) \u0438 \u0443 \u0432\u0441\u0435\u0445 \u043a\u0430\u043f\u0441\u0443\u043b-\u043f\u0435\u0440\u0435\u043a\u043b\u044e\u0447\u0430\u0442\u0435\u043b\u0435\u0439 (.segbox).
+// \u041a\u0430\u043a \u0443 Apple:
+//  - \u043a\u0430\u043f\u043b\u044f \u0435\u0434\u0435\u0442 \u043d\u0430 \u043f\u0440\u0443\u0436\u0438\u043d\u0435, \u0441\u0447\u0438\u0442\u0430\u0435\u0442\u0441\u044f \u043f\u043e \u0432\u0440\u0435\u043c\u0435\u043d\u0438 (\u043e\u0434\u0438\u043d\u0430\u043a\u043e\u0432\u043e \u043d\u0430 60 \u0438 120 \u0413\u0446), \u043d\u043e\u0432\u043e\u0435 \u0434\u0432\u0438\u0436\u0435\u043d\u0438\u0435 \u2014 \u0441 \u0442\u043e\u0433\u043e \u043c\u0435\u0441\u0442\u0430, \u0433\u0434\u0435 \u043e\u043d\u0430 \u0441\u0435\u0439\u0447\u0430\u0441;
+//  - \u0432\u0442\u043e\u0440\u0430\u044f \u043f\u0440\u0443\u0436\u0438\u043d\u0430 \u2014 \u043e\u0442 \u0441\u043a\u043e\u0440\u043e\u0441\u0442\u0438: \u0432 \u0434\u0432\u0438\u0436\u0435\u043d\u0438\u0438 \u043a\u0430\u043f\u043b\u044f \u0432\u044b\u0442\u044f\u0433\u0438\u0432\u0430\u0435\u0442\u0441\u044f, \u043f\u0440\u0438 \u043e\u0441\u0442\u0430\u043d\u043e\u0432\u043a\u0435 \u00ab\u0434\u0440\u043e\u0436\u0438\u0442\u00bb \u0438 \u0441\u0436\u0438\u043c\u0430\u0435\u0442\u0441\u044f;
+//  - \u043f\u0440\u0438 \u043a\u0430\u0441\u0430\u043d\u0438\u0438 \u0440\u0430\u0437\u0434\u0443\u0432\u0430\u0435\u0442\u0441\u044f \u0438 \u0441\u0442\u0430\u043d\u043e\u0432\u0438\u0442\u0441\u044f \u043f\u0440\u043e\u0437\u0440\u0430\u0447\u043d\u043e\u0439 \u043b\u0438\u043d\u0437\u043e\u0439: \u043f\u043e\u0434 \u043d\u0435\u0439 \u0432\u0438\u0434\u043d\u043e \u0443\u0432\u0435\u043b\u0438\u0447\u0435\u043d\u043d\u043e\u0435 \u0441\u043e\u0434\u0435\u0440\u0436\u0438\u043c\u043e\u0435
+//    (\u043a\u043e\u043f\u0438\u044f \u043a\u043d\u043e\u043f\u043e\u043a \u0432\u043d\u0443\u0442\u0440\u0438 \u043a\u0430\u043f\u043b\u0438 \u2014 \u0440\u0430\u0431\u043e\u0442\u0430\u0435\u0442 \u0438 \u0432 Safari, \u0433\u0434\u0435 \u043d\u0435\u0442 \u043f\u0440\u0435\u043b\u043e\u043c\u043b\u0435\u043d\u0438\u044f \u0432 backdrop-filter);
+//  - \u043f\u0435\u0440\u0435\u043a\u043b\u044e\u0447\u0430\u0442\u0435\u043b\u044c \u043f\u0435\u0440\u0435\u0440\u0438\u0441\u043e\u0432\u0430\u043b\u0441\u044f \u2014 \u043a\u0430\u043f\u043b\u044f \u0432\u0441\u0451 \u0440\u0430\u0432\u043d\u043e \u043f\u043b\u044b\u0432\u0451\u0442 \u0441\u043e \u0441\u0442\u0430\u0440\u043e\u0433\u043e \u043c\u0435\u0441\u0442\u0430 (\u043c\u0435\u0441\u0442\u043e \u0437\u0430\u043f\u043e\u043c\u0438\u043d\u0430\u0435\u0442\u0441\u044f \u043f\u043e \u043a\u043b\u044e\u0447\u0443).
+const Drop=(()=>{
+  const K=420,C=2*Math.sqrt(K)*.8,KP=520,CP=2*Math.sqrt(KP)*.72,KS=300,CS=2*Math.sqrt(KS)*.38;
+  const MAG=.16;                       // \u0443\u0432\u0435\u043b\u0438\u0447\u0435\u043d\u0438\u0435 \u043f\u043e\u0434 \u043a\u0430\u043f\u043b\u0435\u0439 \u043f\u0440\u0438 \u043a\u0430\u0441\u0430\u043d\u0438\u0438
+  const mem=new Map();                 // \u043a\u043b\u044e\u0447 \u043f\u0435\u0440\u0435\u043a\u043b\u044e\u0447\u0430\u0442\u0435\u043b\u044f -> {x,w}
+  const live=new Set();
+  let raf=0,last=0,dirty=false;
+  const SEL='#tabs:not([data-clone]),.segbox:not([data-clone])';
+  const btnsOf=c=>[...c.children].filter(b=>b.tagName==='BUTTON');
+  function keyOf(c){
+    if(c._dk)return c._dk;if(c.id)return c._dk='#'+c.id;
+    const b=c.querySelector(':scope>button[data-act]');const a=b?b.dataset.act:'';
+    const all=[...document.querySelectorAll('.segbox:not([data-clone])')].filter(x=>{const y=x.querySelector(':scope>button[data-act]');return y&&y.dataset.act===a});
+    return c._dk=a+'#'+all.indexOf(c);
+  }
+  function attach(c){
+    if(c._drop&&c._drop.el.isConnected)return c._drop;
+    let el=c.querySelector(':scope>.lens');
+    if(!el){el=document.createElement('span');el.className='lens';c.insertBefore(el,c.firstChild)}
+    el.classList.add('lgdrop');el.setAttribute('aria-hidden','true');c.classList.add('dropped');
+    const d={c,el,mag:null,x:NaN,w:0,top:0,h:0,vx:0,vw:0,tx:0,tw:0,p:0,vp:0,tp:0,s:0,vs:0,key:keyOf(c),hid:false};
+    c._drop=d;return d;
+  }
+  // \u043a\u0443\u0434\u0430 \u043a\u0430\u043f\u043b\u044f \u0434\u043e\u043b\u0436\u043d\u0430 \u0432\u0441\u0442\u0430\u0442\u044c: \u043f\u043e\u0434 \u0432\u044b\u0431\u0440\u0430\u043d\u043d\u043e\u0439 \u043a\u043d\u043e\u043f\u043a\u043e\u0439
+  function target(d){
+    const b=d.c.querySelector(':scope>button.on');if(!b||!b.offsetWidth)return null;
+    return{x:b.offsetLeft,w:b.offsetWidth,top:b.offsetTop,h:b.offsetHeight};
+  }
+  function run(){if(!raf){last=0;raf=requestAnimationFrame(step)}}
+  function to(d,t,snap){
+    d.tx=t.x;d.tw=t.w;d.top=t.top;d.h=t.h;
+    if(snap||isNaN(d.x)){d.x=t.x;d.w=t.w;d.vx=d.vw=0;d.s=d.vs=0;paint(d);if(!d.tp&&!d.p)return}
+    live.add(d);run();
+  }
+  // \u043f\u0440\u043e\u0432\u0435\u0440\u0438\u0442\u044c \u0432\u0441\u0435 \u043f\u0435\u0440\u0435\u043a\u043b\u044e\u0447\u0430\u0442\u0435\u043b\u0438 \u043d\u0430 \u044d\u043a\u0440\u0430\u043d\u0435: \u043d\u043e\u0432\u044b\u0435 \u2014 \u043f\u043e\u0434\u043a\u043b\u044e\u0447\u0438\u0442\u044c, \u0443 \u043a\u043e\u0433\u043e \u0441\u043c\u0435\u043d\u0438\u043b\u0441\u044f \u0432\u044b\u0431\u043e\u0440 \u2014 \u043f\u043b\u044b\u0442\u044c
+  function sync(snap){
+    dirty=false;
+    document.querySelectorAll(SEL).forEach(c=>{
+      if(!c.offsetParent&&c.id!=='tabs')return;
+      const d=attach(c),t=target(d);
+      if(!t){if(!d.hid){d.hid=true;d.el.style.opacity='0'}return}
+      if(d.hid){d.hid=false;d.el.style.opacity=''}
+      if(isNaN(d.x)){
+        const m=mem.get(d.key);
+        if(m&&!snap&&(Math.abs(m.x-t.x)>1||Math.abs(m.w-t.w)>1)){d.x=m.x;d.w=m.w;d.top=t.top;d.h=t.h;paint(d);to(d,t)}
+        else to(d,t,true);
+      }else if(snap===true)to(d,t,true);
+      else if(Math.abs(d.tx-t.x)>.5||Math.abs(d.tw-t.w)>.5||d.top!==t.top||d.h!==t.h)to(d,t);
+      mem.set(d.key,{x:t.x,w:t.w});
+    });
+  }
+  function later(){if(!dirty){dirty=true;requestAnimationFrame(()=>{if(dirty)sync()})}}
+  function step(ts){
+    raf=0;const dt=last?Math.min(.034,(ts-last)/1000):1/60;last=ts;
+    for(const d of live){
+      if(!d.el.isConnected){live.delete(d);continue}
+      const n=Math.max(1,Math.round(dt/(1/240))),h=dt/n;
+      for(let i=0;i<n;i++){
+        d.vx+=(K*(d.tx-d.x)-C*d.vx)*h;d.x+=d.vx*h;
+        d.vw+=(K*(d.tw-d.w)-C*d.vw)*h;d.w+=d.vw*h;
+        d.vp+=(KP*(d.tp-d.p)-CP*d.vp)*h;d.p+=d.vp*h;
+        // \u0432\u044b\u0442\u044f\u0433\u0438\u0432\u0430\u043d\u0438\u0435 \u0441\u043b\u0435\u0434\u0443\u0435\u0442 \u0437\u0430 \u0441\u043a\u043e\u0440\u043e\u0441\u0442\u044c\u044e, \u043d\u043e \u0441\u043e \u0441\u0432\u043e\u0435\u0439 \u043f\u0440\u0443\u0436\u0438\u043d\u043e\u0439 \u2014 \u043f\u043e\u0441\u043b\u0435 \u043e\u0441\u0442\u0430\u043d\u043e\u0432\u043a\u0438 \u043a\u0430\u043f\u043b\u044f \u00ab\u0434\u0440\u043e\u0436\u0438\u0442\u00bb
+        const st=Math.min(.3,Math.abs(d.vx)/2400);
+        d.vs+=(KS*(st-d.s)-CS*d.vs)*h;d.s+=d.vs*h;
+      }
+      paint(d);
+      if(Math.abs(d.tx-d.x)<.3&&Math.abs(d.vx)<4&&Math.abs(d.tw-d.w)<.3&&Math.abs(d.vw)<4&&Math.abs(d.tp-d.p)<.004&&Math.abs(d.vp)<.05&&Math.abs(d.s)<.004&&Math.abs(d.vs)<.05){
+        d.x=d.tx;d.w=d.tw;d.p=d.tp;d.s=0;d.vx=d.vw=d.vp=d.vs=0;paint(d);live.delete(d);
+      }
+    }
+    if(live.size)raf=requestAnimationFrame(step);
+  }
+  function paint(d){
+    const el=d.el,s=Math.max(-.12,d.s),p=Math.max(0,d.p);
+    const sx=1+s+p*.1,sy=1/Math.sqrt(1+s)+p*.12;
+    el.style.width=d.w.toFixed(1)+'px';el.style.height=d.h+'px';
+    el.style.transform='translate3d('+d.x.toFixed(2)+'px,'+d.top+'px,0) scale('+sx.toFixed(4)+','+sy.toFixed(4)+')';
+    el.style.setProperty('--p',p.toFixed(3));
+    const on=p>.02||d.tp>0;el.classList.toggle('press',on);
+    if(on){if(!d.mag)mag(d);magPaint(d,sx,sy,p)}
+    else if(d.mag){d.mag.remove();d.mag=null}
+    if(!isNaN(d.x))mem.set(d.key,{x:d.x,w:d.w});
+  }
+  // \u043a\u043e\u043f\u0438\u044f \u043a\u043d\u043e\u043f\u043e\u043a \u0432\u043d\u0443\u0442\u0440\u0438 \u043a\u0430\u043f\u043b\u0438: \u0443\u0432\u0435\u043b\u0438\u0447\u0435\u043d\u043d\u0430\u044f, \u0441\u043e\u0432\u043c\u0435\u0449\u0435\u043d\u0430 \u0441 \u043d\u0430\u0441\u0442\u043e\u044f\u0449\u0438\u043c\u0438 \u043a\u043d\u043e\u043f\u043a\u0430\u043c\u0438
+  function mag(d){
+    if(document.documentElement.classList.contains('lite'))return;
+    const c=d.c,m=c.cloneNode(true);m.setAttribute('data-clone','1');if(m.id!=='tabs')m.removeAttribute('id'); // \u0443 \u043a\u043e\u043f\u0438\u0438 \u0432\u043a\u043b\u0430\u0434\u043e\u043a id \u043e\u0441\u0442\u0430\u0432\u043b\u0435\u043d \u0440\u0430\u0434\u0438 \u0441\u0442\u0438\u043b\u0435\u0439 #tabs button: getElementById \u0432\u0441\u0451 \u0440\u0430\u0432\u043d\u043e \u043d\u0430\u0439\u0434\u0451\u0442 \u043d\u0430\u0441\u0442\u043e\u044f\u0449\u0438\u0435 (\u043e\u043d\u0438 \u0440\u0430\u043d\u044c\u0448\u0435 \u0432 \u0434\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u0435)
+    m.querySelectorAll('.lens,.scrub-lens').forEach(x=>x.remove());
+    m.querySelectorAll('[id]').forEach(x=>{if(x!==m)x.removeAttribute('id')});
+    m.querySelectorAll('[data-act]').forEach(x=>x.removeAttribute('data-act'));
+    m.classList.remove('scrub','dropped');
+    m.style.cssText='position:absolute;left:0;top:0;margin:0;width:'+c.clientWidth+'px;height:'+c.clientHeight+'px;transform-origin:0 0;pointer-events:none;background:none;box-shadow:none;border:0;-webkit-backdrop-filter:none;backdrop-filter:none;filter:none;flex:none';
+    const w=document.createElement('span');w.className='drop-mag';w.appendChild(m);d.el.appendChild(w);d.mag=w;
+  }
+  function magPaint(d,sx,sy,p){
+    if(!d.mag)return;const m=d.mag.firstChild;const M=1+MAG*p;
+    // \u0442\u043e\u0447\u043a\u0430 P \u043f\u0435\u0440\u0435\u043a\u043b\u044e\u0447\u0430\u0442\u0435\u043b\u044f \u043f\u043e\u043f\u0430\u0434\u0430\u0435\u0442 \u0432 x + w/2 + M\u00b7(P \u2212 \u0446\u0435\u043d\u0442\u0440 \u043a\u0430\u043f\u043b\u0438): \u043a\u043e\u043f\u0438\u044f \u0443\u0432\u0435\u043b\u0438\u0447\u0435\u043d\u0430 \u0440\u043e\u0432\u043d\u043e \u0432 M \u0440\u0430\u0437 \u0438 \u043d\u0435 \u0435\u0437\u0434\u0438\u0442
+    const kx=M/sx,ky=M/sy,cx=d.x+d.w/2,cy=d.top+d.h/2;
+    const tx=d.w/2-kx*cx,ty=d.h/2-ky*cy;
+    m.style.transform='translate('+tx.toFixed(2)+'px,'+ty.toFixed(2)+'px) scale('+kx.toFixed(4)+','+ky.toFixed(4)+')';
+  }
+  return{
+    sync,later,attach,
+    // \u043f\u0430\u043b\u0435\u0446 \u0432\u0435\u0434\u0451\u0442 \u043a\u0430\u043f\u043b\u044e: \u0446\u0435\u043d\u0442\u0440 \u043a\u0430\u043f\u043b\u0438 \u043f\u043e\u0434 \u043f\u0430\u043b\u044c\u0446\u0435\u043c, \u0448\u0438\u0440\u0438\u043d\u0430 \u2014 \u043a\u043d\u043e\u043f\u043a\u0438 \u043f\u043e\u0434 \u043f\u0430\u043b\u044c\u0446\u0435\u043c
+    follow(c,clientX,b){
+      const d=attach(c),bs=btnsOf(c);const r=c.getBoundingClientRect(),w=b.offsetWidth;
+      const lo=bs[0].offsetLeft,hi=bs[bs.length-1].offsetLeft+bs[bs.length-1].offsetWidth-w;
+      const x=Math.max(lo,Math.min(hi,clientX-r.left-c.clientLeft-w/2));
+      d.tp=1;if(isNaN(d.x)){const t=target(d);if(t)to(d,t,true)}
+      d.top=b.offsetTop;d.h=b.offsetHeight;d.tx=x;d.tw=w;live.add(d);run();
+    },
+    // \u043a\u0430\u0441\u0430\u043d\u0438\u0435: \u043a\u0430\u043f\u043b\u044f \u0440\u0430\u0437\u0434\u0443\u0432\u0430\u0435\u0442\u0441\u044f \u043d\u0430 \u043c\u0435\u0441\u0442\u0435; \u043e\u0442\u043f\u0443\u0441\u0442\u0438\u043b\u0438 \u2014 \u0441\u0434\u0443\u0432\u0430\u0435\u0442\u0441\u044f \u0438 \u043f\u043b\u044b\u0432\u0451\u0442 \u043a \u0432\u044b\u0431\u0440\u0430\u043d\u043d\u043e\u0439 \u043a\u043d\u043e\u043f\u043a\u0435
+    press(c){const d=attach(c);if(isNaN(d.x)){const t=target(d);if(!t)return;to(d,t,true)}d.tp=1;live.add(d);run()},
+    release(c){const d=c&&c._drop;if(!d)return;d.tp=0;live.add(d);run();setTimeout(()=>sync(),0)},
+    // \u043a\u043e\u043f\u0438\u044e \u043f\u0435\u0440\u0435\u0441\u043e\u0431\u0440\u0430\u0442\u044c (\u043f\u043e\u0434\u0441\u0432\u0435\u0442\u0438\u043b\u0430\u0441\u044c \u0434\u0440\u0443\u0433\u0430\u044f \u043a\u043d\u043e\u043f\u043a\u0430 \u043f\u043e\u0434 \u043f\u0430\u043b\u044c\u0446\u0435\u043c)
+    remag(c){const d=c._drop;if(d&&d.mag){d.mag.remove();d.mag=null;mag(d);paint(d)}},
+    state(c){const d=c&&c._drop;return d?{x:d.x,w:d.w,tx:d.tx,tw:d.tw,p:d.p,moving:live.has(d)}:null},
+    get running(){return!!raf}
+  };
+})();
+// \u043d\u043e\u0432\u044b\u0435 \u043f\u0435\u0440\u0435\u043a\u043b\u044e\u0447\u0430\u0442\u0435\u043b\u0438 \u043f\u043e\u044f\u0432\u043b\u044f\u044e\u0442\u0441\u044f \u043f\u0440\u0438 \u043f\u0435\u0440\u0435\u0440\u0438\u0441\u043e\u0432\u043a\u0435 \u0441\u0442\u0440\u0430\u043d\u0438\u0446 \u2014 \u043f\u043e\u0434\u043a\u043b\u044e\u0447\u0430\u0435\u043c \u043a\u0430\u043f\u043b\u044e \u0432 \u0441\u043b\u0435\u0434\u0443\u044e\u0449\u0435\u043c \u043a\u0430\u0434\u0440\u0435
+(()=>{
+  const hasSeg=n=>n.nodeType===1&&!n.classList.contains('drop-mag')&&(n.matches('.segbox')||n.querySelector('.segbox'));
+  new MutationObserver(ms=>{
+    if(document.documentElement.classList.contains('fx-off'))return;
+    for(const m of ms)for(const n of m.addedNodes)if(hasSeg(n)&&!n.closest('[data-clone]')){Drop.later();return}
+  }).observe(document.documentElement,{childList:true,subtree:true});
+  window.addEventListener('resize',()=>Drop.sync(true));
+})();
 
 /* ================= 2.4: Liquid Glass \u0438 \u043f\u043e\u043b\u043d\u043e\u044d\u043a\u0440\u0430\u043d\u043d\u044b\u0439 \u0440\u0435\u0436\u0438\u043c ================= */
 const Glass=(()=>{
@@ -1291,11 +1392,26 @@ function renderOpener(){
   const rb=$('trib');const keepX=rb?rb.scrollLeft:null;
   el.innerHTML='<div class="trib" id="trib">'+TIERS.map((x,i)=>'<button class="tc '+TIER_G[i]+(i===curTier?' on':'')+(x.event&&!L.seasonOn(now())?' dim':'')+'" data-act="tier" data-t="'+i+'"><span class="tca">'+caseArt(i).replace('width="74" height="74"','width="34" height="34"')+'</span><span class="tcn">'+x.name+'</span><span class="tcp num">'+shortN(x.price)+'</span></button>').join('')+'</div>'+
     '<div class="segbox nsel">'+OPEN_N.map(n=>'<button class="'+(n===curN?'on':'')+'" data-act="openN" data-n="'+n+'">\u00d7'+n+'</button>').join('')+'</div>'+
-    '<div class="acts"><button class="btn pri'+(spin||seasonOff?' off':'')+'" data-act="open"><span>'+(curN>1?'\u041e\u0442\u043a\u0440\u044b\u0442\u044c '+curN:'\u041e\u0442\u043a\u0440\u044b\u0442\u044c')+'</span><small class="num">'+fmtN(pr.price*curN)+'</small><i class="coin"></i></button>'+
-    '<button class="btn'+(spin||seasonOff?' off':'')+'" data-act="openKey">'+ic('key')+'<span class="num">'+pr.keys*curN+'</span><small>'+plural(pr.keys*curN,'\u043a\u043b\u044e\u0447','\u043a\u043b\u044e\u0447\u0430','\u043a\u043b\u044e\u0447\u0435\u0439')+'</small></button></div>'+
+    '<div class="acts"><button class="btn pri'+(spin||seasonOff?' off':'')+'" data-act="open"><span class="bl">'+(curN>1?'\u041e\u0442\u043a\u0440\u044b\u0442\u044c '+curN:'\u041e\u0442\u043a\u0440\u044b\u0442\u044c')+'</span><span class="bp"><small class="num">'+fmtN(pr.price*curN)+'</small><i class="coin"></i></span></button>'+
+    '<button class="btn'+(spin||seasonOff?' off':'')+'" data-act="openKey"><span class="bl">'+ic('key')+'<span class="num">'+pr.keys*curN+'</span></span><small>'+plural(pr.keys*curN,'\u043a\u043b\u044e\u0447','\u043a\u043b\u044e\u0447\u0430','\u043a\u043b\u044e\u0447\u0435\u0439')+'</small></button></div>'+
     (fr>0&&!(curReg&&curC!=='mix')?'<button class="btn md wide green'+(spin||seasonOff?' off':'')+'" data-act="openFree">'+ic('gift')+'\u041e\u0442\u043a\u0440\u044b\u0442\u044c \u0431\u0435\u0441\u043f\u043b\u0430\u0442\u043d\u043e \u00b7 \u043e\u0441\u0442\u0430\u043b\u043e\u0441\u044c '+fr+'</button>':fr>0?'<p class="note" style="margin:0 4px">\u0411\u0435\u0441\u043f\u043b\u0430\u0442\u043d\u044b\u0435 \u043a\u0435\u0439\u0441\u044b \u00ab'+t.name+'\u00bb ('+fr+') \u043e\u0442\u043a\u0440\u044b\u0432\u0430\u044e\u0442\u0441\u044f \u0431\u0435\u0437 \u0432\u044b\u0431\u043e\u0440\u0430 \u0440\u0435\u0433\u0438\u043e\u043d\u0430</p>':'');
-  tribFix(keepX);
+  tribFix(keepX);openerFit();
 }
+// 2.6.1: \u043a\u043d\u043e\u043f\u043a\u0438 \u00ab\u041e\u0442\u043a\u0440\u044b\u0442\u044c\u00bb \u0438 \u00ab\u043a\u043b\u044e\u0447\u0438\u00bb \u0432\u0441\u0435\u0433\u0434\u0430 \u0446\u0435\u043b\u0438\u043a\u043e\u043c \u0432 \u044d\u043a\u0440\u0430\u043d\u0435. \u041d\u0430 \u0443\u0437\u043a\u0438\u0445 \u044d\u043a\u0440\u0430\u043d\u0430\u0445 \u0438 \u043f\u0440\u0438 \u043a\u0440\u0443\u043f\u043d\u043e\u043c \u0448\u0440\u0438\u0444\u0442\u0435 Android
+// (Telegram \u0431\u0435\u0440\u0451\u0442 \u0440\u0430\u0437\u043c\u0435\u0440 \u0448\u0440\u0438\u0444\u0442\u0430 \u0438\u0437 \u043d\u0430\u0441\u0442\u0440\u043e\u0435\u043a \u0442\u0435\u043b\u0435\u0444\u043e\u043d\u0430) \u043d\u0430\u0434\u043f\u0438\u0441\u044c \u0438 \u0446\u0435\u043d\u0430 \u0432\u0441\u0442\u0430\u044e\u0442 \u0432 \u0434\u0432\u0435 \u0441\u0442\u0440\u043e\u043a\u0438, \u0430 \u0435\u0441\u043b\u0438 \u0438 \u0442\u0430\u043a \u043d\u0435 \u0432\u043b\u0435\u0437\u0430\u0435\u0442 \u2014 \u0448\u0440\u0438\u0444\u0442 \u043c\u0435\u043d\u044c\u0448\u0435
+function openerFit(){
+  const el=$('opener');if(!el)return;
+  // \u0448\u0438\u0440\u0438\u043d\u0430, \u043a\u043e\u0442\u043e\u0440\u0430\u044f \u043d\u0443\u0436\u043d\u0430 \u043d\u0430\u0434\u043f\u0438\u0441\u0438 \u0432 \u043e\u0434\u043d\u0443 \u0441\u0442\u0440\u043e\u043a\u0443 / \u0432 \u0434\u0432\u0435 \u0441\u0442\u0440\u043e\u043a\u0438 (\u0447\u0430\u0441\u0442\u0438 \u043a\u043d\u043e\u043f\u043a\u0438 \u043d\u0435 \u0441\u0436\u0438\u043c\u0430\u044e\u0442\u0441\u044f, \u043f\u043e\u044d\u0442\u043e\u043c\u0443 \u043c\u0435\u0440\u044f\u044e\u0442\u0441\u044f \u0447\u0435\u0441\u0442\u043d\u043e)
+  const need=(b,col)=>{const cs=getComputedStyle(b),k=[...b.children].map(x=>x.getBoundingClientRect());const g=parseFloat(cs.columnGap)||0,pd=parseFloat(cs.paddingLeft)+parseFloat(cs.paddingRight);
+    return col?{w:Math.max(...k.map(r=>r.width))+pd,h:k.reduce((a,r)=>a+r.height,0)+(parseFloat(cs.rowGap)||0)*(k.length-1)}:{w:k.reduce((a,r)=>a+r.width,0)+g*(k.length-1)+pd,h:0}};
+  el.querySelectorAll('.acts .btn').forEach(b=>{
+    b.classList.remove('two','tight');
+    if(need(b).w<=b.clientWidth+.5)return;
+    b.classList.add('two');let n=need(b,true);if(n.w<=b.clientWidth+.5&&n.h<=b.clientHeight)return;
+    b.classList.add('tight');
+  });
+}
+window.addEventListener('resize',()=>openerFit());
 function tribFix(keepX){const rb=$('trib');if(!rb)return;const b=rb.querySelector('.tc.on');if(keepX!=null){rb.scrollLeft=keepX}
   if(b){const l=b.offsetLeft,r=l+b.offsetWidth;if(l<rb.scrollLeft+8||r>rb.scrollLeft+rb.clientWidth-8)rb.scrollTo({left:Math.max(0,l-(rb.clientWidth-b.offsetWidth)/2),behavior:keepX==null?'auto':'smooth'})}}
 function renderDrop(){
@@ -3487,6 +3603,7 @@ RENDER.shop();
 connect();
 setInterval(()=>{if(!document.hidden&&Net.status==='on'&&Tabs.cur==='games'&&!Page.stack.length)RENDER.games()},30000);
 // 2.6.1: \u043e\u0441\u0442\u0440\u043e\u0432\u043e\u043a \u0432\u0441\u0435\u0433\u0434\u0430 \u043d\u0430 \u044d\u043a\u0440\u0430\u043d\u0435 \u2014 \u043f\u043e\u043a\u0430\u0437\u0430\u0442\u044c \u043f\u043e\u0441\u043b\u0435 \u0437\u0430\u043f\u0443\u0441\u043a\u0430 (\u043f\u043e\u0441\u043b\u0435\u0434\u043d\u0438\u0439 \u0442\u0440\u0435\u043a \u043d\u0430 \u043f\u0430\u0443\u0437\u0435 \u0438\u043b\u0438 \u00ab\u0414\u043e\u0431\u0430\u0432\u0438\u0442\u044c \u043c\u0443\u0437\u044b\u043a\u0443\u00bb)
+window.__app&&(window.__app.openerFit=openerFit,window.__app.Drop=Drop);
 setTimeout(()=>{try{Island.refresh()}catch(e){console.error(e)}},600);
 
 })();
