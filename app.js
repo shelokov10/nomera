@@ -1,4 +1,4 @@
-/* Vybivanie nomerov 2.6.2 */
+/* Vybivanie nomerov 2.6.3 */
 (function(){
 "use strict";
 /* ================= \u043e\u0441\u043d\u043e\u0432\u0430: \u0443\u0442\u0438\u043b\u0438\u0442\u044b, \u0438\u043a\u043e\u043d\u043a\u0438, \u0445\u0440\u0430\u043d\u0438\u043b\u0438\u0449\u0435, \u043e\u0442\u043a\u043b\u0438\u043a ================= */
@@ -162,14 +162,33 @@ const Style=(()=>{
     return'#808080';
   }
   const ORANGE=toLch('#ff8a00'),GOLD=toLch('#ffc83d');
-  // \u0446\u0432\u0435\u0442 \u0438\u043d\u0442\u0435\u0440\u0444\u0435\u0439\u0441\u0430: 'tg' (\u043f\u043e \u0443\u043c\u043e\u043b\u0447\u0430\u043d\u0438\u044e) \u2014 \u0438\u0437 \u0442\u0435\u043c\u044b Telegram, \u0438\u043d\u0430\u0447\u0435 \u0432\u044b\u0431\u0440\u0430\u043d\u043d\u044b\u0439 \u0438\u0433\u0440\u043e\u043a\u043e\u043c (#rrggbb). \u0426\u0432\u0435\u0442\u0430 \u0441\u043e \u0441\u043c\u044b\u0441\u043b\u043e\u043c
-  // (\u0440\u0435\u0434\u043a\u043e\u0441\u0442\u0438, \u043c\u043e\u043d\u0435\u0442\u044b, \u043e\u0448\u0438\u0431\u043a\u0438, \u043e\u0440\u0430\u043d\u0436\u0435\u0432\u044b\u0435 \u043a\u043d\u043e\u043f\u043a\u0438 \u043f\u043e\u043a\u0443\u043f\u043a\u0438, \u043a\u0430\u0440\u0442\u043e\u0447\u043a\u0438 \u043a\u0435\u0439\u0441\u043e\u0432) \u043e\u0442 \u043d\u0435\u0433\u043e \u043d\u0435 \u0437\u0430\u0432\u0438\u0441\u044f\u0442
+  // \u0446\u0432\u0435\u0442 \u0438\u043d\u0442\u0435\u0440\u0444\u0435\u0439\u0441\u0430: 'tg' (\u043f\u043e \u0443\u043c\u043e\u043b\u0447\u0430\u043d\u0438\u044e) \u2014 \u0438\u0437 \u0442\u0435\u043c\u044b Telegram, \u0438\u043d\u0430\u0447\u0435 \u0432\u044b\u0431\u0440\u0430\u043d\u043d\u044b\u0439 \u0438\u0433\u0440\u043e\u043a\u043e\u043c (#rrggbb).
+  // 2.6.3: \u043e\u0431\u0449\u0438\u0439 \u0434\u043b\u044f Material \u0438 Liquid Glass. \u041a\u0440\u0430\u0441\u0438\u0442 \u0432\u043a\u043b\u0430\u0434\u043a\u0443, \u043a\u0430\u043f\u043b\u044e, \u043f\u0435\u0440\u0435\u043a\u043b\u044e\u0447\u0430\u0442\u0435\u043b\u0438, \u0433\u043b\u0430\u0432\u043d\u044b\u0435 \u043a\u043d\u043e\u043f\u043a\u0438 (\u00ab\u041e\u0442\u043a\u0440\u044b\u0442\u044c\u00bb, \u00ab\u041a\u0443\u043f\u0438\u0442\u044c\u00bb,
+  // \u00ab\u0417\u0430\u0431\u0440\u0430\u0442\u044c\u00bb), \u0441\u0441\u044b\u043b\u043a\u0438, \u043f\u043e\u043b\u043e\u0441\u043a\u0438 \u043f\u0440\u043e\u0433\u0440\u0435\u0441\u0441\u0430, \u043b\u0451\u0433\u043a\u0438\u0439 \u043e\u0442\u0442\u0435\u043d\u043e\u043a \u0441\u0442\u0435\u043a\u043b\u0430. \u041d\u0435 \u043c\u0435\u043d\u044f\u044e\u0442\u0441\u044f \u0446\u0432\u0435\u0442\u0430 \u0441\u043e \u0441\u043c\u044b\u0441\u043b\u043e\u043c: \u043c\u043e\u043d\u0435\u0442\u044b \u0438 \u0437\u043e\u043b\u043e\u0442\u043e, Stars,
+  // \u0440\u0435\u0434\u043a\u043e\u0441\u0442\u0438, \u043e\u0448\u0438\u0431\u043a\u0438 \u0438 \u043f\u0440\u0435\u0434\u0443\u043f\u0440\u0435\u0436\u0434\u0435\u043d\u0438\u044f, \u0446\u0432\u0435\u0442\u0430 \u043d\u043e\u043c\u0435\u0440\u043e\u0432 (\u0443 \u043d\u0438\u0445 \u0441\u0432\u043e\u0438 \u043f\u0435\u0440\u0435\u043c\u0435\u043d\u043d\u044b\u0435: --gold, --red, \u0446\u0432\u0435\u0442\u0430 \u0440\u0435\u0434\u043a\u043e\u0441\u0442\u0435\u0439)
   const seedGet=()=>{const v=lsGet('nomera26_seed');return v&&/^#[0-9a-f]{6}$/i.test(v)?v.toLowerCase():'tg'};
   function seed(){
     const own=seedGet();if(own!=='tg'){const c=toLch(own);if(c)return c}
     let tp={};try{tp=(TGW&&TGW.themeParams)||{}}catch(e){}
     for(const k of ['button_color','accent_text_color','link_color']){const c=toLch(tp[k]);if(c&&c.C>=.05)return c}
     return ORANGE; // \u043d\u0435\u0442 Telegram \u0438\u043b\u0438 \u0442\u0435\u043c\u0430 \u0431\u0435\u0437 \u0446\u0432\u0435\u0442\u0430 (\u0447\u0451\u0440\u043d\u043e-\u0431\u0435\u043b\u0430\u044f) \u2014 \u0446\u0432\u0435\u0442 \u0438\u0433\u0440\u044b
+  }
+  // \u0446\u0432\u0435\u0442 \u0430\u043a\u0446\u0435\u043d\u0442\u0430 \u0434\u043b\u044f \u0441\u0442\u0435\u043a\u043b\u0430: \u0441\u0432\u043e\u0439, \u0438\u043d\u0430\u0447\u0435 \u043a\u043d\u043e\u043f\u043a\u0438 \u0442\u0435\u043c\u044b Telegram, \u0438\u043d\u0430\u0447\u0435 \u043e\u0440\u0430\u043d\u0436\u0435\u0432\u044b\u0439 \u0438\u0433\u0440\u044b
+  function seedHex(){
+    const own=seedGet();if(own!=='tg')return own;
+    let tp={};try{tp=(TGW&&TGW.themeParams)||{}}catch(e){}
+    for(const k of ['button_color','accent_text_color','link_color']){const c=toLch(tp[k]);if(c&&c.C>=.05)return'#'+String(tp[k]).trim().replace('#','').toLowerCase()}
+    return'#ff8a00';
+  }
+  const rgbOf=hex=>{const h=hex.replace('#','');return[0,2,4].map(i=>parseInt(h.slice(i,i+2),16))};
+  const lumOf=hex=>{const c=rgbOf(hex).map(v=>lin(v/255));return .2126*c[0]+.7152*c[1]+.0722*c[2]};
+  // \u0442\u0435\u043a\u0441\u0442 \u043d\u0430 \u0430\u043a\u0446\u0435\u043d\u0442\u043d\u043e\u0439 \u043a\u043d\u043e\u043f\u043a\u0435 \u2014 \u0431\u0435\u043b\u044b\u0439 \u0438\u043b\u0438 \u0447\u0451\u0440\u043d\u044b\u0439 \u043f\u043e \u043a\u043e\u043d\u0442\u0440\u0430\u0441\u0442\u0443. \u041f\u043e\u0440\u043e\u0433 2.3 \u0432\u043c\u0435\u0441\u0442\u043e 4.5: \u043d\u0430 \u043a\u043d\u043e\u043f\u043a\u0430\u0445 \u043a\u0440\u0443\u043f\u043d\u044b\u0439 \u0436\u0438\u0440\u043d\u044b\u0439 \u0442\u0435\u043a\u0441\u0442,
+  // \u0438 \u0442\u0430\u043a \u0431\u0435\u043b\u044b\u0439 \u043e\u0441\u0442\u0430\u0451\u0442\u0441\u044f \u043d\u0430 \u043e\u0440\u0430\u043d\u0436\u0435\u0432\u043e\u043c, \u0437\u0435\u043b\u0451\u043d\u043e\u043c \u0438 \u0441\u0438\u043d\u0435\u043c, \u043a\u0430\u043a \u0432 iOS; \u043d\u0430 \u0436\u0451\u043b\u0442\u043e\u043c, \u0441\u0430\u043b\u0430\u0442\u043e\u0432\u043e\u043c, \u0441\u0432\u0435\u0442\u043b\u044b\u0445 \u0446\u0432\u0435\u0442\u0430\u0445 \u2014 \u0447\u0451\u0440\u043d\u044b\u0439
+  const onOf=hex=>1.05/(lumOf(hex)+.05)>=2.3?'#ffffff':'#000000';
+  const rgba=(hex,a)=>'rgba('+rgbOf(hex).join(',')+','+a+')';
+  function accent(){
+    const hex=seedHex(),c=toLch(hex)||ORANGE;
+    return{acc:hex,acc2:tone(Math.min(.95,c.L+.08),c.C*.9,c.h),on:onOf(hex),sh:rgba(hex,.32),soft:rgba(hex,.1),tint:rgba(hex,.06)};
   }
   // \u0440\u043e\u043b\u0438 Material 3 -> \u043f\u0435\u0440\u0435\u043c\u0435\u043d\u043d\u044b\u0435 CSS. \u0422\u043e\u043d\u044b \u043f\u043e\u0434\u043e\u0431\u0440\u0430\u043d\u044b \u0432\u0440\u0443\u0447\u043d\u0443\u044e \u043f\u043e\u0434 \u0442\u0451\u043c\u043d\u0443\u044e \u0438 \u0441\u0432\u0435\u0442\u043b\u0443\u044e \u0442\u0435\u043c\u0443
   function palette(dark){
@@ -198,20 +217,27 @@ const Style=(()=>{
     '--bg':'s','--card':'s2','--card2':'s3','--card3':'s4','--elev':'s1','--text':'ons','--text2':'onsv','--text3':'ol','--sep':'olv',
     '--fill':'s4','--fill2':'s3','--fill3':'s2','--glass':'s3','--glass-strong':'s3','--lg-tint':'s3','--lg-tint-strong':'s1','--lg-bar':'s2','--lg-sel':'sc'};
   const FLAT={'--lg-sheen':'transparent','--lg-hi':'transparent','--lg-lo':'transparent','--lg-rim-a':'transparent','--lg-rim-b':'transparent','--lg-sh':'0 0 0 transparent','--glass-hi':'transparent','--glass-b':'transparent','--glass-sh':'0 0 0 transparent'};
-  let on=false,cur=null;
+  let on=false,cur=null,acc=null;
   function paint(theme){
     on=want();H.classList.toggle('md',on);
-    if(!on){for(const k in VARS)H.style.removeProperty(k);for(const k in FLAT)H.style.removeProperty(k);cur=null;return}
-    cur=palette(theme!=='light');
-    for(const k in VARS)H.style.setProperty(k,cur[VARS[k]]);for(const k in FLAT)H.style.setProperty(k,FLAT[k]);
+    if(!on){
+      for(const k in VARS)H.style.removeProperty(k);for(const k in FLAT)H.style.removeProperty(k);cur=null;
+      acc=accent();
+    }else{
+      cur=palette(theme!=='light');
+      for(const k in VARS)H.style.setProperty(k,cur[VARS[k]]);for(const k in FLAT)H.style.setProperty(k,FLAT[k]);
+      const a=accent();acc={acc:cur.pri,acc2:cur.pc,on:cur.onpri,sh:'transparent',soft:a.soft,tint:'transparent'};
+    }
+    H.style.setProperty('--accent',acc.acc);H.style.setProperty('--accent2',acc.acc2);H.style.setProperty('--on-accent',acc.on);
+    H.style.setProperty('--accent-sh',acc.sh);H.style.setProperty('--accent-soft',acc.soft);H.style.setProperty('--lg-acc',acc.tint);
   }
   return{get,android,paint,seedGet,
     setSeed(v){lsSet('nomera26_seed',v&&/^#[0-9a-f]{6}$/i.test(v)?v.toLowerCase():'tg');Theme.apply();document.dispatchEvent(new Event('stylechange'))},
     set(v){lsSet('nomera26_style',v==='md'||v==='glass'?v:'');Theme.apply();document.dispatchEvent(new Event('stylechange'))},
-    get on(){return on},get colors(){return cur},
+    get on(){return on},get colors(){return cur},get accent(){return acc},
     label(){const v=get();return v==='md'?'Material You':v==='glass'?'Liquid Glass':'\u0410\u0432\u0442\u043e'},
     now(){return on?'Material You':'Liquid Glass'},
-    test:{toLch,tone,palette}};
+    test:{toLch,tone,palette,onOf,seedHex}};
 })();
 
 /* ---------- \u0442\u0435\u043c\u0430 ---------- */
@@ -988,10 +1014,10 @@ const Drop=(()=>{
         d.vw+=(K*(d.tw-d.w)-C*d.vw)*h;d.w+=d.vw*h;
         d.vp+=(KP*(d.tp-d.p)-CP*d.vp)*h;d.p+=d.vp*h;
         // \u0432\u044b\u0442\u044f\u0433\u0438\u0432\u0430\u043d\u0438\u0435 \u0441\u043b\u0435\u0434\u0443\u0435\u0442 \u0437\u0430 \u0441\u043a\u043e\u0440\u043e\u0441\u0442\u044c\u044e, \u043d\u043e \u0441\u043e \u0441\u0432\u043e\u0435\u0439 \u043f\u0440\u0443\u0436\u0438\u043d\u043e\u0439 \u2014 \u043f\u043e\u0441\u043b\u0435 \u043e\u0441\u0442\u0430\u043d\u043e\u0432\u043a\u0438 \u043a\u0430\u043f\u043b\u044f \u00ab\u0434\u0440\u043e\u0436\u0438\u0442\u00bb
-        const st=Math.min(.3,Math.abs(d.vx)/2400);
+        const st=Math.min(.3*Glass.liquid.wob,Math.abs(d.vx)/2400*Glass.liquid.wob); // 2.6.3: \u0441\u0438\u043b\u0430 \u00ab\u0434\u0440\u043e\u0436\u0438\u00bb \u2014 \u043e\u0442 \u043f\u043e\u043b\u0437\u0443\u043d\u043a\u0430 \u00ab\u0436\u0438\u0434\u043a\u043e\u0441\u0442\u0438\u00bb
         d.vs+=(KS*(st-d.s)-CS*d.vs)*h;d.s+=d.vs*h;
       }
-      paint(d);
+      paint(d);if(d.finger&&d.mag&&d.mag.classList.contains('bend'))Glass.bendFrame(dt*1000);
       if(Math.abs(d.tx-d.x)<.3&&Math.abs(d.vx)<4&&Math.abs(d.tw-d.w)<.3&&Math.abs(d.vw)<4&&Math.abs(d.tp-d.p)<.004&&Math.abs(d.vp)<.05&&Math.abs(d.s)<.004&&Math.abs(d.vs)<.05){
         d.x=d.tx;d.w=d.tw;d.p=d.tp;d.s=0;d.vx=d.vw=d.vp=d.vs=0;paint(d);live.delete(d);
       }
@@ -1002,12 +1028,15 @@ const Drop=(()=>{
     const el=d.el,s=Math.max(-.12,d.s),p=Math.max(0,d.p);
     // \u043f\u0440\u0438 \u043a\u0430\u0441\u0430\u043d\u0438\u0438 \u043a\u0430\u043f\u043b\u044f \u0437\u0430\u043c\u0435\u0442\u043d\u043e \u0448\u0438\u0440\u0435 \u043a\u043d\u043e\u043f\u043a\u0438 (\u043a\u0430\u043a \u0443 Apple) \u2014 \u043d\u0430\u0434\u043f\u0438\u0441\u044c \u0446\u0435\u043b\u0438\u043a\u043e\u043c \u0432\u043d\u0443\u0442\u0440\u0438 \u043b\u0438\u043d\u0437\u044b, \u0431\u0435\u0437 \u00ab\u043e\u0431\u0440\u0435\u0437\u043a\u0430\u00bb \u043d\u0430 \u043a\u0440\u0430\u044e
     const wide=d.c.id==='tabs'?.6:.32; // \u0432\u043a\u043b\u0430\u0434\u043a\u0438 \u0443\u0437\u043a\u0438\u0435 \u2014 \u043a\u0430\u043f\u043b\u044f \u0440\u0430\u0437\u0434\u0443\u0432\u0430\u0435\u0442\u0441\u044f \u0441\u0438\u043b\u044c\u043d\u0435\u0435, \u043a\u0430\u043a \u0432 Telegram \u043d\u0430 iOS 26
-    const sx=1+s+p*wide,sy=1/Math.sqrt(1+s)+p*.16;
+    // 2.6.3: \u0443 \u0432\u043a\u043b\u0430\u0434\u043e\u043a \u043a\u0430\u043f\u043b\u044f \u043f\u0440\u0438 \u043d\u0430\u0436\u0430\u0442\u0438\u0438 \u0432\u044b\u0448\u0435 \u043f\u0430\u043d\u0435\u043b\u0438 \u0438 \u0432\u044b\u0445\u043e\u0434\u0438\u0442 \u0437\u0430 \u0435\u0451 \u043a\u0440\u0430\u0439 (\u043f\u0440\u0430\u0432\u0438\u043b\u0430, 4.3; \u0443 #tabs overflow: visible)
+    const sx=1+s+p*wide,sy=1/Math.sqrt(1+s)+p*(d.c.id==='tabs'?.34:.16);
     el.style.width=d.w.toFixed(1)+'px';el.style.height=d.h+'px';
     el.style.transform='translate3d('+d.x.toFixed(2)+'px,'+d.top+'px,0) scale('+sx.toFixed(4)+','+sy.toFixed(4)+')';
     el.style.setProperty('--p',p.toFixed(3));
     const on=p>.02||d.tp>0;el.classList.toggle('press',on);
-    if(on){if(!d.mag)mag(d);magPaint(d,sx,sy,p)}
+    if(on){if(!d.mag)mag(d);magPaint(d,sx,sy,p);
+      // \u0438\u0437\u0433\u0438\u0431 \u043f\u043e\u0434 \u043b\u0438\u043d\u0437\u043e\u0439 \u2014 \u0442\u043e\u043b\u044c\u043a\u043e \u043f\u043e\u043a\u0430 \u043f\u0430\u043b\u0435\u0446 \u043d\u0430 \u043a\u0430\u043f\u043b\u0435 \u0438 \u0442\u043e\u043b\u044c\u043a\u043e \u043d\u0430 High/Max (\u043f\u0440\u0430\u0432\u0438\u043b\u0430, 4.2)
+      if(d.mag){const b=!!d.finger&&Glass.has('bend');if(b!==d.mag.classList.contains('bend'))d.mag.classList.toggle('bend',b)}}
     else if(d.mag){d.mag.remove();d.mag=null}
     if(!isNaN(d.x))mem.set(d.key,{x:d.x,w:d.w});
   }
@@ -1037,12 +1066,12 @@ const Drop=(()=>{
       const d=attach(c),bs=btnsOf(c);const r=c.getBoundingClientRect(),w=b.offsetWidth;
       const lo=bs[0].offsetLeft,hi=bs[bs.length-1].offsetLeft+bs[bs.length-1].offsetWidth-w;
       const x=Math.max(lo,Math.min(hi,clientX-r.left-c.clientLeft-w/2));
-      d.tp=1;if(isNaN(d.x)){const t=target(d);if(t)to(d,t,true)}
+      d.tp=1;d.finger=true;if(isNaN(d.x)){const t=target(d);if(t)to(d,t,true)}
       d.top=b.offsetTop;d.h=b.offsetHeight;d.tx=x;d.tw=w;live.add(d);run();
     },
     // \u043a\u0430\u0441\u0430\u043d\u0438\u0435: \u043a\u0430\u043f\u043b\u044f \u0440\u0430\u0437\u0434\u0443\u0432\u0430\u0435\u0442\u0441\u044f \u043d\u0430 \u043c\u0435\u0441\u0442\u0435; \u043e\u0442\u043f\u0443\u0441\u0442\u0438\u043b\u0438 \u2014 \u0441\u0434\u0443\u0432\u0430\u0435\u0442\u0441\u044f \u0438 \u043f\u043b\u044b\u0432\u0451\u0442 \u043a \u0432\u044b\u0431\u0440\u0430\u043d\u043d\u043e\u0439 \u043a\u043d\u043e\u043f\u043a\u0435
-    press(c){const d=attach(c);if(isNaN(d.x)){const t=target(d);if(!t)return;to(d,t,true)}d.tp=1;live.add(d);run()},
-    release(c){const d=c&&c._drop;if(!d)return;d.tp=0;live.add(d);run();setTimeout(()=>sync(),0)},
+    press(c){const d=attach(c);if(isNaN(d.x)){const t=target(d);if(!t)return;to(d,t,true)}d.tp=1;d.finger=true;live.add(d);run()},
+    release(c){const d=c&&c._drop;if(!d)return;d.tp=0;d.finger=false;live.add(d);run();setTimeout(()=>sync(),0)},
     // \u043a\u043e\u043f\u0438\u044e \u043f\u0435\u0440\u0435\u0441\u043e\u0431\u0440\u0430\u0442\u044c (\u043f\u043e\u0434\u0441\u0432\u0435\u0442\u0438\u043b\u0430\u0441\u044c \u0434\u0440\u0443\u0433\u0430\u044f \u043a\u043d\u043e\u043f\u043a\u0430 \u043f\u043e\u0434 \u043f\u0430\u043b\u044c\u0446\u0435\u043c)
     remag(c){const d=c._drop;if(d&&d.mag){d.mag.remove();d.mag=null;mag(d);paint(d)}},
     state(c){const d=c&&c._drop;return d?{x:d.x,w:d.w,tx:d.tx,tw:d.tw,p:d.p,moving:live.has(d)}:null},
@@ -1072,11 +1101,12 @@ const Glass=(()=>{
     }
     g.putImageData(im,0,0);return c.toDataURL();
   }
+  // 2.6.3: SVG-\u0444\u0438\u043b\u044c\u0442\u0440 \u0442\u043e\u043b\u044c\u043a\u043e \u0434\u043b\u044f \u0438\u0437\u0433\u0438\u0431\u0430 \u043a\u043e\u043f\u0438\u0438 \u043a\u043d\u043e\u043f\u043e\u043a \u0432\u043d\u0443\u0442\u0440\u0438 \u043a\u0430\u043f\u043b\u0438 (\u043f\u0440\u0430\u0432\u0438\u043b\u0430, 4.2). \u041d\u0430 \u043f\u043b\u0430\u0448\u043a\u0430\u0445 \u0438 \u0444\u043e\u043d\u0435 \u2014 \u043d\u0438\u043a\u043e\u0433\u0434\u0430 (\u043f\u0440\u0430\u0432\u0438\u043b\u043e 1.2)
   function filters(){
     if(document.getElementById('lg-svg'))return;
     const f=(id,url,scale)=>'<filter id="'+id+'" x="0" y="0" width="1" height="1" color-interpolation-filters="sRGB" primitiveUnits="objectBoundingBox"><feImage href="'+url+'" x="0" y="0" width="1" height="1" preserveAspectRatio="none" result="m"/><feDisplacementMap in="SourceGraphic" in2="m" scale="'+scale+'" xChannelSelector="R" yChannelSelector="G"/></filter>';
     const box=document.createElement('div');box.id='lg-svg';box.style.cssText='position:absolute;width:0;height:0;overflow:hidden';
-    box.innerHTML='<svg width="0" height="0" aria-hidden="true">'+f('lg-pill',dmap(240,56,28,15),.08)+f('lg-round',dmap(64,64,32,15),.16)+'</svg>';
+    box.innerHTML='<svg width="0" height="0" aria-hidden="true">'+f('lg-lens',dmap(240,56,28,20),.1)+'</svg>';
     document.body.appendChild(box);
   }
   // \u0441\u0432\u0435\u0442 \u043d\u0430 \u043a\u0440\u043e\u043c\u043a\u0435 \u0441\u043b\u0435\u0434\u0443\u0435\u0442 \u0437\u0430 \u043d\u0430\u043a\u043b\u043e\u043d\u043e\u043c \u0442\u0435\u043b\u0435\u0444\u043e\u043d\u0430 (\u0433\u0434\u0435 \u0441\u0438\u0441\u0442\u0435\u043c\u0430 \u043e\u0442\u0434\u0430\u0451\u0442 \u0434\u0430\u0442\u0447\u0438\u043a \u0431\u0435\u0437 \u0437\u0430\u043f\u0440\u043e\u0441\u0430) \u0438 \u0447\u0443\u0442\u044c \u2014 \u0437\u0430 \u043f\u0440\u043e\u043a\u0440\u0443\u0442\u043a\u043e\u0439
@@ -1107,12 +1137,58 @@ const Glass=(()=>{
   const autoLevel=()=>{const a=lsGet('nomera26_fxauto');if(LV.includes(a)&&a!=='max')return a;return lsGet('nomera25_fxauto')==='lite'?'low':'high'};
   const level=()=>mode()==='auto'?autoLevel():mode();
   const isLite=()=>level()==='low';
-  // 2.6.2: \u0432 Material You (Android) \u043d\u0435\u0442 \u0441\u0442\u0435\u043a\u043b\u0430: \u043d\u0438 \u0443\u0432\u0435\u043b\u0438\u0447\u0435\u043d\u0438\u044f \u043f\u043e\u0434 \u043a\u0430\u043f\u043b\u0435\u0439, \u043d\u0438 \u0441\u0432\u0435\u0442\u0430 \u043f\u043e \u043d\u0430\u043a\u043b\u043e\u043d\u0443, \u043d\u0438 \u043f\u0440\u0435\u043b\u043e\u043c\u043b\u0435\u043d\u0438\u044f
-  const has=f=>{const l=level();if(Style.on&&(f==='mag'||f==='tilt'||f==='refract'))return false;return f==='mag'||f==='tilt'?(l==='high'||l==='max'):f==='refract'?l==='max':f==='uncap'?l==='max':true};
+  // 2.6.2: \u0432 Material You (Android) \u043d\u0435\u0442 \u0441\u0442\u0435\u043a\u043b\u0430: \u043d\u0438 \u0443\u0432\u0435\u043b\u0438\u0447\u0435\u043d\u0438\u044f \u043f\u043e\u0434 \u043a\u0430\u043f\u043b\u0435\u0439, \u043d\u0438 \u0441\u0432\u0435\u0442\u0430 \u043f\u043e \u043d\u0430\u043a\u043b\u043e\u043d\u0443, \u043d\u0438 \u0438\u0437\u0433\u0438\u0431\u0430
+  // 2.6.3: \u043f\u0440\u0435\u043b\u043e\u043c\u043b\u0435\u043d\u0438\u0435 \u043a\u0440\u0430\u0451\u0432 \u043f\u043b\u0430\u0448\u0435\u043a \u0443\u0431\u0440\u0430\u043d\u043e (\u043f\u0440\u0430\u0432\u0438\u043b\u043e 1.2). 'bend' \u2014 \u0438\u0437\u0433\u0438\u0431 \u043f\u043e\u0434 \u043b\u0438\u043d\u0437\u043e\u0439 \u043a\u0430\u043f\u043b\u0438: High \u0438 Max (\u043f\u0440\u0430\u0432\u0438\u043b\u0430, 4.2),
+  // \u0432\u044b\u043a\u043b\u044e\u0447\u0430\u0435\u0442\u0441\u044f \u0441\u0430\u043c, \u0435\u0441\u043b\u0438 \u0442\u043e\u0440\u043c\u043e\u0437\u0438\u0442 (nomera26_bend = '0')
+  const has=f=>{const l=level();if(Style.on&&(f==='mag'||f==='tilt'||f==='refract'||f==='bend'))return false;
+    if(f==='bend')return(l==='high'||l==='max')&&lsGet('nomera26_bend')!=='0';
+    return f==='mag'||f==='tilt'?(l==='high'||l==='max'):f==='refract'?false:f==='uncap'?l==='max':true};
   function apply(){
     const l=level();H.classList.toggle('lite',l==='low');H.classList.toggle('fx-medium',l==='medium');H.classList.toggle('fx-max',l==='max');
-    const r=!Style.on&&chromium&&l==='max'&&lsGet('nomera24_refract')!=='0';if(r)filters();H.classList.toggle('lg-r',r);
+    H.classList.remove('lg-r');if(has('bend'))filters();
+    liquid.paint();
     if(has('tilt'))light();
+  }
+  // ---------- 2.6.3: \u043f\u043e\u043b\u0437\u0443\u043d\u043e\u043a \u00ab\u0436\u0438\u0434\u043a\u043e\u0441\u0442\u0438\u00bb (\u043f\u0440\u0430\u0432\u0438\u043b\u0430, \u0440\u0430\u0437\u0434\u0435\u043b 5) ----------
+  // 0 \u2014 \u00ab\u041c\u043e\u043d\u043e\u043b\u0438\u0442\u00bb (\u043f\u043b\u043e\u0442\u043d\u043e, \u0431\u0435\u0437 \u0440\u0430\u0437\u043c\u044b\u0442\u0438\u044f), 100 \u2014 \u00ab\u041e\u0447\u0435\u043d\u044c \u0436\u0438\u0434\u043a\u043e\u0435\u00bb. \u041f\u043e\u043b\u0437\u0443\u043d\u043e\u043a \u043e\u0442\u0432\u0435\u0447\u0430\u0435\u0442 \u0437\u0430 \u0432\u0438\u0434, \u0443\u0440\u043e\u0432\u0435\u043d\u044c \u044d\u0444\u0444\u0435\u043a\u0442\u043e\u0432 \u2014 \u0437\u0430 \u043d\u0430\u0433\u0440\u0443\u0437\u043a\u0443:
+  // Low \u0433\u043b\u0430\u0432\u043d\u0435\u0435 \u043f\u043e\u043b\u0437\u0443\u043d\u043a\u0430. \u041f\u043e\u043a\u0430 \u0442\u044f\u043d\u0435\u0448\u044c \u2014 \u043c\u0435\u043d\u044f\u044e\u0442\u0441\u044f \u0442\u043e\u043b\u044c\u043a\u043e \u043f\u0440\u043e\u0437\u0440\u0430\u0447\u043d\u043e\u0441\u0442\u044c \u043f\u043e\u0434\u043b\u043e\u0436\u043a\u0438, \u044f\u0440\u043a\u043e\u0441\u0442\u044c \u0431\u043b\u0438\u043a\u043e\u0432 \u0438 \u0441\u0438\u043b\u0430 \u00ab\u0434\u0440\u043e\u0436\u0438\u00bb;
+  // \u0440\u0430\u0437\u043c\u044b\u0442\u0438\u0435 (14\u201318px) \u2014 \u0442\u043e\u043b\u044c\u043a\u043e \u043f\u043e\u0441\u043b\u0435 \u043e\u0442\u043f\u0443\u0441\u043a\u0430\u043d\u0438\u044f (\u043f\u0440\u0430\u0432\u0438\u043b\u043e 5: \u0444\u0438\u043b\u044c\u0442\u0440 \u043d\u0435 \u0430\u043d\u0438\u043c\u0438\u0440\u0443\u0435\u0442\u0441\u044f).
+  const liquid=(()=>{
+    const DEF=55;
+    const get=()=>{const v=parseInt(lsGet('nomera26_liquid'),10);return v>=0&&v<=100?v:DEF};
+    let cur=get(),wob=1;
+    const lerp=(a,b,k)=>a+(b-a)*k,f2=x=>x.toFixed(3);
+    function look(v){
+      const k=v/100,dark=H.getAttribute('data-theme')!=='light',hl=lerp(.7,1.2,k);
+      const W=a=>'rgba(255,255,255,'+f2(Math.min(1,a*hl))+')';
+      const base=dark?lerp(.72,.16,k):lerp(.78,.2,k);
+      const P={
+        '--lg-base':(dark?'rgba(28,28,32,':'rgba(255,255,255,')+f2(base)+')',
+        '--lg-btn':(dark?'rgba(40,40,46,':'rgba(255,255,255,')+f2(Math.min(.94,base+(dark?.32:.32)))+')',
+        '--lg-g1':W(dark?.14:.22),'--lg-g2':W(dark?.03:.04),
+        '--lg-in-hi':W(dark?.45:.7),'--lg-in-lo':W(dark?.12:.25),'--lg-in-vol':W(.15),
+        '--lg-rim1':W(.85),'--lg-rim2':W(.12),'--lg-rim3':W(.05),'--lg-rim4':W(.45),
+        '--lg-rainbow':f2(lerp(.08,.22,k))
+      };
+      for(const n in P)H.style.setProperty(n,P[n]);
+      wob=lerp(.35,1.6,k);
+      H.classList.toggle('lg-mono',v===0&&!Style.on);
+    }
+    function blurOf(v){return'blur('+Math.round(lerp(14,18,v/100))+'px) saturate(180%)'}
+    function paint(){if(Style.on){H.classList.remove('lg-mono');return}look(cur);H.style.setProperty('--lg-blur',blurOf(cur))}
+    return{
+      get,paint,blurOf,get wob(){return wob},get value(){return cur},
+      preview(v){cur=Math.max(0,Math.min(100,Math.round(v)));look(cur)},       // \u043f\u043e\u043a\u0430 \u0442\u044f\u043d\u0435\u0448\u044c
+      commit(v){this.preview(v);lsSet('nomera26_liquid',String(cur));H.style.setProperty('--lg-blur',blurOf(cur))}, // \u043e\u0442\u043f\u0443\u0441\u0442\u0438\u043b\u0438
+      label(v){v=v==null?cur:v;return v===0?'\u041c\u043e\u043d\u043e\u043b\u0438\u0442':v<34?'\u041f\u043b\u043e\u0442\u043d\u043e\u0435':v<67?'\u0416\u0438\u0434\u043a\u043e\u0435':'\u041e\u0447\u0435\u043d\u044c \u0436\u0438\u0434\u043a\u043e\u0435'}
+    };
+  })();
+  document.addEventListener('themechange',()=>liquid.paint());
+  // \u0438\u0437\u0433\u0438\u0431 \u043f\u043e\u0434 \u043b\u0438\u043d\u0437\u043e\u0439: \u0435\u0441\u043b\u0438 \u043a\u0430\u0434\u0440\u044b \u043f\u0440\u0438 \u0438\u0437\u0433\u0438\u0431\u0435 \u0434\u043e\u043b\u044c\u0448\u0435 ~24 \u043c\u0441 \u2014 \u0432\u044b\u043a\u043b\u044e\u0447\u0430\u0435\u0442\u0441\u044f \u0438 \u0431\u043e\u043b\u044c\u0448\u0435 \u043d\u0435 \u0432\u043a\u043b\u044e\u0447\u0430\u0435\u0442\u0441\u044f (\u0437\u0430\u043f\u0430\u0441\u043d\u043e\u0439 \u0432\u0430\u0440\u0438\u0430\u043d\u0442 \u2014 \u0443\u0432\u0435\u043b\u0438\u0447\u0435\u043d\u0438\u0435 1,16)
+  let bf=null;
+  function bendFrame(dt){
+    if(!(dt>0&&dt<500))return;if(!bf)bf={n:0,sum:0};bf.n++;bf.sum+=dt;
+    if(bf.n>=40){const avg=bf.sum/bf.n;bf=null;if(avg>24){lsSet('nomera26_bend','0');document.querySelectorAll('.drop-mag.bend').forEach(e=>e.classList.remove('bend'))}}
   }
   function setMode(m){lsSet('nomera26_fx',m);if(m==='auto')lsSet('nomera26_fxauto','');apply()}
   // \u0437\u0430\u043c\u0435\u0440: \u0441\u0440\u0435\u0434\u043d\u0438\u0439 \u043a\u0430\u0434\u0440 \u0434\u043e\u043b\u044c\u0448\u0435 ~28 \u043c\u0441 (\u043c\u0435\u043d\u044c\u0448\u0435 ~36 \u043a\u0430\u0434\u0440\u043e\u0432 \u0432 \u0441\u0435\u043a\u0443\u043d\u0434\u0443) \u2014 \u0442\u0435\u043b\u0435\u0444\u043e\u043d \u043d\u0435 \u0442\u044f\u043d\u0435\u0442 \u043f\u043e\u043b\u043d\u044b\u0435 \u044d\u0444\u0444\u0435\u043a\u0442\u044b
@@ -1148,7 +1224,7 @@ const Glass=(()=>{
     const e=document.createElement('div');e.id='edge-top';document.body.appendChild(e);
     light();
   }
-  return{init,mode,setMode,isLite,sample,apply,level,has};
+  return{init,mode,setMode,isLite,sample,apply,level,has,liquid,bendFrame};
 })();
 // \u041f\u043e\u043b\u043d\u043e\u044d\u043a\u0440\u0430\u043d\u043d\u044b\u0439 \u0440\u0435\u0436\u0438\u043c Telegram (Bot API 8.0): \u0438\u0433\u0440\u0430 \u043d\u0430 \u0432\u0435\u0441\u044c \u044d\u043a\u0440\u0430\u043d, \u043a\u043d\u043e\u043f\u043a\u0438 Telegram \u043b\u0435\u0436\u0430\u0442 \u043f\u043e\u0432\u0435\u0440\u0445. \u041c\u043e\u0436\u043d\u043e \u0432\u044b\u043a\u043b\u044e\u0447\u0438\u0442\u044c \u0432 \u00ab\u0410\u043a\u043a\u0430\u0443\u043d\u0442\u0435\u00bb.
 const Full=(()=>{
@@ -1200,6 +1276,9 @@ const Ripple=(()=>{
   if(ios)document.addEventListener('click',on,true);else document.addEventListener('pointerdown',on,{passive:true,capture:true});
   return{spawn,SEL};
 })();
+// 2.6.3: \u043d\u0430 iPhone :active \u0440\u0430\u0431\u043e\u0442\u0430\u0435\u0442, \u0442\u043e\u043b\u044c\u043a\u043e \u0435\u0441\u043b\u0438 \u043d\u0430 document \u0435\u0441\u0442\u044c \u043e\u0431\u0440\u0430\u0431\u043e\u0442\u0447\u0438\u043a touchstart (\u043f\u0440\u0430\u0432\u0438\u043b\u0430, 4.3).
+// \u041f\u0443\u0441\u0442\u043e\u0439 \u0438 \u043f\u0430\u0441\u0441\u0438\u0432\u043d\u044b\u0439: \u043f\u0440\u043e\u043a\u0440\u0443\u0442\u043a\u0443 \u043d\u0435 \u0442\u043e\u0440\u043c\u043e\u0437\u0438\u0442 \u0438 \u043d\u0438\u0447\u0435\u0433\u043e \u043d\u0430 \u0441\u0442\u0440\u0430\u043d\u0438\u0446\u0435 \u043d\u0435 \u043c\u0435\u043d\u044f\u0435\u0442
+document.addEventListener('touchstart',()=>{},{passive:true});
 // \u0441\u043c\u0435\u043d\u0430 \u043e\u0444\u043e\u0440\u043c\u043b\u0435\u043d\u0438\u044f \u0432 \u00ab\u0410\u043a\u043a\u0430\u0443\u043d\u0442\u0435\u00bb: \u0441\u0442\u0435\u043a\u043b\u043e \u0438 \u043a\u0430\u043f\u043b\u044f \u0432\u043a\u043b\u044e\u0447\u0430\u044e\u0442\u0441\u044f \u0438\u043b\u0438 \u0432\u044b\u043a\u043b\u044e\u0447\u0430\u044e\u0442\u0441\u044f, \u044d\u043a\u0440\u0430\u043d \u043f\u0435\u0440\u0435\u0440\u0438\u0441\u043e\u0432\u044b\u0432\u0430\u0435\u0442\u0441\u044f
 document.addEventListener('stylechange',()=>{
   try{Glass.apply();Drop.sync(true);Tabs.lens(true);render()}catch(e){console.error(e)}
@@ -2104,7 +2183,7 @@ RENDER.games=()=>{
   const keyP=S.games.acc/L.KEY_EVERY;
   const ge=g=>L.winFresh(S,t)?0:(+S.games.w.e[g]||0);
   el.innerHTML=topHTML('\u0418\u0433\u0440\u044b')+
-    '<div class="shelf" style="margin-top:14px">'+GAMES.map(g=>{const pay=L.PAY_GAMES.includes(g.id);const fav=S.fav.includes(g.id);return'<div class="feature" style="--fb:'+g.fb+';--tint:'+g.tint+'"><button class="pic" data-act="play" data-g="'+g.id+'" aria-label="\u0418\u0433\u0440\u0430\u0442\u044c: '+g.n+'"><canvas data-scene="'+g.id+'"></canvas>'+(pay?'<span class="lbl badge" style="background:rgba(0,0,0,.35);color:#fff;backdrop-filter:blur(8px)">'+ic('star')+'1 \u043e\u0447\u043a\u043e = 1 \u043c\u043e\u043d\u0435\u0442\u0430</span>':'<span class="lbl badge" style="background:rgba(0,0,0,.35);color:#fff">'+ic('person2')+'\u043e\u0442 1 \u0434\u043e 4 \u0438\u0433\u0440\u043e\u043a\u043e\u0432</span>')+'</button>'+
+    '<div class="shelf" style="margin-top:14px">'+GAMES.map(g=>{const pay=L.PAY_GAMES.includes(g.id);const fav=S.fav.includes(g.id);return'<div class="feature" style="--fb:'+g.fb+';--tint:'+g.tint+'"><button class="pic" data-act="play" data-g="'+g.id+'" aria-label="\u0418\u0433\u0440\u0430\u0442\u044c: '+g.n+'"><canvas data-scene="'+g.id+'"></canvas>'+(pay?'<span class="lbl badge" style="background:rgba(0,0,0,.35);color:#fff;-webkit-backdrop-filter:var(--lg-blur);backdrop-filter:var(--lg-blur)">'+ic('star')+'1 \u043e\u0447\u043a\u043e = 1 \u043c\u043e\u043d\u0435\u0442\u0430</span>':'<span class="lbl badge" style="background:rgba(0,0,0,.35);color:#fff">'+ic('person2')+'\u043e\u0442 1 \u0434\u043e 4 \u0438\u0433\u0440\u043e\u043a\u043e\u0432</span>')+'</button>'+
       (pay?'<button class="heart'+(fav?' on':'')+'" data-act="fav" data-g="'+g.id+'" aria-label="'+(fav?'\u0423\u0431\u0440\u0430\u0442\u044c \u0438\u0437 \u043b\u044e\u0431\u0438\u043c\u044b\u0445':'\u0412 \u043b\u044e\u0431\u0438\u043c\u044b\u0435')+'">'+ic(fav?'heart':'heartO')+'</button>':'')+
       '<button class="info" data-act="play" data-g="'+g.id+'" style="width:100%;text-align:left"><span class="gi" style="background:'+g.gi+'">'+ic(g.i)+'</span><div class="mid"><div class="tt">'+g.n+'</div><div class="ss">'+g.s+'</div></div><span class="pill on-card">\u0418\u0433\u0440\u0430\u0442\u044c</span></button></div>'}).join('')+'</div>'+
     secH('\u0417\u0430\u0440\u0430\u0431\u043e\u0442\u043e\u043a')+
@@ -2470,7 +2549,7 @@ RENDER.invest=()=>{
   const el=$('t-invest');const t=now();
   const dep=S.bank.reduce((s,b)=>s+b.a,0);const se=L.shopEnds(S);const left2=S.shop.list.length-S.shop.got.length;
   el.innerHTML=topHTML('\u0412\u043b\u043e\u0436\u0435\u043d\u0438\u044f')+
-    '<div class="shelf" style="margin-top:14px">'+INV_FEAT.map(g=>'<button class="feature" data-act="inv_'+g.id+'" style="--fb:'+g.fb+';--tint:'+g.tint+';text-align:left"><div class="pic"><canvas data-iart="'+g.id+'"></canvas><span class="lbl badge" style="background:rgba(0,0,0,.35);color:#fff;backdrop-filter:blur(8px)">'+esc(g.lbl)+'</span></div>'+
+    '<div class="shelf" style="margin-top:14px">'+INV_FEAT.map(g=>'<button class="feature" data-act="inv_'+g.id+'" style="--fb:'+g.fb+';--tint:'+g.tint+';text-align:left"><div class="pic"><canvas data-iart="'+g.id+'"></canvas><span class="lbl badge" style="background:rgba(0,0,0,.35);color:#fff;-webkit-backdrop-filter:var(--lg-blur);backdrop-filter:var(--lg-blur)">'+esc(g.lbl)+'</span></div>'+
       '<div class="info"><span class="gi" style="background:'+g.gi+'">'+ic(g.i)+'</span><div class="mid"><div class="tt">'+g.n+'</div><div class="ss">'+g.s+'</div></div><span class="pill on-card">\u041e\u0442\u043a\u0440\u044b\u0442\u044c</span></div></button>').join('')+'</div>'+
     secH('\u041a\u0430\u0436\u0434\u044b\u0439 \u0434\u0435\u043d\u044c')+
     '<div class="rows">'+
@@ -2831,7 +2910,7 @@ RENDER.season=()=>{
     '<div class="grid2" style="padding:0;margin-top:14px">'+W.opts.map((o,i)=>{const got=W.got.includes(i);const tx=rwShort(o);return'<button class="rw'+(got?' ready':'')+'" data-act="weekPick" data-i="'+i+'" style="height:96px;background:var(--card2);'+(!wReady||wDone&&!got?'opacity:.55;':'')+(got?'box-shadow:inset 0 0 0 2px var(--green)':'')+'">'+(o.k===100?'<span style="color:var(--teal)">'+ic('key')+'</span><b>100 \u043a\u043b\u044e\u0447\u0435\u0439</b><small>\u0432\u0441\u0435\u0433\u0434\u0430 \u0432 \u0432\u044b\u0431\u043e\u0440\u0435</small>':rewardIcon(o)+'<b>'+esc(tx.a)+'</b><small>'+esc(tx.b)+'</small>')+(got?'<span class="lk" style="position:absolute;top:6px;right:6px;width:16px;height:16px;color:var(--green)">'+ic('check')+'</span>':'')+'</button>'}).join('')+'</div></div>';
   // \u0437\u0430\u0434\u0430\u043d\u0438\u044f
   const quests='<div class="rows">'+S.daily.q.map(q=>{const Q=L.QUESTS[q],p=Math.min(Q.g,+S.daily.p[q]||0),done=S.daily.done.includes(q),ready=p>=Q.g&&!done;
-    return'<div class="row">'+ring(p/Q.g,done?'var(--green)':'var(--accent)')+'<div class="mid"><div class="tt" style="white-space:normal;font-size:16px">'+esc(Q.t)+'</div><div class="ss num">'+(done?'\u0412\u044b\u043f\u043e\u043b\u043d\u0435\u043d\u043e':fmtN(p)+' \u0438\u0437 '+fmtN(Q.g))+' \u00b7 \u043d\u0430\u0433\u0440\u0430\u0434\u0430: '+esc(L.rewardText(Q.r).a)+' \u0438 '+L.QUEST_XP+' \u043e\u043f\u044b\u0442\u0430</div></div>'+(ready?'<button class="pill" data-act="questClaim" data-id="'+q+'" style="background:var(--accent);color:#fff">\u0417\u0430\u0431\u0440\u0430\u0442\u044c</button>':done?'<span style="width:22px;height:22px;color:var(--green)">'+ic('check')+'</span>':'')+'</div>'}).join('')+'</div>';
+    return'<div class="row">'+ring(p/Q.g,done?'var(--green)':'var(--accent)')+'<div class="mid"><div class="tt" style="white-space:normal;font-size:16px">'+esc(Q.t)+'</div><div class="ss num">'+(done?'\u0412\u044b\u043f\u043e\u043b\u043d\u0435\u043d\u043e':fmtN(p)+' \u0438\u0437 '+fmtN(Q.g))+' \u00b7 \u043d\u0430\u0433\u0440\u0430\u0434\u0430: '+esc(L.rewardText(Q.r).a)+' \u0438 '+L.QUEST_XP+' \u043e\u043f\u044b\u0442\u0430</div></div>'+(ready?'<button class="pill" data-act="questClaim" data-id="'+q+'" style="background:var(--accent);color:var(--on-accent)">\u0417\u0430\u0431\u0440\u0430\u0442\u044c</button>':done?'<span style="width:22px;height:22px;color:var(--green)">'+ic('check')+'</span>':'')+'</div>'}).join('')+'</div>';
   // \u0442\u0440\u0435\u043a \u043f\u0440\u043e\u043f\u0443\u0441\u043a\u0430
   const cols=[];
   for(let i=1;i<=L.SEASON.max;i++){
@@ -2939,7 +3018,8 @@ RENDER.account=()=>{
       '<button class="li" data-act="privacy"><span class="lic" style="background:var(--card3)">'+ic('lock')+'</span><span class="lt">\u041a\u043e\u043d\u0444\u0438\u0434\u0435\u043d\u0446\u0438\u0430\u043b\u044c\u043d\u043e\u0441\u0442\u044c</span>'+ic('chev','chev')+'</button>'+
       '<div class="li"><span class="lic" style="background:var(--indigo)">'+ic('sun')+'</span><span class="lt">\u0422\u0435\u043c\u0430</span><select class="inp" style="height:34px;width:auto;padding:0 10px;font-size:15px" data-on="theme">'+[['system','\u041a\u0430\u043a \u0432 Telegram'],['light','\u0421\u0432\u0435\u0442\u043b\u0430\u044f'],['dark','\u0422\u0451\u043c\u043d\u0430\u044f']].map(o=>'<option value="'+o[0]+'"'+(Theme.get()===o[0]?' selected':'')+'>'+o[1]+'</option>').join('')+'</select></div>'+
       '<button class="li" data-act="styleMode"><span class="lic" style="background:var(--teal)">'+ic('palette')+'</span><span class="lt">\u041e\u0444\u043e\u0440\u043c\u043b\u0435\u043d\u0438\u0435<br><span class="muted" style="font-size:13px">'+styleSub()+'</span></span><span class="lv">'+Style.label()+'</span></button>'+
-      (Style.on?'<button class="li" data-act="seedMode"><span class="lic" style="background:var(--md-pri)">'+ic('palette')+'</span><span class="lt">\u0426\u0432\u0435\u0442 \u0438\u043d\u0442\u0435\u0440\u0444\u0435\u0439\u0441\u0430</span><span class="lv">'+seedLabel()+'</span>'+ic('chev','chev')+'</button>':'')+
+      '<button class="li" data-act="seedMode"><span class="lic" style="background:var(--accent);color:var(--on-accent)">'+ic('palette')+'</span><span class="lt">\u0426\u0432\u0435\u0442 \u0438\u043d\u0442\u0435\u0440\u0444\u0435\u0439\u0441\u0430</span><span class="lv">'+seedLabel()+'</span>'+ic('chev','chev')+'</button>'+
+      (Style.on?'':'<button class="li" data-act="liquid"><span class="lic" style="background:var(--blue)">'+ic('sparkle')+'</span><span class="lt">\u0421\u0442\u0435\u043a\u043b\u043e<br><span class="muted" style="font-size:13px">'+liquidSub()+'</span></span><span class="lv">'+Glass.liquid.label()+'</span>'+ic('chev','chev')+'</button>')+
       '<button class="li" data-act="fxMode"><span class="lic" style="background:var(--purple)">'+ic('sparkle')+'</span><span class="lt">\u042d\u0444\u0444\u0435\u043a\u0442\u044b<br><span class="muted" style="font-size:13px">'+fxSub()+'</span></span><span class="lv">'+fxLabel()+'</span></button>'+
       (Full.can()?'<button class="li" data-act="fullToggle"><span class="lic" style="background:var(--blue)">'+ic('eye')+'</span><span class="lt">\u041f\u043e\u043b\u043d\u043e\u044d\u043a\u0440\u0430\u043d\u043d\u044b\u0439 \u0440\u0435\u0436\u0438\u043c</span><span class="lv">'+(Full.want()?'\u0412\u043a\u043b':'\u0412\u044b\u043a\u043b')+'</span></button>':'')+
       '<button class="li" data-act="sndToggle"><span class="lic" style="background:var(--green)">'+ic('sound')+'</span><span class="lt">\u0417\u0432\u0443\u043a\u0438</span><span class="lv">'+(Snd.on()?'\u0412\u043a\u043b':'\u0412\u044b\u043a\u043b')+'</span></button>'+
@@ -2948,7 +3028,7 @@ RENDER.account=()=>{
       '<button class="li" data-act="history"><span class="lic" style="background:var(--stars)">'+ic('star')+'</span><span class="lt">\u041c\u043e\u0438 \u043f\u043e\u043a\u0443\u043f\u043a\u0438</span>'+ic('chev','chev')+'</button>'+
       (Net.me.role?'<button class="li" data-act="admin"><span class="lic" style="background:var(--red)">'+ic('shield')+'</span><span class="lt">\u0410\u0434\u043c\u0438\u043d-\u043f\u0430\u043d\u0435\u043b\u044c</span>'+(Net.me.role==='owner'&&!Net.me.elev?'<span class="lv">'+ic('lock')+'</span>':'')+ic('chev','chev')+'</button>':'')+
     '</div>'+
-    '<div class="pad" style="margin-top:22px;text-align:center">'+(Net.me.role==='admin'||Net.me.role==='senior'?'':'<button class="muted" data-act="ownerLogin" style="font-size:13px">'+(Net.me.role==='owner'?'\u0421\u0435\u0441\u0441\u0438\u044f \u0432\u043b\u0430\u0434\u0435\u043b\u044c\u0446\u0430':'\u0412\u0445\u043e\u0434 \u0434\u043b\u044f \u0432\u043b\u0430\u0434\u0435\u043b\u044c\u0446\u0430')+'</button>')+'<div class="muted" style="font-size:12px;margin-top:6px">\u0412\u044b\u0431\u0438\u0432\u0430\u043d\u0438\u0435 \u043d\u043e\u043c\u0435\u0440\u043e\u0432 2.6.2</div></div>';
+    '<div class="pad" style="margin-top:22px;text-align:center">'+(Net.me.role==='admin'||Net.me.role==='senior'?'':'<button class="muted" data-act="ownerLogin" style="font-size:13px">'+(Net.me.role==='owner'?'\u0421\u0435\u0441\u0441\u0438\u044f \u0432\u043b\u0430\u0434\u0435\u043b\u044c\u0446\u0430':'\u0412\u0445\u043e\u0434 \u0434\u043b\u044f \u0432\u043b\u0430\u0434\u0435\u043b\u044c\u0446\u0430')+'</button>')+'<div class="muted" style="font-size:12px;margin-top:6px">\u0412\u044b\u0431\u0438\u0432\u0430\u043d\u0438\u0435 \u043d\u043e\u043c\u0435\u0440\u043e\u0432 2.6.3</div></div>';
   hydrateAvas(el);
   requestAnimationFrame(()=>{const cv=$('acc-veh');if(cv)Draw.preview(cv,gV,vehLook(gV),{k:gV==='bike'?.82:.86})});
   loadWall(Net.me.uid,$('acc-wall'));
@@ -2960,7 +3040,7 @@ ACT.fullToggle=()=>{Full.set(!Full.want());render()};
 // 2.5.1: \u044d\u0444\u0444\u0435\u043a\u0442\u044b \u2014 \u0430\u0432\u0442\u043e / \u043f\u043e\u043b\u043d\u044b\u0435 / \u043e\u0431\u043b\u0435\u0433\u0447\u0451\u043d\u043d\u044b\u0435
 // 2.6.1 (\u0432\u0442\u043e\u0440\u0430\u044f \u043f\u0440\u0430\u0432\u043a\u0430): \u043f\u044f\u0442\u044c \u0443\u0440\u043e\u0432\u043d\u0435\u0439 \u044d\u0444\u0444\u0435\u043a\u0442\u043e\u0432
 const FX_N={auto:'Auto',low:'Low',medium:'Medium',high:'High',max:'Max'};
-const FX_D={auto:'\u0418\u0433\u0440\u0430 \u0441\u0430\u043c\u0430 \u0432\u044b\u0431\u0435\u0440\u0435\u0442 Low, Medium \u0438\u043b\u0438 High \u043f\u043e \u0441\u043a\u043e\u0440\u043e\u0441\u0442\u0438 \u0442\u0435\u043b\u0435\u0444\u043e\u043d\u0430',low:'\u0411\u0435\u0437 \u0441\u0442\u0435\u043a\u043b\u0430 \u0438 \u0443\u043a\u0440\u0430\u0448\u0430\u044e\u0449\u0438\u0445 \u0430\u043d\u0438\u043c\u0430\u0446\u0438\u0439. \u0421\u0430\u043c\u044b\u0439 \u043f\u043b\u0430\u0432\u043d\u044b\u0439 \u0438 \u0445\u043e\u043b\u043e\u0434\u043d\u044b\u0439',medium:'\u0421\u0442\u0435\u043a\u043b\u043e \u0442\u043e\u043b\u044c\u043a\u043e \u043d\u0430 \u043d\u0438\u0436\u043d\u0435\u0439 \u043f\u0430\u043d\u0435\u043b\u0438 \u0438 \u043a\u0440\u0443\u0433\u043b\u044b\u0445 \u043a\u043d\u043e\u043f\u043a\u0430\u0445, \u043e\u0441\u0442\u0430\u043b\u044c\u043d\u043e\u0435 \u043f\u043b\u043e\u0442\u043d\u043e\u0435',high:'\u0421\u0442\u0435\u043a\u043b\u043e \u0432\u0435\u0437\u0434\u0435, \u043a\u0430\u043f\u043b\u044f \u0441 \u0443\u0432\u0435\u043b\u0438\u0447\u0435\u043d\u0438\u0435\u043c, \u0441\u0432\u0435\u0442 \u043f\u043e \u043d\u0430\u043a\u043b\u043e\u043d\u0443 \u0442\u0435\u043b\u0435\u0444\u043e\u043d\u0430',max:'\u041a\u0430\u043a High, \u043f\u043b\u044e\u0441 \u043f\u0440\u0435\u043b\u043e\u043c\u043b\u0435\u043d\u0438\u0435 \u043a\u0440\u0430\u0451\u0432 \u043d\u0430 Android \u0438 \u00d710 \u0431\u0435\u0437 \u043e\u0433\u0440\u0430\u043d\u0438\u0447\u0435\u043d\u0438\u044f \u043a\u0430\u0434\u0440\u043e\u0432. \u0422\u0435\u043b\u0435\u0444\u043e\u043d \u0433\u0440\u0435\u0435\u0442\u0441\u044f \u0441\u0438\u043b\u044c\u043d\u0435\u0435'};
+const FX_D={auto:'\u0418\u0433\u0440\u0430 \u0441\u0430\u043c\u0430 \u0432\u044b\u0431\u0435\u0440\u0435\u0442 Low, Medium \u0438\u043b\u0438 High \u043f\u043e \u0441\u043a\u043e\u0440\u043e\u0441\u0442\u0438 \u0442\u0435\u043b\u0435\u0444\u043e\u043d\u0430',low:'\u0411\u0435\u0437 \u0441\u0442\u0435\u043a\u043b\u0430 \u0438 \u0443\u043a\u0440\u0430\u0448\u0430\u044e\u0449\u0438\u0445 \u0430\u043d\u0438\u043c\u0430\u0446\u0438\u0439. \u0421\u0430\u043c\u044b\u0439 \u043f\u043b\u0430\u0432\u043d\u044b\u0439 \u0438 \u0445\u043e\u043b\u043e\u0434\u043d\u044b\u0439',medium:'\u0421\u0442\u0435\u043a\u043b\u043e \u0442\u043e\u043b\u044c\u043a\u043e \u043d\u0430 \u043d\u0438\u0436\u043d\u0435\u0439 \u043f\u0430\u043d\u0435\u043b\u0438 \u0438 \u043a\u0440\u0443\u0433\u043b\u044b\u0445 \u043a\u043d\u043e\u043f\u043a\u0430\u0445, \u043e\u0441\u0442\u0430\u043b\u044c\u043d\u043e\u0435 \u043f\u043b\u043e\u0442\u043d\u043e\u0435',high:'\u0421\u0442\u0435\u043a\u043b\u043e \u0432\u0435\u0437\u0434\u0435, \u043a\u0430\u043f\u043b\u044f \u0441 \u0443\u0432\u0435\u043b\u0438\u0447\u0435\u043d\u0438\u0435\u043c \u0438 \u0438\u0437\u0433\u0438\u0431\u043e\u043c \u043f\u043e\u0434 \u043f\u0430\u043b\u044c\u0446\u0435\u043c, \u0441\u0432\u0435\u0442 \u043f\u043e \u043d\u0430\u043a\u043b\u043e\u043d\u0443 \u0442\u0435\u043b\u0435\u0444\u043e\u043d\u0430',max:'\u041a\u0430\u043a High, \u043f\u043b\u044e\u0441 \u00d710 \u0431\u0435\u0437 \u043e\u0433\u0440\u0430\u043d\u0438\u0447\u0435\u043d\u0438\u044f \u043a\u0430\u0434\u0440\u043e\u0432. \u0422\u0435\u043b\u0435\u0444\u043e\u043d \u0433\u0440\u0435\u0435\u0442\u0441\u044f \u0441\u0438\u043b\u044c\u043d\u0435\u0435'};
 // 2.6.2: \u0432 Material You (Android) \u0441\u0442\u0435\u043a\u043b\u0430 \u043d\u0435\u0442, \u043f\u043e\u044d\u0442\u043e\u043c\u0443 Medium = High, \u0438 \u043e\u043f\u0438\u0441\u0430\u043d\u0438\u044f \u0443\u0440\u043e\u0432\u043d\u0435\u0439 \u0434\u0440\u0443\u0433\u0438\u0435
 const FX_MD={auto:'\u0418\u0433\u0440\u0430 \u0441\u0430\u043c\u0430 \u0432\u044b\u0431\u0435\u0440\u0435\u0442 Low \u0438\u043b\u0438 High \u043f\u043e \u0441\u043a\u043e\u0440\u043e\u0441\u0442\u0438 \u0442\u0435\u043b\u0435\u0444\u043e\u043d\u0430',low:'\u0411\u0435\u0437 \u0443\u043a\u0440\u0430\u0448\u0430\u044e\u0449\u0438\u0445 \u0430\u043d\u0438\u043c\u0430\u0446\u0438\u0439: \u0431\u043b\u0451\u0441\u0442\u043a\u0438, \u043f\u0435\u0440\u0435\u043b\u0438\u0432, \u0432\u043e\u043b\u043d\u0430 \u043c\u0443\u0437\u044b\u043a\u0438. \u0421\u0430\u043c\u044b\u0439 \u043f\u043b\u0430\u0432\u043d\u044b\u0439 \u0438 \u0445\u043e\u043b\u043e\u0434\u043d\u044b\u0439',high:'\u0412\u0441\u0435 \u0430\u043d\u0438\u043c\u0430\u0446\u0438\u0438. \u0411\u0435\u0437 \u0441\u0442\u0435\u043a\u043b\u0430 \u0438 \u0440\u0430\u0437\u043c\u044b\u0442\u0438\u044f \u2014 \u044d\u0442\u043e \u043e\u0444\u043e\u0440\u043c\u043b\u0435\u043d\u0438\u0435 Android',max:'\u041a\u0430\u043a High, \u043f\u043b\u044e\u0441 \u00d710 \u0431\u0435\u0437 \u043e\u0433\u0440\u0430\u043d\u0438\u0447\u0435\u043d\u0438\u044f \u043a\u0430\u0434\u0440\u043e\u0432. \u0422\u0435\u043b\u0435\u0444\u043e\u043d \u0433\u0440\u0435\u0435\u0442\u0441\u044f \u0441\u0438\u043b\u044c\u043d\u0435\u0435'};
 const fxKey=k=>Style.on&&k==='medium'?'high':k;
@@ -2983,13 +3063,62 @@ const SEEDS=[['#ff8a00','\u041e\u0440\u0430\u043d\u0436\u0435\u0432\u044b\u0439'
 const seedLabel=()=>{const v=Style.seedGet();if(v==='tg')return'\u041a\u0430\u043a \u0432 Telegram';const k=SEEDS.find(x=>x[0]===v);return k?k[1]:'\u0421\u0432\u043e\u0439'};
 ACT.seedMode=()=>{const v=Style.seedGet();
   const sw=(c,n)=>'<button class="seedsw'+(v===c?' on':'')+'" data-act="seedSet" data-k="'+c+'" aria-label="'+n+'" style="--sw:'+c+'">'+(v===c?ic('check'):'')+'</button>';
-  Sheet.open({title:'\u0426\u0432\u0435\u0442 \u0438\u043d\u0442\u0435\u0440\u0444\u0435\u0439\u0441\u0430',lead:'\u0412\u043a\u043b\u0430\u0434\u043a\u0438, \u043f\u0435\u0440\u0435\u043a\u043b\u044e\u0447\u0430\u0442\u0435\u043b\u0438, \u0444\u043e\u043d \u0438 \u043f\u043e\u0432\u0435\u0440\u0445\u043d\u043e\u0441\u0442\u0438. \u041c\u043e\u043d\u0435\u0442\u044b, \u0440\u0435\u0434\u043a\u043e\u0441\u0442\u0438, \u043a\u043d\u043e\u043f\u043a\u0438 \u043f\u043e\u043a\u0443\u043f\u043a\u0438 \u0438 \u043a\u0430\u0440\u0442\u043e\u0447\u043a\u0438 \u043a\u0435\u0439\u0441\u043e\u0432 \u043d\u0435 \u043c\u0435\u043d\u044f\u044e\u0442\u0441\u044f.',
+  Sheet.open({title:'\u0426\u0432\u0435\u0442 \u0438\u043d\u0442\u0435\u0440\u0444\u0435\u0439\u0441\u0430',lead:'\u0412\u043a\u043b\u0430\u0434\u043a\u0438, \u043a\u0430\u043f\u043b\u044f, \u043f\u0435\u0440\u0435\u043a\u043b\u044e\u0447\u0430\u0442\u0435\u043b\u0438, \u0433\u043b\u0430\u0432\u043d\u044b\u0435 \u043a\u043d\u043e\u043f\u043a\u0438, \u043f\u043e\u043b\u043e\u0441\u043a\u0438 \u043f\u0440\u043e\u0433\u0440\u0435\u0441\u0441\u0430'+(Style.on?', \u0444\u043e\u043d \u0438 \u043f\u043e\u0432\u0435\u0440\u0445\u043d\u043e\u0441\u0442\u0438':', \u043b\u0451\u0433\u043a\u0438\u0439 \u043e\u0442\u0442\u0435\u043d\u043e\u043a \u0441\u0442\u0435\u043a\u043b\u0430')+'. \u041c\u043e\u043d\u0435\u0442\u044b, Stars, \u0440\u0435\u0434\u043a\u043e\u0441\u0442\u0438, \u043e\u0448\u0438\u0431\u043a\u0438 \u0438 \u043d\u043e\u043c\u0435\u0440\u0430 \u043d\u0435 \u043c\u0435\u043d\u044f\u044e\u0442\u0441\u044f.',
     body:'<div class="group"><button class="li noic" data-act="seedSet" data-k="tg"><span class="lt">\u041a\u0430\u043a \u0432 Telegram<br><span class="muted" style="font-size:13px;white-space:normal">\u0426\u0432\u0435\u0442 \u043a\u043d\u043e\u043f\u043e\u043a \u0432\u0430\u0448\u0435\u0439 \u0442\u0435\u043c\u044b Telegram</span></span>'+(v==='tg'?ic('check','chev'):'')+'</button></div>'+
       '<div class="seedgrid">'+SEEDS.map(x=>sw(x[0],x[1])).join('')+'</div>'+
       '<label class="li noic seedown"><span class="lt">\u0421\u0432\u043e\u0439 \u0446\u0432\u0435\u0442</span><input type="color" data-on="seedOwn" value="'+(v==='tg'?'#ff8a00':v)+'"></label>'});
   Haptic.tick()};
 ACT.seedSet=el=>{Style.setSeed(el.dataset.k);Sheet.close(true);Haptic.tick()};
 ON.seedOwnChange=el=>{Style.setSeed(el.value);Sheet.close(true);Haptic.tick()};
+// 2.6.3: \u043f\u043e\u043b\u0437\u0443\u043d\u043e\u043a \u00ab\u0436\u0438\u0434\u043a\u043e\u0441\u0442\u0438\u00bb \u0441\u0442\u0435\u043a\u043b\u0430 (\u0442\u043e\u043b\u044c\u043a\u043e Liquid Glass). \u041f\u0440\u0430\u0432\u0438\u043b\u0430: \u0440\u0430\u0437\u0434\u0435\u043b 5 \u0438 4.1
+const liquidSub=()=>Glass.level()==='low'?'\u041d\u0430 Low \u0441\u0442\u0435\u043a\u043b\u0430 \u043d\u0435\u0442 \u2014 \u0441\u043d\u0430\u0447\u0430\u043b\u0430 \u0441\u043c\u0435\u043d\u0438\u0442\u0435 \u00ab\u042d\u0444\u0444\u0435\u043a\u0442\u044b\u00bb':Glass.liquid.value===0?'\u041f\u043b\u043e\u0442\u043d\u044b\u0435 \u043f\u043e\u0432\u0435\u0440\u0445\u043d\u043e\u0441\u0442\u0438 \u0431\u0435\u0437 \u0440\u0430\u0437\u043c\u044b\u0442\u0438\u044f':'\u041f\u0440\u043e\u0437\u0440\u0430\u0447\u043d\u043e\u0441\u0442\u044c, \u0431\u043b\u0438\u043a\u0438 \u0438 \u00ab\u0434\u0440\u043e\u0436\u044c\u00bb \u043a\u0430\u043f\u043b\u0438';
+ACT.liquid=()=>{const v=Glass.liquid.value;
+  Sheet.open({title:'\u0421\u0442\u0435\u043a\u043b\u043e',cls:'lq-sheet',lead:'\u041e\u0442 \u00ab\u041c\u043e\u043d\u043e\u043b\u0438\u0442\u0430\u00bb \u0434\u043e \u00ab\u041e\u0447\u0435\u043d\u044c \u0436\u0438\u0434\u043a\u043e\u0433\u043e\u00bb. \u041f\u043e\u043a\u0430 \u0442\u044f\u043d\u0435\u0442\u0435 \u2014 \u043c\u0435\u043d\u044f\u044e\u0442\u0441\u044f \u043f\u0440\u043e\u0437\u0440\u0430\u0447\u043d\u043e\u0441\u0442\u044c \u0438 \u0431\u043b\u0438\u043a\u0438, \u0440\u0430\u0437\u043c\u044b\u0442\u0438\u0435 \u2014 \u043a\u043e\u0433\u0434\u0430 \u043e\u0442\u043f\u0443\u0441\u0442\u0438\u0442\u0435.',
+    body:'<div class="lq-demo" aria-hidden="true"><span class="lq-b1"></span><span class="lq-b2"></span><span class="lq-b3"></span><div class="glass lq-pane"><b>\u041c\u0430\u0433\u0430\u0437\u0438\u043d</b><span class="pill">\u041e\u0442\u043a\u0440\u044b\u0442\u044c</span></div></div>'+
+      '<div class="lq-row"><span class="muted">\u041c\u043e\u043d\u043e\u043b\u0438\u0442</span><b id="lq-val">'+Glass.liquid.label(v)+'</b><span class="muted">\u041e\u0447\u0435\u043d\u044c \u0436\u0438\u0434\u043a\u043e\u0435</span></div>'+
+      '<div class="lq" role="slider" tabindex="0" aria-label="\u0416\u0438\u0434\u043a\u043e\u0441\u0442\u044c \u0441\u0442\u0435\u043a\u043b\u0430" aria-valuemin="0" aria-valuemax="100" aria-valuenow="'+v+'" style="--v:'+v+'">'+
+        '<div class="lq-track"><i class="lq-fill"></i></div>'+
+        '<div class="lq-thumb"><div class="lq-mag"><div class="lq-mt"><i class="lq-mf"></i></div></div></div></div>'+
+      (Glass.level()==='low'?'<p class="note">\u0421\u0435\u0439\u0447\u0430\u0441 \u00ab\u042d\u0444\u0444\u0435\u043a\u0442\u044b: Low\u00bb \u2014 \u0441\u0442\u0435\u043a\u043b\u0430 \u043d\u0435\u0442, \u0433\u0434\u0435 \u0431\u044b \u043d\u0438 \u0441\u0442\u043e\u044f\u043b \u043f\u043e\u043b\u0437\u0443\u043d\u043e\u043a. Low \u0433\u043b\u0430\u0432\u043d\u0435\u0435.</p>':'')});
+  Lq.place(qs('.sheet .lq'),v);Haptic.tick()};
+// \u043f\u043e\u043b\u0437\u0443\u043d\u043e\u043a \u0432 \u0441\u0442\u0438\u043b\u0435 iOS 26: \u043f\u0440\u0438 \u043f\u0435\u0440\u0435\u0442\u0430\u0441\u043a\u0438\u0432\u0430\u043d\u0438\u0438 \u0440\u0443\u0447\u043a\u0430 \u2014 \u043f\u0440\u043e\u0437\u0440\u0430\u0447\u043d\u0430\u044f \u043a\u0430\u043f\u043b\u044f, \u043f\u043e\u0434 \u043d\u0435\u0439 \u0443\u0432\u0435\u043b\u0438\u0447\u0435\u043d\u043d\u0430\u044f \u0434\u043e\u0440\u043e\u0436\u043a\u0430; \u0443 \u043a\u0440\u0430\u0451\u0432 \u043f\u0440\u0443\u0436\u0438\u043d\u0438\u0442.
+// \u0412 \u043c\u043e\u043c\u0435\u043d\u0442 \u043a\u0430\u0441\u0430\u043d\u0438\u044f \u043d\u0438\u0447\u0435\u0433\u043e \u043d\u0435 \u043f\u043e\u044f\u0432\u043b\u044f\u0435\u0442\u0441\u044f (\u0443\u0440\u043e\u043a 2.6.1): \u043a\u0430\u043f\u043b\u044f \u0432\u043a\u043b\u044e\u0447\u0430\u0435\u0442\u0441\u044f, \u0442\u043e\u043b\u044c\u043a\u043e \u043a\u043e\u0433\u0434\u0430 \u043f\u0430\u043b\u0435\u0446 \u043f\u043e\u0432\u0451\u043b
+const Lq=(()=>{
+  const PAD=14,MAG=1.45;let st=null;
+  const geo=el=>{const r=el.getBoundingClientRect();return{r,w:r.width-PAD*2}};
+  function paint(el,v,over,drag){
+    const g=geo(el),x=PAD+g.w*v/100+(over||0);const th=el.querySelector('.lq-thumb'),mt=el.querySelector('.lq-mt');
+    el.style.setProperty('--v',v);el.setAttribute('aria-valuenow',v);
+    const sx=drag?1.55:1,sy=drag?1.3:1;
+    th.style.transform='translate3d('+(x-14).toFixed(1)+'px,0,0) scale('+sx+','+sy+')';
+    // \u043a\u043e\u043f\u0438\u044f \u0434\u043e\u0440\u043e\u0436\u043a\u0438 \u0432\u043d\u0443\u0442\u0440\u0438 \u0440\u0443\u0447\u043a\u0438: \u0443\u0432\u0435\u043b\u0438\u0447\u0435\u043d\u0430 \u0432 MAG \u0440\u0430\u0437 \u0432\u043e\u043a\u0440\u0443\u0433 \u0446\u0435\u043d\u0442\u0440\u0430 \u0440\u0443\u0447\u043a\u0438
+    mt.style.width=g.r.width+'px';
+    mt.style.transform='translate('+(14-MAG/sx*x).toFixed(1)+'px,0) scale('+(MAG/sx).toFixed(3)+','+(MAG/sy).toFixed(3)+')';
+  }
+  function place(el,v){if(el)paint(el,v,0,false)}
+  function valAt(el,cx){const g=geo(el);const raw=(cx-g.r.left-PAD)/g.w*100;const v=Math.max(0,Math.min(100,raw));
+    const over=raw<0?Math.max(-14,raw*g.w/100*.3):raw>100?Math.min(14,(raw-100)*g.w/100*.3):0;return{v:Math.round(v),over}}
+  document.addEventListener('pointerdown',e=>{
+    const el=e.target.closest&&e.target.closest('.lq');if(!el||e.button>0)return;
+    st={el,id:e.pointerId,x0:e.clientX,moved:false,v:Glass.liquid.value};try{el.setPointerCapture(e.pointerId)}catch(_){}
+  });
+  document.addEventListener('pointermove',e=>{
+    if(!st||e.pointerId!==st.id)return;
+    if(!st.moved){if(Math.abs(e.clientX-st.x0)<4)return;st.moved=true;st.el.classList.add('drag')}
+    const r=valAt(st.el,e.clientX);if(r.v!==st.v){st.v=r.v;Glass.liquid.preview(r.v);const l=qs('#lq-val');if(l)l.textContent=Glass.liquid.label(r.v);if(r.v===0||r.v===100)Haptic.tick()}
+    paint(st.el,r.v,r.over,true);e.preventDefault();
+  },{passive:false});
+  const end=e=>{
+    if(!st||e.pointerId!==st.id)return;const s0=st;st=null;
+    if(!s0.moved){const r=valAt(s0.el,e.clientX);s0.v=r.v;Glass.liquid.preview(r.v);const l=qs('#lq-val');if(l)l.textContent=Glass.liquid.label(r.v)}
+    s0.el.classList.remove('drag');paint(s0.el,s0.v,0,false);Glass.liquid.commit(s0.v);Haptic.tick();
+    const row=qs('[data-act="liquid"] .lv');if(row)row.textContent=Glass.liquid.label(s0.v);
+  };
+  document.addEventListener('pointerup',end);document.addEventListener('pointercancel',end);
+  document.addEventListener('keydown',e=>{const el=e.target.closest&&e.target.closest('.lq');if(!el)return;const d=e.key==='ArrowRight'||e.key==='ArrowUp'?5:e.key==='ArrowLeft'||e.key==='ArrowDown'?-5:0;if(!d)return;
+    e.preventDefault();const v=Math.max(0,Math.min(100,Glass.liquid.value+d));Glass.liquid.commit(v);place(el,v);const l=qs('#lq-val');if(l)l.textContent=Glass.liquid.label(v)});
+  return{place};
+})();
 ACT.styleSet=el=>{const k=el.dataset.k;Sheet.close(true);Style.set(k);toast('\u041e\u0444\u043e\u0440\u043c\u043b\u0435\u043d\u0438\u0435: '+Style.now());Haptic.tick()};
 ACT.me=()=>Tabs.go('account');
 
@@ -3780,7 +3909,7 @@ const Games=window.makeGames({
   colors:gameColors,
   after:()=>{render();showInbox()}
 });
-window.__app={get S(){return S},Net,Games,Reel,render,act,run,L,Page,Sheet,Tabs,Music,Island,Multi,Glass,Full,Style,Ripple,toast,parseID3Test:b=>{const m=parseID3(b);return m?{t:m.t,a:m.a,pic:m.pic?m.pic.type+":"+m.pic.size:null}:null}};
+window.__app={get S(){return S},Net,Games,Reel,render,act,run,L,Page,Sheet,Tabs,Music,Island,Multi,Glass,Full,Lq,Style,Ripple,toast,parseID3Test:b=>{const m=parseID3(b);return m?{t:m.t,a:m.a,pic:m.pic?m.pic.type+":"+m.pic.size:null}:null}};
 document.addEventListener('themechange',()=>{if(shopBuilt)render()});
 // 2.5.3: \u043a\u0430\u0440\u0442\u0438\u043d\u043a\u0438 \u043d\u0430\u043a\u043b\u0435\u0435\u043a \u0434\u0435\u043a\u043e\u0434\u0438\u0440\u043e\u0432\u0430\u043b\u0438\u0441\u044c \u2014 \u043f\u0435\u0440\u0435\u0440\u0438\u0441\u043e\u0432\u0430\u0442\u044c \u0442\u043e, \u0447\u0442\u043e \u0443\u0436\u0435 \u043d\u0430 \u044d\u043a\u0440\u0430\u043d\u0435
 document.addEventListener('stickers',()=>{try{render();if(Page.stack.length)Page.renderTop()}catch(e){}});
