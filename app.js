@@ -1,4 +1,4 @@
-/* Vybivanie nomerov 2.6.1 */
+/* Vybivanie nomerov 2.6.2 */
 (function(){
 "use strict";
 /* ================= \u043e\u0441\u043d\u043e\u0432\u0430: \u0443\u0442\u0438\u043b\u0438\u0442\u044b, \u0438\u043a\u043e\u043d\u043a\u0438, \u0445\u0440\u0430\u043d\u0438\u043b\u0438\u0449\u0435, \u043e\u0442\u043a\u043b\u0438\u043a ================= */
@@ -28,6 +28,8 @@ const P={
   key:'<path d="M14.5 3a6.5 6.5 0 0 0-6.2 8.5L3 16.8V21h4.2v-2.2h2.2v-2.2h2.2l1.2-1.2A6.5 6.5 0 1 0 14.5 3Zm2 3.2a1.8 1.8 0 1 1 0 3.6 1.8 1.8 0 0 1 0-3.6Z"/>',
   chev:'<path d="m9 5 7 7-7 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>',
   back:'<path d="m15 4.5-7.5 7.5 7.5 7.5" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>',
+  arrowL:'<path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/>',
+  palette:'<path d="M12 3a9 9 0 0 0 0 18c.83 0 1.5-.67 1.5-1.5 0-.39-.15-.74-.39-1.01-.23-.26-.38-.61-.38-.99 0-.83.67-1.5 1.5-1.5H16c2.76 0 5-2.24 5-5 0-4.42-4.03-8-9-8zm-5.5 9a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm3-4a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm3 4a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"/>',
   close:'<path d="M6 6l12 12M18 6 6 18" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/>',
   share:'<path d="M12 3v11M7.5 7.5 12 3l4.5 4.5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M6 11H5a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-8a1 1 0 0 0-1-1h-1" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>',
   copy:'<rect x="8" y="8" width="12" height="12" rx="3" fill="none" stroke="currentColor" stroke-width="2.2"/><path d="M16 5.5V5a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h.5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>',
@@ -127,6 +129,91 @@ function ago(t){const s=Math.max(0,(now()-t)/1000);if(s<60)return'\u0442\u043e\u
 function left(ms){ms=Math.max(0,ms);const m=Math.ceil(ms/60000);if(m<60)return m+' \u043c\u0438\u043d';const h=Math.floor(m/60);if(h<48)return h+' \u0447 '+(m%60)+' \u043c\u0438\u043d';const d=Math.floor(h/24);return d+' '+plural(d,'\u0434\u0435\u043d\u044c','\u0434\u043d\u044f','\u0434\u043d\u0435\u0439')}
 function dateRu(t){return new Date(t).toLocaleDateString('ru-RU',{day:'numeric',month:'long'})}
 
+/* ---------- 2.6.2: \u043e\u0444\u043e\u0440\u043c\u043b\u0435\u043d\u0438\u0435 \u043f\u043e \u043f\u043b\u0430\u0442\u0444\u043e\u0440\u043c\u0435 ----------
+   Android \u2014 Material You (Material 3): \u043f\u043b\u043e\u0442\u043d\u044b\u0435 \u0446\u0432\u0435\u0442\u043d\u044b\u0435 \u043f\u043e\u0432\u0435\u0440\u0445\u043d\u043e\u0441\u0442\u0438, \u0431\u0435\u0437 \u0440\u0430\u0437\u043c\u044b\u0442\u0438\u044f \u0438 \u0441\u0442\u0435\u043a\u043b\u0430.
+   iPhone \u0438 \u043e\u0441\u0442\u0430\u043b\u044c\u043d\u044b\u0435 \u2014 Liquid Glass. \u0412 \u00ab\u0410\u043a\u043a\u0430\u0443\u043d\u0442\u0435\u00bb \u2192 \u00ab\u041e\u0444\u043e\u0440\u043c\u043b\u0435\u043d\u0438\u0435\u00bb \u043c\u043e\u0436\u043d\u043e \u0432\u044b\u0431\u0440\u0430\u0442\u044c \u0432\u0440\u0443\u0447\u043d\u0443\u044e
+   (nomera26_style: auto / md / glass) \u2014 \u043d\u0430\u043f\u0440\u0438\u043c\u0435\u0440, \u0447\u0442\u043e\u0431\u044b \u043d\u0430 iPhone \u043f\u043e\u0441\u043c\u043e\u0442\u0440\u0435\u0442\u044c, \u043a\u0430\u043a \u0438\u0433\u0440\u0430 \u0432\u044b\u0433\u043b\u044f\u0434\u0438\u0442 \u043d\u0430 Android.
+   \u041f\u0430\u043b\u0438\u0442\u0440\u0430 Material \u0441\u0442\u0440\u043e\u0438\u0442\u0441\u044f \u0438\u0437 \u0446\u0432\u0435\u0442\u0430 \u043a\u043d\u043e\u043f\u043e\u043a \u0442\u0435\u043c\u044b Telegram (\u043d\u0430 Pixel \u0446\u0432\u0435\u0442\u0430 \u0431\u0435\u0440\u0443\u0442\u0441\u044f \u0438\u0437 \u043e\u0431\u043e\u0435\u0432, \u043d\u043e Telegram \u0438\u0445 \u043d\u0435 \u043e\u0442\u0434\u0430\u0451\u0442). */
+const Style=(()=>{
+  const H=document.documentElement;
+  const plat=()=>{try{return String((TGW&&TGW.platform)||'')}catch(e){return''}};
+  const android=()=>{const p=plat();if(/android/i.test(p))return true;if(/^(ios|macos|tdesktop|weba|webk|web)$/i.test(p))return false;return/Android/.test(navigator.userAgent)};
+  const get=()=>{const v=lsGet('nomera26_style');return v==='md'||v==='glass'?v:'auto'};
+  const want=()=>{const v=get();return v==='md'||(v==='auto'&&android())};
+  // --- \u0446\u0432\u0435\u0442: sRGB <-> OKLCH (\u0440\u0430\u0432\u043d\u043e\u043c\u0435\u0440\u043d\u044b\u0435 \u043f\u043e \u044f\u0440\u043a\u043e\u0441\u0442\u0438 \u0442\u043e\u043d\u0430, \u043a\u0430\u043a \u0442\u043e\u043d\u0430\u043b\u044c\u043d\u044b\u0435 \u043f\u0430\u043b\u0438\u0442\u0440\u044b Material) ---
+  const lin=c=>c<=.04045?c/12.92:Math.pow((c+.055)/1.055,2.4);
+  const gam=c=>c<=.0031308?12.92*c:1.055*Math.pow(c,1/2.4)-.055;
+  function toLch(hex){
+    let h=String(hex||'').trim().replace('#','');if(h.length===3)h=h.split('').map(c=>c+c).join('');
+    if(!/^[0-9a-f]{6}$/i.test(h))return null;
+    const r=lin(parseInt(h.slice(0,2),16)/255),g=lin(parseInt(h.slice(2,4),16)/255),b=lin(parseInt(h.slice(4,6),16)/255);
+    const l=Math.cbrt(.4122214708*r+.5363325363*g+.0514459929*b),m=Math.cbrt(.2119034982*r+.6806995451*g+.1073969566*b),s=Math.cbrt(.0883024619*r+.2817188376*g+.6299787005*b);
+    const L=.2104542553*l+.793617785*m-.0040720468*s,A=1.9779984951*l-2.428592205*m+.4505937099*s,B=.0259040371*l+.7827717662*m-.808675766*s;
+    return{L,C:Math.hypot(A,B),h:Math.atan2(B,A)};
+  }
+  // \u0442\u043e\u043d \u0441 \u044f\u0440\u043a\u043e\u0441\u0442\u044c\u044e L \u0438 \u043d\u0430\u0441\u044b\u0449\u0435\u043d\u043d\u043e\u0441\u0442\u044c\u044e C; \u0435\u0441\u043b\u0438 \u0446\u0432\u0435\u0442 \u043d\u0435 \u043f\u043e\u043c\u0435\u0449\u0430\u0435\u0442\u0441\u044f \u0432 sRGB \u2014 \u043d\u0430\u0441\u044b\u0449\u0435\u043d\u043d\u043e\u0441\u0442\u044c \u0443\u043c\u0435\u043d\u044c\u0448\u0430\u0435\u0442\u0441\u044f
+  function tone(L,C,h){
+    for(let i=0;i<40;i++,C*=.9){
+      const A=C*Math.cos(h),B=C*Math.sin(h);
+      const l=Math.pow(L+.3963377774*A+.2158037573*B,3),m=Math.pow(L-.1055613458*A-.0638541728*B,3),s=Math.pow(L-.0894841775*A-1.291485548*B,3);
+      const rgb=[4.0767416621*l-3.3077115913*m+.2309699292*s,-1.2684380046*l+2.6097574011*m-.3413193965*s,-.0041960863*l-.7034186147*m+1.707614701*s];
+      if(rgb.every(v=>v>=-.0005&&v<=1.0005)||C<.002)return'#'+rgb.map(v=>('0'+Math.round(Math.max(0,Math.min(1,gam(Math.max(0,v))))*255).toString(16)).slice(-2)).join('');
+    }
+    return'#808080';
+  }
+  const ORANGE=toLch('#ff8a00'),GOLD=toLch('#ffc83d');
+  // \u0446\u0432\u0435\u0442 \u0438\u043d\u0442\u0435\u0440\u0444\u0435\u0439\u0441\u0430: 'tg' (\u043f\u043e \u0443\u043c\u043e\u043b\u0447\u0430\u043d\u0438\u044e) \u2014 \u0438\u0437 \u0442\u0435\u043c\u044b Telegram, \u0438\u043d\u0430\u0447\u0435 \u0432\u044b\u0431\u0440\u0430\u043d\u043d\u044b\u0439 \u0438\u0433\u0440\u043e\u043a\u043e\u043c (#rrggbb). \u0426\u0432\u0435\u0442\u0430 \u0441\u043e \u0441\u043c\u044b\u0441\u043b\u043e\u043c
+  // (\u0440\u0435\u0434\u043a\u043e\u0441\u0442\u0438, \u043c\u043e\u043d\u0435\u0442\u044b, \u043e\u0448\u0438\u0431\u043a\u0438, \u043e\u0440\u0430\u043d\u0436\u0435\u0432\u044b\u0435 \u043a\u043d\u043e\u043f\u043a\u0438 \u043f\u043e\u043a\u0443\u043f\u043a\u0438, \u043a\u0430\u0440\u0442\u043e\u0447\u043a\u0438 \u043a\u0435\u0439\u0441\u043e\u0432) \u043e\u0442 \u043d\u0435\u0433\u043e \u043d\u0435 \u0437\u0430\u0432\u0438\u0441\u044f\u0442
+  const seedGet=()=>{const v=lsGet('nomera26_seed');return v&&/^#[0-9a-f]{6}$/i.test(v)?v.toLowerCase():'tg'};
+  function seed(){
+    const own=seedGet();if(own!=='tg'){const c=toLch(own);if(c)return c}
+    let tp={};try{tp=(TGW&&TGW.themeParams)||{}}catch(e){}
+    for(const k of ['button_color','accent_text_color','link_color']){const c=toLch(tp[k]);if(c&&c.C>=.05)return c}
+    return ORANGE; // \u043d\u0435\u0442 Telegram \u0438\u043b\u0438 \u0442\u0435\u043c\u0430 \u0431\u0435\u0437 \u0446\u0432\u0435\u0442\u0430 (\u0447\u0451\u0440\u043d\u043e-\u0431\u0435\u043b\u0430\u044f) \u2014 \u0446\u0432\u0435\u0442 \u0438\u0433\u0440\u044b
+  }
+  // \u0440\u043e\u043b\u0438 Material 3 -> \u043f\u0435\u0440\u0435\u043c\u0435\u043d\u043d\u044b\u0435 CSS. \u0422\u043e\u043d\u044b \u043f\u043e\u0434\u043e\u0431\u0440\u0430\u043d\u044b \u0432\u0440\u0443\u0447\u043d\u0443\u044e \u043f\u043e\u0434 \u0442\u0451\u043c\u043d\u0443\u044e \u0438 \u0441\u0432\u0435\u0442\u043b\u0443\u044e \u0442\u0435\u043c\u0443
+  function palette(dark){
+    const S=seed(),h=S.h,c=S.C,n=Math.min(c*.12,.012),nv=Math.min(c*.2,.02);
+    const T=dark?{
+      pri:[.80,Math.min(c,.13)],onpri:[.28,Math.min(c,.08)],pc:[.38,Math.min(c,.09)],onpc:[.92,.04],
+      sc:[.37,Math.min(c*.4,.05)],onsc:[.92,.03],
+      s:[.165,n],s1:[.195,n],s2:[.215,n],s3:[.25,n],s4:[.29,n],
+      ons:[.93,n*.6],onsv:[.79,nv],ol:[.6,nv],olv:[.38,nv],inv:[.92,n],oninv:[.25,n],inverr:[.5,.17]
+    }:{
+      pri:[.5,Math.min(c,.15)],onpri:[1,0],pc:[.91,Math.min(c,.06)],onpc:[.3,Math.min(c,.08)],
+      sc:[.9,Math.min(c*.4,.045)],onsc:[.28,.04],
+      s:[.985,n*.6],s1:[.965,n],s2:[.945,n],s3:[.925,n],s4:[.905,n],
+      ons:[.22,n],onsv:[.45,nv],ol:[.6,nv],olv:[.86,nv],inv:[.3,n],oninv:[.95,n*.6],inverr:[.8,.12]
+    };
+    const v={};for(const k in T)v[k]=tone(T[k][0],T[k][1],k==='inverr'?.5:h);
+    // \u043e\u0440\u0430\u043d\u0436\u0435\u0432\u044b\u0439 \u0438\u0433\u0440\u044b \u0438 \u0437\u043e\u043b\u043e\u0442\u043e \u0437\u0432\u0451\u0437\u0434 \u2014 \u0442\u043e\u0436\u0435 \u0442\u043e\u043d\u0430\u043c\u0438 Material
+    v.acc=dark?tone(.8,.15,ORANGE.h):tone(.62,.17,ORANGE.h);v.onacc=dark?tone(.3,.08,ORANGE.h):'#ffffff';
+    v.tc=dark?tone(.42,.08,GOLD.h):tone(.92,.09,GOLD.h);v.ontc=dark?tone(.93,.08,GOLD.h):tone(.33,.07,GOLD.h);
+    return v;
+  }
+  const VARS={'--md-pri':'pri','--md-on-pri':'onpri','--md-pc':'pc','--md-on-pc':'onpc','--md-sc':'sc','--md-on-sc':'onsc',
+    '--md-s':'s','--md-s1':'s1','--md-s2':'s2','--md-s3':'s3','--md-s4':'s4','--md-on-s':'ons','--md-on-sv':'onsv','--md-ol':'ol','--md-olv':'olv',
+    '--md-inv':'inv','--md-on-inv':'oninv','--md-inv-err':'inverr','--md-acc':'acc','--md-on-acc':'onacc','--md-tc':'tc','--md-on-tc':'ontc',
+    // \u0441\u0442\u0430\u0440\u044b\u0435 \u043f\u0435\u0440\u0435\u043c\u0435\u043d\u043d\u044b\u0435 \u0438\u0433\u0440\u044b \u2014 \u043d\u0430 \u043f\u043e\u0432\u0435\u0440\u0445\u043d\u043e\u0441\u0442\u0438 Material (\u0441\u0442\u0435\u043a\u043b\u043e \u043d\u0430 Android \u043d\u0435 \u0438\u0441\u043f\u043e\u043b\u044c\u0437\u0443\u0435\u0442\u0441\u044f)
+    '--bg':'s','--card':'s2','--card2':'s3','--card3':'s4','--elev':'s1','--text':'ons','--text2':'onsv','--text3':'ol','--sep':'olv',
+    '--fill':'s4','--fill2':'s3','--fill3':'s2','--glass':'s3','--glass-strong':'s3','--lg-tint':'s3','--lg-tint-strong':'s1','--lg-bar':'s2','--lg-sel':'sc'};
+  const FLAT={'--lg-sheen':'transparent','--lg-hi':'transparent','--lg-lo':'transparent','--lg-rim-a':'transparent','--lg-rim-b':'transparent','--lg-sh':'0 0 0 transparent','--glass-hi':'transparent','--glass-b':'transparent','--glass-sh':'0 0 0 transparent'};
+  let on=false,cur=null;
+  function paint(theme){
+    on=want();H.classList.toggle('md',on);
+    if(!on){for(const k in VARS)H.style.removeProperty(k);for(const k in FLAT)H.style.removeProperty(k);cur=null;return}
+    cur=palette(theme!=='light');
+    for(const k in VARS)H.style.setProperty(k,cur[VARS[k]]);for(const k in FLAT)H.style.setProperty(k,FLAT[k]);
+  }
+  return{get,android,paint,seedGet,
+    setSeed(v){lsSet('nomera26_seed',v&&/^#[0-9a-f]{6}$/i.test(v)?v.toLowerCase():'tg');Theme.apply();document.dispatchEvent(new Event('stylechange'))},
+    set(v){lsSet('nomera26_style',v==='md'||v==='glass'?v:'');Theme.apply();document.dispatchEvent(new Event('stylechange'))},
+    get on(){return on},get colors(){return cur},
+    label(){const v=get();return v==='md'?'Material You':v==='glass'?'Liquid Glass':'\u0410\u0432\u0442\u043e'},
+    now(){return on?'Material You':'Liquid Glass'},
+    test:{toLch,tone,palette}};
+})();
+
 /* ---------- \u0442\u0435\u043c\u0430 ---------- */
 const Theme={
   get(){return lsGet('nomera2_theme')||'system'},
@@ -134,9 +221,11 @@ const Theme={
   resolved(){const v=Theme.get();if(v!=='system')return v;if(TG&&TG.colorScheme)return TG.colorScheme==='light'?'light':'dark';try{return matchMedia('(prefers-color-scheme: light)').matches?'light':'dark'}catch(e){return'dark'}},
   apply(){
     const t=Theme.resolved();document.documentElement.setAttribute('data-theme',t);
-    const bg=t==='light'?'#f2f2f7':'#000000';
+    // 2.6.2: \u043d\u0430 Android (Material You) \u0444\u043e\u043d \u0438 \u043f\u043e\u043b\u043e\u0441\u0430 \u0441\u043d\u0438\u0437\u0443 \u2014 \u0446\u0432\u0435\u0442\u0430 \u043f\u043e\u0432\u0435\u0440\u0445\u043d\u043e\u0441\u0442\u0435\u0439 Material
+    Style.paint(t);const mc=Style.colors;
+    const bg=mc?mc.s:t==='light'?'#f2f2f7':'#000000',bb=mc?mc.s2:bg;
     try{const m=qs('meta[name=theme-color]');if(m)m.setAttribute('content',bg)}catch(e){}
-    try{if(TG){if(TG.setHeaderColor)TG.setHeaderColor(bg);if(TG.setBackgroundColor)TG.setBackgroundColor(bg);if(TG.setBottomBarColor)TG.setBottomBarColor(bg)}}catch(e){}
+    try{if(TG){if(TG.setHeaderColor)TG.setHeaderColor(bg);if(TG.setBackgroundColor)TG.setBackgroundColor(bg);if(TG.setBottomBarColor)TG.setBottomBarColor(bb)}}catch(e){}
     document.dispatchEvent(new Event('themechange'));
   }
 };
@@ -144,7 +233,7 @@ Theme.apply();
 try{matchMedia('(prefers-color-scheme: light)').addEventListener('change',()=>{if(Theme.get()==='system'&&!TG)Theme.apply()})}catch(e){}
 if(TG){
   try{TG.ready();TG.expand();if(TG.disableVerticalSwipes)TG.disableVerticalSwipes();if(TG.enableClosingConfirmation&&false)TG.enableClosingConfirmation()}catch(e){}
-  try{TG.onEvent('themeChanged',()=>{if(Theme.get()==='system')Theme.apply()})}catch(e){}
+  try{TG.onEvent('themeChanged',()=>{if(Theme.get()==='system'||Style.on)Theme.apply()})}catch(e){}
 }
 
 /* ---------- \u0442\u0435\u043a\u0441\u0442\u0443\u0440\u0430 \u0438\u0437\u043d\u043e\u0441\u0430 \u0434\u043b\u044f \u043d\u043e\u043c\u0435\u0440\u043e\u0432: \u0433\u0435\u043d\u0435\u0440\u0438\u0440\u0443\u0435\u0442\u0441\u044f \u043e\u0434\u0438\u043d \u0440\u0430\u0437 ---------- */
@@ -538,7 +627,7 @@ const Tabs={
   cur:'shop',
   init(){
     const el=$('tabs');
-    el.insertAdjacentHTML('beforeend',TABS.map(t=>'<button role="tab" data-act="tab" data-id="'+t.id+'" id="tb-'+t.id+'" aria-label="'+t.n+'">'+ic(t.i)+'<span>'+t.n+'</span></button>').join(''));
+    el.insertAdjacentHTML('beforeend',TABS.map(t=>'<button role="tab" data-act="tab" data-id="'+t.id+'" id="tb-'+t.id+'" aria-label="'+t.n+'"><i class="tpill" aria-hidden="true"></i>'+ic(t.i)+'<span>'+t.n+'</span></button>').join(''));
     $('donate-btn').innerHTML=ic('star');
     Tabs.lens(true);window.addEventListener('resize',()=>Tabs.lens(true));
   },
@@ -569,7 +658,7 @@ const Page={
     const tp=Page.stack[Page.stack.length-1];if(tp&&tp.id===id&&Date.now()-tp.at<800)return;
     const el=document.createElement('div');el.className='page';el.dataset.pid=id;
     const backTitle=Page.stack.length?Page.stack[Page.stack.length-1].title:(TABS.find(t=>t.id===Tabs.cur)||{}).n;
-    el.innerHTML='<div class="inner"><div class="nav"><button class="back glass" data-act="back">'+ic('back')+'<span>'+esc(backTitle||'\u041d\u0430\u0437\u0430\u0434')+'</span></button><div style="flex:1"></div>'+(opt.navRight||'')+'</div>'+(opt.noTitle?'':'<h1>'+esc(title)+'</h1>')+'<div class="pc"></div></div>';
+    el.innerHTML='<div class="inner"><div class="nav"><button class="back glass" data-act="back">'+ic('back','ib-ios')+ic('arrowL','ib-md')+'<span>'+esc(backTitle||'\u041d\u0430\u0437\u0430\u0434')+'</span></button><div style="flex:1"></div>'+(opt.navRight||'')+'</div>'+(opt.noTitle?'':'<h1>'+esc(title)+'</h1>')+'<div class="pc"></div></div>';
     $('stack').appendChild(el);
     const prev=Page.stack[Page.stack.length-1];
     Page.stack.push({id,title,el,render:renderFn,opt,at:Date.now()});
@@ -784,7 +873,8 @@ const Scrub=(()=>{
   }
   function cancel(e){if(st&&e.pointerId===st.id)end()}
   document.addEventListener('pointerdown',e=>{
-    if(e.button>0||st)return;const b=e.target.closest('button');if(!b)return;const c=b.parentElement;if(!c||!c.matches(SEL))return;
+    // 2.6.2: \u0432 Material You (Android) \u0432\u0435\u0434\u0435\u043d\u0438\u044f \u043f\u0430\u043b\u044c\u0446\u0435\u043c \u043d\u0435\u0442 \u2014 \u043a\u0430\u043a \u0432 Android, \u043a\u043d\u043e\u043f\u043a\u0430 \u043f\u0440\u043e\u0441\u0442\u043e \u043d\u0430\u0436\u0438\u043c\u0430\u0435\u0442\u0441\u044f
+    if(e.button>0||st||Style.on)return;const b=e.target.closest('button');if(!b)return;const c=b.parentElement;if(!c||!c.matches(SEL))return;
     if(btns(c).length<2)return;
     st={c,id:e.pointerId,x0:e.clientX,y0:e.clientY,x:e.clientX,on:false,hov:null,tm:setTimeout(()=>begin(),230)};
     // 2.6.1 (\u0432\u0442\u043e\u0440\u0430\u044f \u043f\u0440\u0430\u0432\u043a\u0430): \u043f\u0440\u0438 \u043a\u0430\u0441\u0430\u043d\u0438\u0438 \u043d\u0430 \u0441\u0442\u0440\u0430\u043d\u0438\u0446\u0435 \u043d\u0438\u0447\u0435\u0433\u043e \u043d\u0435 \u043f\u043e\u044f\u0432\u043b\u044f\u0435\u0442\u0441\u044f. \u0415\u0441\u043b\u0438 \u0432 \u043c\u043e\u043c\u0435\u043d\u0442 \u043a\u0430\u0441\u0430\u043d\u0438\u044f \u0432\u0441\u0442\u0430\u0432\u0438\u0442\u044c \u0432 \u043a\u0430\u043f\u043b\u044e
@@ -862,8 +952,14 @@ const Drop=(()=>{
     live.add(d);run();
   }
   // \u043f\u0440\u043e\u0432\u0435\u0440\u0438\u0442\u044c \u0432\u0441\u0435 \u043f\u0435\u0440\u0435\u043a\u043b\u044e\u0447\u0430\u0442\u0435\u043b\u0438 \u043d\u0430 \u044d\u043a\u0440\u0430\u043d\u0435: \u043d\u043e\u0432\u044b\u0435 \u2014 \u043f\u043e\u0434\u043a\u043b\u044e\u0447\u0438\u0442\u044c, \u0443 \u043a\u043e\u0433\u043e \u0441\u043c\u0435\u043d\u0438\u043b\u0441\u044f \u0432\u044b\u0431\u043e\u0440 \u2014 \u043f\u043b\u044b\u0442\u044c
+  // 2.6.2: \u0432 Material You (Android) \u043a\u0430\u043f\u043b\u0438 \u043d\u0435\u0442 \u2014 \u0432\u044b\u0431\u0440\u0430\u043d\u043d\u0430\u044f \u043a\u043d\u043e\u043f\u043a\u0430 \u0437\u0430\u043a\u0440\u0430\u0448\u0438\u0432\u0430\u0435\u0442\u0441\u044f \u0441\u0430\u043c\u0430, \u043a\u0430\u043a \u0432 Android
+  function off(){
+    for(const d of live)live.delete(d);
+    document.querySelectorAll('#tabs.dropped,.segbox.dropped').forEach(c=>{c.classList.remove('dropped');const d=c._drop;if(d){if(d.mag){d.mag.remove();d.mag=null}d.el.style.cssText='';d.el.classList.remove('press');c._drop=null}});
+  }
   function sync(snap){
     dirty=false;
+    if(Style.on){off();return}
     document.querySelectorAll(SEL).forEach(c=>{
       if(!c.offsetParent&&c.id!=='tabs')return;
       const d=attach(c),t=target(d);
@@ -881,7 +977,7 @@ const Drop=(()=>{
   }
   // \u043d\u0430\u0436\u0430\u0442\u0438\u0435 (\u0442\u0430\u043f): \u043a\u0430\u043f\u043b\u044f \u043d\u0430 \u043b\u0435\u0442\u0443 \u0440\u0430\u0437\u0434\u0443\u0432\u0430\u0435\u0442\u0441\u044f \u0432 \u043b\u0438\u043d\u0437\u0443 \u0438 \u043e\u043f\u0430\u0434\u0430\u0435\u0442 \u043d\u0430 \u043d\u043e\u0432\u043e\u043c \u043c\u0435\u0441\u0442\u0435 \u2014 \u0443\u0436\u0435 \u043f\u043e\u0441\u043b\u0435 \u0442\u043e\u0433\u043e, \u043a\u0430\u043a \u043a\u043d\u043e\u043f\u043a\u0430 \u043d\u0430\u0436\u0430\u043b\u0430\u0441\u044c
   function pulse(d){d.tp=1;clearTimeout(d.pt);d.pt=setTimeout(()=>{d.tp=0;live.add(d);run()},170)}
-  function later(){if(!dirty){dirty=true;requestAnimationFrame(()=>{if(dirty)sync()})}}
+  function later(){if(Style.on)return;if(!dirty){dirty=true;requestAnimationFrame(()=>{if(dirty)sync()})}}
   function step(ts){
     raf=0;const dt=last?Math.min(.034,(ts-last)/1000):1/60;last=ts;
     for(const d of live){
@@ -957,7 +1053,7 @@ const Drop=(()=>{
 (()=>{
   const hasSeg=n=>n.nodeType===1&&!n.classList.contains('drop-mag')&&(n.matches('.segbox')||n.querySelector('.segbox'));
   new MutationObserver(ms=>{
-    if(document.documentElement.classList.contains('fx-off'))return;
+    if(document.documentElement.classList.contains('fx-off')||Style.on)return;
     for(const m of ms)for(const n of m.addedNodes)if(hasSeg(n)&&!n.closest('[data-clone]')){Drop.later();return}
   }).observe(document.documentElement,{childList:true,subtree:true});
   window.addEventListener('resize',()=>Drop.sync(true));
@@ -989,7 +1085,7 @@ const Glass=(()=>{
   // \u043f\u0435\u0440\u0435\u043a\u0440\u0430\u0448\u0438\u0432\u0430\u043b \u0432\u0441\u0451 \u0441\u0442\u0435\u043a\u043b\u043e \u0434\u043e 60 \u0440\u0430\u0437 \u0432 \u0441\u0435\u043a\u0443\u043d\u0434\u0443 \u2014 \u043e\u0434\u043d\u0430 \u0438\u0437 \u043f\u0440\u0438\u0447\u0438\u043d \u043b\u0430\u0433\u043e\u0432 \u043d\u0430 \u0441\u043b\u0430\u0431\u044b\u0445 \u0442\u0435\u043b\u0435\u0444\u043e\u043d\u0430\u0445.
   let lraf=0,lastA=NaN,lastX=NaN;
   const H=document.documentElement;
-  const paused=()=>H.classList.contains('lite')||H.classList.contains('fx-medium')||H.classList.contains('fx-off');
+  const paused=()=>H.classList.contains('md')||H.classList.contains('lite')||H.classList.contains('fx-medium')||H.classList.contains('fx-off');
   function light(){
     if(lraf)return;lraf=requestAnimationFrame(()=>{lraf=0;if(paused())return;
       const a=Math.round((135+tilt*.9+scrollK)/3)*3,x=Math.round((30+tilt*.6)/2)*2;
@@ -1011,10 +1107,11 @@ const Glass=(()=>{
   const autoLevel=()=>{const a=lsGet('nomera26_fxauto');if(LV.includes(a)&&a!=='max')return a;return lsGet('nomera25_fxauto')==='lite'?'low':'high'};
   const level=()=>mode()==='auto'?autoLevel():mode();
   const isLite=()=>level()==='low';
-  const has=f=>{const l=level();return f==='mag'||f==='tilt'?(l==='high'||l==='max'):f==='refract'?l==='max':f==='uncap'?l==='max':true};
+  // 2.6.2: \u0432 Material You (Android) \u043d\u0435\u0442 \u0441\u0442\u0435\u043a\u043b\u0430: \u043d\u0438 \u0443\u0432\u0435\u043b\u0438\u0447\u0435\u043d\u0438\u044f \u043f\u043e\u0434 \u043a\u0430\u043f\u043b\u0435\u0439, \u043d\u0438 \u0441\u0432\u0435\u0442\u0430 \u043f\u043e \u043d\u0430\u043a\u043b\u043e\u043d\u0443, \u043d\u0438 \u043f\u0440\u0435\u043b\u043e\u043c\u043b\u0435\u043d\u0438\u044f
+  const has=f=>{const l=level();if(Style.on&&(f==='mag'||f==='tilt'||f==='refract'))return false;return f==='mag'||f==='tilt'?(l==='high'||l==='max'):f==='refract'?l==='max':f==='uncap'?l==='max':true};
   function apply(){
     const l=level();H.classList.toggle('lite',l==='low');H.classList.toggle('fx-medium',l==='medium');H.classList.toggle('fx-max',l==='max');
-    const r=chromium&&l==='max'&&lsGet('nomera24_refract')!=='0';if(r)filters();H.classList.toggle('lg-r',r);
+    const r=!Style.on&&chromium&&l==='max'&&lsGet('nomera24_refract')!=='0';if(r)filters();H.classList.toggle('lg-r',r);
     if(has('tilt'))light();
   }
   function setMode(m){lsSet('nomera26_fx',m);if(m==='auto')lsSet('nomera26_fxauto','');apply()}
@@ -1025,7 +1122,8 @@ const Glass=(()=>{
   const AUTO_MS=22;
   let fr=null,bad=0;
   // \u0430\u0432\u0442\u043e: \u043f\u0440\u0438 \u043b\u0430\u0433\u0430\u0445 \u043e\u043f\u0443\u0441\u043a\u0430\u0435\u043c\u0441\u044f \u043d\u0430 \u043e\u0434\u0438\u043d \u0443\u0440\u043e\u0432\u0435\u043d\u044c (high \u2192 medium \u2192 low)
-  function goLite(){const nx=autoLevel()==='high'?'medium':'low';lsSet('nomera26_fxauto',nx);apply();
+  // 2.6.2: \u0432 Material You \u0443\u0440\u043e\u0432\u0435\u043d\u044c Medium \u043d\u0438\u0447\u0435\u043c \u043d\u0435 \u043e\u0442\u043b\u0438\u0447\u0430\u0435\u0442\u0441\u044f \u043e\u0442 High (\u0441\u0442\u0435\u043a\u043b\u0430 \u043d\u0435\u0442) \u2014 \u0441\u0440\u0430\u0437\u0443 Low
+  function goLite(){const nx=autoLevel()==='high'&&!Style.on?'medium':'low';lsSet('nomera26_fxauto',nx);apply();
     const tell=()=>{if(H.classList.contains('fx-off')){setTimeout(tell,1000);return}toast('\u042d\u0444\u0444\u0435\u043a\u0442\u044b: '+(nx==='medium'?'Medium':'Low')+' \u2014 \u0442\u0430\u043a \u043f\u043b\u0430\u0432\u043d\u0435\u0435. \u0421\u043c\u0435\u043d\u0438\u0442\u044c: \u0410\u043a\u043a\u0430\u0443\u043d\u0442 \u2192 \u042d\u0444\u0444\u0435\u043a\u0442\u044b')};setTimeout(tell,900)}
   function sample(dt){
     if(mode()!=='auto'||autoLevel()==='low')return false;
@@ -1067,6 +1165,45 @@ const Full=(()=>{
   function set(v){lsSet('nomera24_full',v?'1':'0');if(!can())return;try{if(v&&!TG.isFullscreen)TG.requestFullscreen();else if(!v&&TG.isFullscreen)TG.exitFullscreen()}catch(e){}}
   return{init,can,want,set,get on(){return!!(TG&&TG.isFullscreen)}};
 })();
+
+/* ================= 2.6.2: Material You \u043d\u0430 Android \u2014 \u0432\u043e\u043b\u043d\u0430 \u043f\u0440\u0438 \u043d\u0430\u0436\u0430\u0442\u0438\u0438 ================= */
+// \u041a\u0430\u043a \u0432 Android: \u043e\u0442 \u0442\u043e\u0447\u043a\u0438 \u043a\u0430\u0441\u0430\u043d\u0438\u044f \u043f\u043e \u043a\u043d\u043e\u043f\u043a\u0435 \u0440\u0430\u0441\u0445\u043e\u0434\u0438\u0442\u0441\u044f \u043a\u0440\u0443\u0433-\u0432\u043e\u043b\u043d\u0430 \u0438 \u0433\u0430\u0441\u043d\u0435\u0442.
+// \u0412\u043e\u043b\u043d\u0430 \u2014 \u043e\u0442\u0434\u0435\u043b\u044c\u043d\u044b\u0439 \u0441\u043b\u043e\u0439 \u043f\u043e\u0432\u0435\u0440\u0445 \u043a\u043d\u043e\u043f\u043a\u0438 (.mdrpl), \u043f\u043e\u0441\u043b\u0435 \u0430\u043d\u0438\u043c\u0430\u0446\u0438\u0438 \u043e\u043d \u0443\u0434\u0430\u043b\u044f\u0435\u0442\u0441\u044f, \u043a\u043d\u043e\u043f\u043a\u0430 \u043e\u0441\u0442\u0430\u0451\u0442\u0441\u044f \u043a\u0430\u043a \u0431\u044b\u043b\u0430.
+// \u041d\u0430 Android \u0432\u043e\u043b\u043d\u0430 \u043f\u043e\u044f\u0432\u043b\u044f\u0435\u0442\u0441\u044f \u0432 \u043c\u043e\u043c\u0435\u043d\u0442 \u043a\u0430\u0441\u0430\u043d\u0438\u044f. \u0415\u0441\u043b\u0438 Material \u0432\u043a\u043b\u044e\u0447\u0438\u043b\u0438 \u0432\u0440\u0443\u0447\u043d\u0443\u044e \u043d\u0430 iPhone \u2014 \u043f\u043e\u0441\u043b\u0435 \u043d\u0430\u0436\u0430\u0442\u0438\u044f:
+// Safari \u043d\u0430 iPhone \u043d\u0435 \u043d\u0430\u0436\u0438\u043c\u0430\u0435\u0442 \u043a\u043d\u043e\u043f\u043a\u0443, \u0435\u0441\u043b\u0438 \u0432 \u043c\u043e\u043c\u0435\u043d\u0442 \u043a\u0430\u0441\u0430\u043d\u0438\u044f \u043d\u0430 \u0441\u0442\u0440\u0430\u043d\u0438\u0446\u0435 \u0447\u0442\u043e-\u0442\u043e \u043f\u043e\u044f\u0432\u0438\u043b\u043e\u0441\u044c (\u0443\u0440\u043e\u043a 2.6.1).
+const Ripple=(()=>{
+  const SEL='.btn,.pill,.iconbtn,.chip,.uidchip,.firechip,.back,.row,button.li,.seg>button,.segbox>button,#tabs>button,#dock .round,button.sec,button.gc,.gc[data-act],.feature,button.card,.trib>button,[data-ripple]';
+  const ios=/iPhone|iPad|iPod/.test(navigator.userAgent)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);
+  function spawn(el,x,y){
+    if(el.disabled||el.classList.contains('off')||el.classList.contains('busy'))return;
+    // \u0443 \u0432\u043a\u043b\u0430\u0434\u043e\u043a \u0432\u043e\u043b\u043d\u0430 \u0432\u043d\u0443\u0442\u0440\u0438 \u00ab\u0442\u0430\u0431\u043b\u0435\u0442\u043a\u0438\u00bb \u043f\u043e\u0434 \u0438\u043a\u043e\u043d\u043a\u043e\u0439, \u043a\u0430\u043a \u0432 \u043d\u0438\u0436\u043d\u0435\u0439 \u043f\u0430\u043d\u0435\u043b\u0438 Android
+    let host=el.matches('#tabs>button')?el.querySelector(':scope>.tpill'):null;
+    if(!host){
+      if(getComputedStyle(el).position==='static')el.style.position='relative';
+      host=el.querySelector(':scope>.mdrpl');
+      if(!host){host=document.createElement('span');host.className='mdrpl';host.setAttribute('aria-hidden','true');el.appendChild(host)}
+    }
+    const r=host.getBoundingClientRect();if(!r.width||!r.height)return;
+    if(x==null){x=r.left+r.width/2;y=r.top+r.height/2}
+    const d=2*Math.hypot(Math.max(x-r.left,r.right-x),Math.max(y-r.top,r.bottom-y));
+    const w=document.createElement('i');w.className='mdwave';
+    w.style.cssText='width:'+d.toFixed(0)+'px;height:'+d.toFixed(0)+'px;left:'+(x-r.left-d/2).toFixed(1)+'px;top:'+(y-r.top-d/2).toFixed(1)+'px';
+    host.appendChild(w);
+    const done=()=>{w.remove();if(host.classList.contains('mdrpl')&&!host.firstChild)host.remove()};
+    w.addEventListener('animationend',done,{once:true});setTimeout(done,900);
+  }
+  function on(e){
+    if(!Style.on||(e.button!=null&&e.button>0))return;
+    const el=e.target.closest&&e.target.closest(SEL);if(!el||el.closest('[data-clone]'))return;
+    spawn(el,e.clientX||null,e.clientY||null);
+  }
+  if(ios)document.addEventListener('click',on,true);else document.addEventListener('pointerdown',on,{passive:true,capture:true});
+  return{spawn,SEL};
+})();
+// \u0441\u043c\u0435\u043d\u0430 \u043e\u0444\u043e\u0440\u043c\u043b\u0435\u043d\u0438\u044f \u0432 \u00ab\u0410\u043a\u043a\u0430\u0443\u043d\u0442\u0435\u00bb: \u0441\u0442\u0435\u043a\u043b\u043e \u0438 \u043a\u0430\u043f\u043b\u044f \u0432\u043a\u043b\u044e\u0447\u0430\u044e\u0442\u0441\u044f \u0438\u043b\u0438 \u0432\u044b\u043a\u043b\u044e\u0447\u0430\u044e\u0442\u0441\u044f, \u044d\u043a\u0440\u0430\u043d \u043f\u0435\u0440\u0435\u0440\u0438\u0441\u043e\u0432\u044b\u0432\u0430\u0435\u0442\u0441\u044f
+document.addEventListener('stylechange',()=>{
+  try{Glass.apply();Drop.sync(true);Tabs.lens(true);render()}catch(e){console.error(e)}
+});
 
 /* ================= \u0432\u043a\u043b\u0430\u0434\u043a\u0430 \u00ab\u041c\u0430\u0433\u0430\u0437\u0438\u043d\u00bb: \u043a\u0435\u0439\u0441\u044b \u0438 \u0440\u044b\u043d\u043e\u043a ================= */
 const CN_SHORT={ru:'\u0420\u043e\u0441\u0441\u0438\u044f',ua:'\u0423\u043a\u0440\u0430\u0438\u043d\u0430',kz:'\u041a\u0430\u0437\u0430\u0445\u0441\u0442\u0430\u043d',us:'\u0421\u0428\u0410',eu:'\u0415\u0432\u0440\u043e\u043f\u0430',ae:'\u0414\u0443\u0431\u0430\u0439',mix:'\u041c\u0438\u043a\u0441'};
@@ -2801,6 +2938,8 @@ RENDER.account=()=>{
       '<button class="li" data-act="myComments"><span class="lic" style="background:var(--teal)">'+ic('chat')+'</span><span class="lt">\u041c\u043e\u0438 \u043a\u043e\u043c\u043c\u0435\u043d\u0442\u0430\u0440\u0438\u0438</span>'+ic('chev','chev')+'</button>'+
       '<button class="li" data-act="privacy"><span class="lic" style="background:var(--card3)">'+ic('lock')+'</span><span class="lt">\u041a\u043e\u043d\u0444\u0438\u0434\u0435\u043d\u0446\u0438\u0430\u043b\u044c\u043d\u043e\u0441\u0442\u044c</span>'+ic('chev','chev')+'</button>'+
       '<div class="li"><span class="lic" style="background:var(--indigo)">'+ic('sun')+'</span><span class="lt">\u0422\u0435\u043c\u0430</span><select class="inp" style="height:34px;width:auto;padding:0 10px;font-size:15px" data-on="theme">'+[['system','\u041a\u0430\u043a \u0432 Telegram'],['light','\u0421\u0432\u0435\u0442\u043b\u0430\u044f'],['dark','\u0422\u0451\u043c\u043d\u0430\u044f']].map(o=>'<option value="'+o[0]+'"'+(Theme.get()===o[0]?' selected':'')+'>'+o[1]+'</option>').join('')+'</select></div>'+
+      '<button class="li" data-act="styleMode"><span class="lic" style="background:var(--teal)">'+ic('palette')+'</span><span class="lt">\u041e\u0444\u043e\u0440\u043c\u043b\u0435\u043d\u0438\u0435<br><span class="muted" style="font-size:13px">'+styleSub()+'</span></span><span class="lv">'+Style.label()+'</span></button>'+
+      (Style.on?'<button class="li" data-act="seedMode"><span class="lic" style="background:var(--md-pri)">'+ic('palette')+'</span><span class="lt">\u0426\u0432\u0435\u0442 \u0438\u043d\u0442\u0435\u0440\u0444\u0435\u0439\u0441\u0430</span><span class="lv">'+seedLabel()+'</span>'+ic('chev','chev')+'</button>':'')+
       '<button class="li" data-act="fxMode"><span class="lic" style="background:var(--purple)">'+ic('sparkle')+'</span><span class="lt">\u042d\u0444\u0444\u0435\u043a\u0442\u044b<br><span class="muted" style="font-size:13px">'+fxSub()+'</span></span><span class="lv">'+fxLabel()+'</span></button>'+
       (Full.can()?'<button class="li" data-act="fullToggle"><span class="lic" style="background:var(--blue)">'+ic('eye')+'</span><span class="lt">\u041f\u043e\u043b\u043d\u043e\u044d\u043a\u0440\u0430\u043d\u043d\u044b\u0439 \u0440\u0435\u0436\u0438\u043c</span><span class="lv">'+(Full.want()?'\u0412\u043a\u043b':'\u0412\u044b\u043a\u043b')+'</span></button>':'')+
       '<button class="li" data-act="sndToggle"><span class="lic" style="background:var(--green)">'+ic('sound')+'</span><span class="lt">\u0417\u0432\u0443\u043a\u0438</span><span class="lv">'+(Snd.on()?'\u0412\u043a\u043b':'\u0412\u044b\u043a\u043b')+'</span></button>'+
@@ -2809,7 +2948,7 @@ RENDER.account=()=>{
       '<button class="li" data-act="history"><span class="lic" style="background:var(--stars)">'+ic('star')+'</span><span class="lt">\u041c\u043e\u0438 \u043f\u043e\u043a\u0443\u043f\u043a\u0438</span>'+ic('chev','chev')+'</button>'+
       (Net.me.role?'<button class="li" data-act="admin"><span class="lic" style="background:var(--red)">'+ic('shield')+'</span><span class="lt">\u0410\u0434\u043c\u0438\u043d-\u043f\u0430\u043d\u0435\u043b\u044c</span>'+(Net.me.role==='owner'&&!Net.me.elev?'<span class="lv">'+ic('lock')+'</span>':'')+ic('chev','chev')+'</button>':'')+
     '</div>'+
-    '<div class="pad" style="margin-top:22px;text-align:center">'+(Net.me.role==='admin'||Net.me.role==='senior'?'':'<button class="muted" data-act="ownerLogin" style="font-size:13px">'+(Net.me.role==='owner'?'\u0421\u0435\u0441\u0441\u0438\u044f \u0432\u043b\u0430\u0434\u0435\u043b\u044c\u0446\u0430':'\u0412\u0445\u043e\u0434 \u0434\u043b\u044f \u0432\u043b\u0430\u0434\u0435\u043b\u044c\u0446\u0430')+'</button>')+'<div class="muted" style="font-size:12px;margin-top:6px">\u0412\u044b\u0431\u0438\u0432\u0430\u043d\u0438\u0435 \u043d\u043e\u043c\u0435\u0440\u043e\u0432 2.6.1</div></div>';
+    '<div class="pad" style="margin-top:22px;text-align:center">'+(Net.me.role==='admin'||Net.me.role==='senior'?'':'<button class="muted" data-act="ownerLogin" style="font-size:13px">'+(Net.me.role==='owner'?'\u0421\u0435\u0441\u0441\u0438\u044f \u0432\u043b\u0430\u0434\u0435\u043b\u044c\u0446\u0430':'\u0412\u0445\u043e\u0434 \u0434\u043b\u044f \u0432\u043b\u0430\u0434\u0435\u043b\u044c\u0446\u0430')+'</button>')+'<div class="muted" style="font-size:12px;margin-top:6px">\u0412\u044b\u0431\u0438\u0432\u0430\u043d\u0438\u0435 \u043d\u043e\u043c\u0435\u0440\u043e\u0432 2.6.2</div></div>';
   hydrateAvas(el);
   requestAnimationFrame(()=>{const cv=$('acc-veh');if(cv)Draw.preview(cv,gV,vehLook(gV),{k:gV==='bike'?.82:.86})});
   loadWall(Net.me.uid,$('acc-wall'));
@@ -2822,12 +2961,36 @@ ACT.fullToggle=()=>{Full.set(!Full.want());render()};
 // 2.6.1 (\u0432\u0442\u043e\u0440\u0430\u044f \u043f\u0440\u0430\u0432\u043a\u0430): \u043f\u044f\u0442\u044c \u0443\u0440\u043e\u0432\u043d\u0435\u0439 \u044d\u0444\u0444\u0435\u043a\u0442\u043e\u0432
 const FX_N={auto:'Auto',low:'Low',medium:'Medium',high:'High',max:'Max'};
 const FX_D={auto:'\u0418\u0433\u0440\u0430 \u0441\u0430\u043c\u0430 \u0432\u044b\u0431\u0435\u0440\u0435\u0442 Low, Medium \u0438\u043b\u0438 High \u043f\u043e \u0441\u043a\u043e\u0440\u043e\u0441\u0442\u0438 \u0442\u0435\u043b\u0435\u0444\u043e\u043d\u0430',low:'\u0411\u0435\u0437 \u0441\u0442\u0435\u043a\u043b\u0430 \u0438 \u0443\u043a\u0440\u0430\u0448\u0430\u044e\u0449\u0438\u0445 \u0430\u043d\u0438\u043c\u0430\u0446\u0438\u0439. \u0421\u0430\u043c\u044b\u0439 \u043f\u043b\u0430\u0432\u043d\u044b\u0439 \u0438 \u0445\u043e\u043b\u043e\u0434\u043d\u044b\u0439',medium:'\u0421\u0442\u0435\u043a\u043b\u043e \u0442\u043e\u043b\u044c\u043a\u043e \u043d\u0430 \u043d\u0438\u0436\u043d\u0435\u0439 \u043f\u0430\u043d\u0435\u043b\u0438 \u0438 \u043a\u0440\u0443\u0433\u043b\u044b\u0445 \u043a\u043d\u043e\u043f\u043a\u0430\u0445, \u043e\u0441\u0442\u0430\u043b\u044c\u043d\u043e\u0435 \u043f\u043b\u043e\u0442\u043d\u043e\u0435',high:'\u0421\u0442\u0435\u043a\u043b\u043e \u0432\u0435\u0437\u0434\u0435, \u043a\u0430\u043f\u043b\u044f \u0441 \u0443\u0432\u0435\u043b\u0438\u0447\u0435\u043d\u0438\u0435\u043c, \u0441\u0432\u0435\u0442 \u043f\u043e \u043d\u0430\u043a\u043b\u043e\u043d\u0443 \u0442\u0435\u043b\u0435\u0444\u043e\u043d\u0430',max:'\u041a\u0430\u043a High, \u043f\u043b\u044e\u0441 \u043f\u0440\u0435\u043b\u043e\u043c\u043b\u0435\u043d\u0438\u0435 \u043a\u0440\u0430\u0451\u0432 \u043d\u0430 Android \u0438 \u00d710 \u0431\u0435\u0437 \u043e\u0433\u0440\u0430\u043d\u0438\u0447\u0435\u043d\u0438\u044f \u043a\u0430\u0434\u0440\u043e\u0432. \u0422\u0435\u043b\u0435\u0444\u043e\u043d \u0433\u0440\u0435\u0435\u0442\u0441\u044f \u0441\u0438\u043b\u044c\u043d\u0435\u0435'};
-const fxLabel=()=>FX_N[Glass.mode()];
-const fxSub=()=>Glass.mode()==='auto'?'\u0421\u0435\u0439\u0447\u0430\u0441: '+FX_N[Glass.level()]:FX_D[Glass.mode()].split('.')[0];
-ACT.fxMode=()=>{const cur=Glass.mode();
-  Sheet.open({title:'\u042d\u0444\u0444\u0435\u043a\u0442\u044b',body:'<div class="group">'+['auto','low','medium','high','max'].map(k=>'<button class="li noic" data-act="fxSet" data-k="'+k+'"><span class="lt">'+FX_N[k]+'<br><span class="muted" style="font-size:13px;white-space:normal">'+FX_D[k]+'</span></span>'+(cur===k?ic('check','chev'):'')+'</button>').join('')+'</div>'});
+// 2.6.2: \u0432 Material You (Android) \u0441\u0442\u0435\u043a\u043b\u0430 \u043d\u0435\u0442, \u043f\u043e\u044d\u0442\u043e\u043c\u0443 Medium = High, \u0438 \u043e\u043f\u0438\u0441\u0430\u043d\u0438\u044f \u0443\u0440\u043e\u0432\u043d\u0435\u0439 \u0434\u0440\u0443\u0433\u0438\u0435
+const FX_MD={auto:'\u0418\u0433\u0440\u0430 \u0441\u0430\u043c\u0430 \u0432\u044b\u0431\u0435\u0440\u0435\u0442 Low \u0438\u043b\u0438 High \u043f\u043e \u0441\u043a\u043e\u0440\u043e\u0441\u0442\u0438 \u0442\u0435\u043b\u0435\u0444\u043e\u043d\u0430',low:'\u0411\u0435\u0437 \u0443\u043a\u0440\u0430\u0448\u0430\u044e\u0449\u0438\u0445 \u0430\u043d\u0438\u043c\u0430\u0446\u0438\u0439: \u0431\u043b\u0451\u0441\u0442\u043a\u0438, \u043f\u0435\u0440\u0435\u043b\u0438\u0432, \u0432\u043e\u043b\u043d\u0430 \u043c\u0443\u0437\u044b\u043a\u0438. \u0421\u0430\u043c\u044b\u0439 \u043f\u043b\u0430\u0432\u043d\u044b\u0439 \u0438 \u0445\u043e\u043b\u043e\u0434\u043d\u044b\u0439',high:'\u0412\u0441\u0435 \u0430\u043d\u0438\u043c\u0430\u0446\u0438\u0438. \u0411\u0435\u0437 \u0441\u0442\u0435\u043a\u043b\u0430 \u0438 \u0440\u0430\u0437\u043c\u044b\u0442\u0438\u044f \u2014 \u044d\u0442\u043e \u043e\u0444\u043e\u0440\u043c\u043b\u0435\u043d\u0438\u0435 Android',max:'\u041a\u0430\u043a High, \u043f\u043b\u044e\u0441 \u00d710 \u0431\u0435\u0437 \u043e\u0433\u0440\u0430\u043d\u0438\u0447\u0435\u043d\u0438\u044f \u043a\u0430\u0434\u0440\u043e\u0432. \u0422\u0435\u043b\u0435\u0444\u043e\u043d \u0433\u0440\u0435\u0435\u0442\u0441\u044f \u0441\u0438\u043b\u044c\u043d\u0435\u0435'};
+const fxKey=k=>Style.on&&k==='medium'?'high':k;
+const fxD=k=>Style.on?FX_MD[fxKey(k)]:FX_D[k];
+const fxLabel=()=>FX_N[fxKey(Glass.mode())];
+const fxSub=()=>Glass.mode()==='auto'?'\u0421\u0435\u0439\u0447\u0430\u0441: '+FX_N[fxKey(Glass.level())]:fxD(Glass.mode()).split('.')[0];
+ACT.fxMode=()=>{const cur=fxKey(Glass.mode());
+  Sheet.open({title:'\u042d\u0444\u0444\u0435\u043a\u0442\u044b',body:'<div class="group">'+(Style.on?['auto','low','high','max']:['auto','low','medium','high','max']).map(k=>'<button class="li noic" data-act="fxSet" data-k="'+k+'"><span class="lt">'+FX_N[k]+'<br><span class="muted" style="font-size:13px;white-space:normal">'+fxD(k)+'</span></span>'+(cur===k?ic('check','chev'):'')+'</button>').join('')+'</div>'});
   Haptic.tick()};
-ACT.fxSet=el=>{const k=el.dataset.k;Glass.setMode(k);Sheet.close();render();toast('\u042d\u0444\u0444\u0435\u043a\u0442\u044b: '+FX_N[k]+(k==='auto'?' \u2014 \u0441\u0435\u0439\u0447\u0430\u0441 '+FX_N[Glass.level()]:''));Haptic.tick()};
+ACT.fxSet=el=>{const k=el.dataset.k;Glass.setMode(k);Sheet.close();render();toast('\u042d\u0444\u0444\u0435\u043a\u0442\u044b: '+FX_N[k]+(k==='auto'?' \u2014 \u0441\u0435\u0439\u0447\u0430\u0441 '+FX_N[fxKey(Glass.level())]:''));Haptic.tick()};
+// 2.6.2: \u043e\u0444\u043e\u0440\u043c\u043b\u0435\u043d\u0438\u0435 \u2014 \u0410\u0432\u0442\u043e (Android: Material You, iPhone: Liquid Glass) / Material You / Liquid Glass
+const STYLE_D={auto:'\u041f\u043e \u0442\u0435\u043b\u0435\u0444\u043e\u043d\u0443: \u043d\u0430 Android \u2014 Material You, \u043d\u0430 iPhone \u2014 Liquid Glass',md:'\u041a\u0430\u043a \u043d\u0430 Google Pixel: \u043f\u043b\u043e\u0442\u043d\u044b\u0435 \u0446\u0432\u0435\u0442\u043d\u044b\u0435 \u043f\u043e\u0432\u0435\u0440\u0445\u043d\u043e\u0441\u0442\u0438, \u0432\u043e\u043b\u043d\u0430 \u043f\u0440\u0438 \u043d\u0430\u0436\u0430\u0442\u0438\u0438. \u0426\u0432\u0435\u0442\u0430 \u2014 \u0438\u0437 \u0442\u0435\u043c\u044b Telegram',glass:'\u041a\u0430\u043a \u0432 iOS 26: \u0441\u0442\u0435\u043a\u043b\u043e, \u043a\u0430\u043f\u043b\u044f \u043f\u043e\u0434 \u043f\u0430\u043b\u044c\u0446\u0435\u043c, \u0431\u043b\u0438\u043a\u0438'};
+const styleSub=()=>Style.get()==='auto'?'\u0421\u0435\u0439\u0447\u0430\u0441: '+Style.now():STYLE_D[Style.get()].split(':')[0];
+ACT.styleMode=()=>{const cur=Style.get();
+  Sheet.open({title:'\u041e\u0444\u043e\u0440\u043c\u043b\u0435\u043d\u0438\u0435',body:'<div class="group">'+[['auto','\u0410\u0432\u0442\u043e'],['md','Material You'],['glass','Liquid Glass']].map(o=>'<button class="li noic" data-act="styleSet" data-k="'+o[0]+'"><span class="lt">'+o[1]+'<br><span class="muted" style="font-size:13px;white-space:normal">'+STYLE_D[o[0]]+'</span></span>'+(cur===o[0]?ic('check','chev'):'')+'</button>').join('')+'</div>'+
+    '<p class="note">Liquid Glass \u043d\u0430 Android \u0442\u044f\u0436\u0435\u043b\u0435\u0435 \u0434\u043b\u044f \u0442\u0435\u043b\u0435\u0444\u043e\u043d\u0430: \u0440\u0430\u0437\u043c\u044b\u0442\u0438\u0435 \u0438 \u0441\u0442\u0435\u043a\u043b\u043e \u0433\u0440\u0435\u044e\u0442 \u0441\u043b\u0430\u0431\u044b\u0435 \u0443\u0441\u0442\u0440\u043e\u0439\u0441\u0442\u0432\u0430.</p>'});
+  Haptic.tick()};
+// 2.6.2: \u0446\u0432\u0435\u0442 \u0438\u043d\u0442\u0435\u0440\u0444\u0435\u0439\u0441\u0430 Material \u2014 \u043a\u0430\u043a \u0432 Telegram, \u0433\u043e\u0442\u043e\u0432\u044b\u0439 \u0438\u043b\u0438 \u0441\u0432\u043e\u0439
+const SEEDS=[['#ff8a00','\u041e\u0440\u0430\u043d\u0436\u0435\u0432\u044b\u0439'],['#2f7de1','\u0421\u0438\u043d\u0438\u0439'],['#1fa67a','\u0417\u0435\u043b\u0451\u043d\u044b\u0439'],['#8a5cf6','\u0424\u0438\u043e\u043b\u0435\u0442\u043e\u0432\u044b\u0439'],['#e5484d','\u041a\u0440\u0430\u0441\u043d\u044b\u0439'],['#0fa5b8','\u0411\u0438\u0440\u044e\u0437\u043e\u0432\u044b\u0439'],['#d6409f','\u0420\u043e\u0437\u043e\u0432\u044b\u0439'],['#7a7f87','\u0413\u0440\u0430\u0444\u0438\u0442']];
+const seedLabel=()=>{const v=Style.seedGet();if(v==='tg')return'\u041a\u0430\u043a \u0432 Telegram';const k=SEEDS.find(x=>x[0]===v);return k?k[1]:'\u0421\u0432\u043e\u0439'};
+ACT.seedMode=()=>{const v=Style.seedGet();
+  const sw=(c,n)=>'<button class="seedsw'+(v===c?' on':'')+'" data-act="seedSet" data-k="'+c+'" aria-label="'+n+'" style="--sw:'+c+'">'+(v===c?ic('check'):'')+'</button>';
+  Sheet.open({title:'\u0426\u0432\u0435\u0442 \u0438\u043d\u0442\u0435\u0440\u0444\u0435\u0439\u0441\u0430',lead:'\u0412\u043a\u043b\u0430\u0434\u043a\u0438, \u043f\u0435\u0440\u0435\u043a\u043b\u044e\u0447\u0430\u0442\u0435\u043b\u0438, \u0444\u043e\u043d \u0438 \u043f\u043e\u0432\u0435\u0440\u0445\u043d\u043e\u0441\u0442\u0438. \u041c\u043e\u043d\u0435\u0442\u044b, \u0440\u0435\u0434\u043a\u043e\u0441\u0442\u0438, \u043a\u043d\u043e\u043f\u043a\u0438 \u043f\u043e\u043a\u0443\u043f\u043a\u0438 \u0438 \u043a\u0430\u0440\u0442\u043e\u0447\u043a\u0438 \u043a\u0435\u0439\u0441\u043e\u0432 \u043d\u0435 \u043c\u0435\u043d\u044f\u044e\u0442\u0441\u044f.',
+    body:'<div class="group"><button class="li noic" data-act="seedSet" data-k="tg"><span class="lt">\u041a\u0430\u043a \u0432 Telegram<br><span class="muted" style="font-size:13px;white-space:normal">\u0426\u0432\u0435\u0442 \u043a\u043d\u043e\u043f\u043e\u043a \u0432\u0430\u0448\u0435\u0439 \u0442\u0435\u043c\u044b Telegram</span></span>'+(v==='tg'?ic('check','chev'):'')+'</button></div>'+
+      '<div class="seedgrid">'+SEEDS.map(x=>sw(x[0],x[1])).join('')+'</div>'+
+      '<label class="li noic seedown"><span class="lt">\u0421\u0432\u043e\u0439 \u0446\u0432\u0435\u0442</span><input type="color" data-on="seedOwn" value="'+(v==='tg'?'#ff8a00':v)+'"></label>'});
+  Haptic.tick()};
+ACT.seedSet=el=>{Style.setSeed(el.dataset.k);Sheet.close(true);Haptic.tick()};
+ON.seedOwnChange=el=>{Style.setSeed(el.value);Sheet.close(true);Haptic.tick()};
+ACT.styleSet=el=>{const k=el.dataset.k;Sheet.close(true);Style.set(k);toast('\u041e\u0444\u043e\u0440\u043c\u043b\u0435\u043d\u0438\u0435: '+Style.now());Haptic.tick()};
 ACT.me=()=>Tabs.go('account');
 
 /* ---------- \u0432\u0438\u0442\u0440\u0438\u043d\u0430 \u0438 \u043a\u043e\u043d\u0444\u0438\u0434\u0435\u043d\u0446\u0438\u0430\u043b\u044c\u043d\u043e\u0441\u0442\u044c ---------- */
@@ -3617,7 +3780,7 @@ const Games=window.makeGames({
   colors:gameColors,
   after:()=>{render();showInbox()}
 });
-window.__app={get S(){return S},Net,Games,Reel,render,act,run,L,Page,Sheet,Tabs,Music,Island,Multi,Glass,Full,parseID3Test:b=>{const m=parseID3(b);return m?{t:m.t,a:m.a,pic:m.pic?m.pic.type+":"+m.pic.size:null}:null}};
+window.__app={get S(){return S},Net,Games,Reel,render,act,run,L,Page,Sheet,Tabs,Music,Island,Multi,Glass,Full,Style,Ripple,toast,parseID3Test:b=>{const m=parseID3(b);return m?{t:m.t,a:m.a,pic:m.pic?m.pic.type+":"+m.pic.size:null}:null}};
 document.addEventListener('themechange',()=>{if(shopBuilt)render()});
 // 2.5.3: \u043a\u0430\u0440\u0442\u0438\u043d\u043a\u0438 \u043d\u0430\u043a\u043b\u0435\u0435\u043a \u0434\u0435\u043a\u043e\u0434\u0438\u0440\u043e\u0432\u0430\u043b\u0438\u0441\u044c \u2014 \u043f\u0435\u0440\u0435\u0440\u0438\u0441\u043e\u0432\u0430\u0442\u044c \u0442\u043e, \u0447\u0442\u043e \u0443\u0436\u0435 \u043d\u0430 \u044d\u043a\u0440\u0430\u043d\u0435
 document.addEventListener('stickers',()=>{try{render();if(Page.stack.length)Page.renderTop()}catch(e){}});
